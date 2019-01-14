@@ -16,25 +16,36 @@
         <v-stepper-items>
             <v-stepper-content step="1">
                 <v-card>
-                    <v-flex style="padding: 30px 0 0">
+                    <v-layout row wrap  style="padding: 10px 0 0">
                         <v-flex xs12>
-                            <label>Start DateTime</label>
+                            <DataPicker/>
+                        </v-flex>
+                        <v-flex v-if="type == 'custom'" xs6 class="m-t-10" style="padding-right:10px">
+                            <label>Start Time</label>
                             <datetime v-model="startDate"
                                       class="input-date"
-                                      type="datetime"
-                                      :min-datetime="new Date().toISOString()"/>
+                                      type="time"
+                                      minute-step=15
+                                      />
                         </v-flex>
-                        <v-flex xs12 class="m-t-10">
-                            <label>End DateTime</label>
+                        <v-flex v-if="type == 'custom'" xs6 class="m-t-10" style="padding-left:10px">
+                            <label>End Time</label>
                             <datetime v-model="endDate"
                                       class="input-date"
-                                      type="datetime"
+                                      type="time"
+                                      minute-step=15
                                       :min-datetime="endMinDate"/>
                         </v-flex>
                         <v-flex xs12 class="m-t-10">
                             <label>{{this.dateError}}</label>
                         </v-flex>
-                    </v-flex>
+                        <v-btn class="next-btn"
+                               disabled="disabled"
+                               color="primary"
+                               @click="check_date">
+                            Continue
+                        </v-btn>
+                    </v-layout>
                 </v-card>
 
             </v-stepper-content>
@@ -43,18 +54,6 @@
                 <v-card>
                     <UserForm/>
                 </v-card>
-            </v-stepper-content>
-
-            <v-stepper-content step="1">
-                <v-card></v-card>
-
-                <v-btn class="next-btn"
-                       disabled="disabled"
-                       color="primary"
-                       @click="e1 = 1">
-                    Continue
-                </v-btn>
-
             </v-stepper-content>
 
         </v-stepper-items>
@@ -81,14 +80,14 @@
 
 <script>
     import UserForm from './UserForm';
-    import {Datetime} from 'vue-datetime';
+    import DataPicker from './DataPicker';
     import 'vue-datetime/dist/vue-datetime.css';
 
 
     export default {
         components: {
             UserForm,
-            Datetime
+            DataPicker
         },
         props: ['type'],
         data() {
@@ -110,6 +109,11 @@
                 if (hourDiff < 3 || hourDiff > 15){
                     this.dateError="The date duration should be minimum 3 hours and maximum 15 hours";
                 }
+            }
+        },
+        methods: {
+            check_date: function(){
+                console.log(document.getElementsByClassName('v-picker'));
             }
         }
     }

@@ -4,6 +4,8 @@
       <v-date-picker
         v-on:input="choose"
         v-model="picker"
+        color="blue lighten-1"
+        landscape="true"
         year-icon="mdi-calendar-blank"
         prev-icon="mdi-skip-previous"
         next-icon="mdi-skip-next"

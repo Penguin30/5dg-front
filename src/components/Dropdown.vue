@@ -10,7 +10,7 @@
         color="primary"
         dark
      >
-     <v-avatar
+     <v-avatar          
           :tile="tile"
           :size="avatarSize"
           color="grey lighten-4"
@@ -27,6 +27,7 @@
         >
 		<v-list-tile-title>
 			<v-avatar
+        @click="$ml.change('fr')"
 				:tile="tile"
 				:size="avatarSize"
 				color="grey lighten-4"

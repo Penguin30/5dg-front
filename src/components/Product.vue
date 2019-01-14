@@ -19,7 +19,7 @@
 							<v-card-actions class="pl-3">
 								{{ price }} EUR
 								<v-spacer></v-spacer>
-								<v-btn round color="orange" right v-on:click="resizePane">{{ caption }}</v-btn>
+								<v-btn round color="orange" right v-on:click="resizePane"></v-btn>
 							</v-card-actions>
 						</v-layout>
 					</v-flex>
@@ -56,6 +56,7 @@
 	}
 </style>
 <script>
+	import { MLBuilder } from 'vue-multilanguage'
 	import Stepper from './Stepper';
 	
 	export default {
