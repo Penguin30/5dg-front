@@ -1,0 +1,45 @@
+Storage of Reservation
+
+a. Date
+b. Start-Time
+c. Duration
+
+30 min pour prep
+toujours a 30 min
+
+Start: 01.01.2019
+Resolution: 1 Minute
+
+=> number of minutes since 01.01.2019
+
+
+USER:
+-------------------
+1. Teaser
+2. Description + Select Date
+3. Register
+4. Verify & Pay
+5. Confirmation
+
+-------------------
+
+
+AGENCY
+-------------------
+1. Register
+2. Login
+3. See all reservations
+4. Reminders for Payment
+
+
+
+Extra
+-------------------
+Cancelation
+
+
+Administration
+-------------------
+Calendar (large)
+
+
