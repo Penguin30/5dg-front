@@ -25,7 +25,8 @@
 							<v-card-actions class="pl-3">
 								{{ price }} EUR
 								<v-spacer></v-spacer>
-								<v-btn round color="orange" right v-on:click="resizePane">{{ $ml.get('btn') }}</v-btn>
+								<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.cruiseSelected==0">{{ $ml.get('btn') }}</v-btn>
+								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.cruiseSelected!=0">Back</v-btn>
 							</v-card-actions>
 						</v-layout>
 					</v-flex>
@@ -35,7 +36,7 @@
 		
 		<!-- Start stepper -->
 		
-		<v-flex lg4 ml-5 v-if="isVisible">
+		<v-flex lg4 ml-5 v-if="$store.state.cruiseSelected!=0">
 			<Stepper :type='type'/>
 		</v-flex>
 		
@@ -95,6 +96,8 @@
 			        el.style.display = 'none';
 			    });
 
+				let lg4_add = document.querySelector('.layout.justify-space-around.row > .layout.justify-center > .flex');
+				console.log(lg4_add);
 				curr_el.style.display = 'flex';
 				curr_el.style.justifyContent = 'center';
 
@@ -121,6 +124,22 @@
 				this.isVisible = true;
 
 				curr_el.querySelector('.v-stepper').parentNode.style.display = 'contents';
+			},
+
+			selectCruise(event) {
+				this.$store.state.cruiseSelected = this.productID;
+				setTimeout(function(){
+					let lg4 =document.querySelector('.layout.justify-center > .flex.xs8');
+					lg4.classList.add('lg4');
+				},1);
+			},
+
+			showAllCruises(event) {
+				this.$store.state.cruiseSelected = 0;
+				let lg4 =document.querySelector('.layout.justify-center > .flex.xs8');
+				setTimeout(function(){
+					lg4.classList.remove('lg4');
+				},1);
 			}
 		}
 	}

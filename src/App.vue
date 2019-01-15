@@ -5,7 +5,6 @@
                 <span class="font-weight-light">5 de Genève - PRIVATE CRUISE GENEVA LAKE</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-
             <v-btn 
                 v-for="lang in $ml.list"
                 :key="lang"
@@ -18,7 +17,7 @@
 
             <RegisterAgency/>
         </v-toolbar>
-
+       
         <v-content>
             <v-carousel>
                 <v-carousel-item
@@ -41,6 +40,7 @@
     import RegisterAgency from './components/RegisterAgency';
     import axios from 'axios';
     import Product from './components/Product';
+
     export default {
         name: 'App',
         components: {
@@ -48,11 +48,12 @@
             RegisterAgency
         },
         methods: {
-            change_lang: function(lang,$ml){  
+            change_lang: function(lang,$ml){ 
                 axios.get('http://5dg.utest.space/api/cruises?lg='+lang)
-                .then(function(response){
-                    $ml.change(lang);
-                })
+                .then(response => (
+                    $ml.change(lang),
+                    this.$store.state.info = response.data
+                ))
                 .catch(error => console.log(error));                
             }
         },

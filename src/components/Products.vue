@@ -1,6 +1,5 @@
 <template>
-  <v-layout cards justify-space-around row style="padding-top:30px">
-     <v-icon v-on:click="close_card" class="close_card">clear</v-icon>
+  <v-layout justify-space-around row style="padding-top:30px;position: relative;">
     <Product v-for='(value, key) in info'
       :productID='info[key].id'
       :images="info[key].img"
@@ -33,6 +32,22 @@
      	Product,
     },
     props: ['lang'],
+    watch: {
+      lang: function () {
+        if(this.lang != 'english'){
+          this.info[0].desc  = this.$store.state.info[0].translations[0].value;
+          this.info[0].title = this.$store.state.info[0].translations[1].value;
+
+          this.info[1].desc  = this.$store.state.info[1].translations[0].value;
+          this.info[1].title = this.$store.state.info[1].translations[1].value;
+
+          this.info[2].desc  = this.$store.state.info[2].translations[0].value;
+          this.info[2].title = this.$store.state.info[2].translations[1].value; 
+        }else{
+          this.info = this.$store.state.info;
+        }
+      }
+    },
     data() {
       return {
         products: [
@@ -45,6 +60,7 @@
             caption: 'Learn more'
           }
         ],
+        lang: '',
 		isVisible: false,
 		info: null
       };
@@ -53,63 +69,14 @@
     computed: {
         testit() {
             return this.$store.state.cruiseSelected;
+            return this.$store.state.info;
         }
-    },
-	  methods: {
-      set_info: function(data){
-        console.log(this.isVisible);
-        //this.info = data;
-      },
-      close_card(){
-        let container = document.querySelector('.layout.row.cards');
-        let cards     = document.body.querySelectorAll('.layout.row > .layout');
-
-        let card      = container.getElementsByClassName('card');
-        [].forEach.call(card, function(el) {
-          el.style.display = 'unset';
-          el.style.justifyContent = 'unset';
-        });       
-
-        document.getElementsByClassName('close_card')[0].style.display="none";
-
-        let btns = document.querySelectorAll('.card .v-card__actions button');
-        [].forEach.call(btns, function(el) {
-          el.style.display="block";
-        });
-
-        let imgs = container.getElementsByClassName('v-image__image');
-        [].forEach.call(imgs, function(el) {
-          el.style.backgroundSize = "unset";
-        });
-
-        let sizers = document.getElementsByClassName('v-responsive__sizer');
-        [].forEach.call(sizers, function(el) {
-          el.style.paddingBottom="100%";
-        });
-
-        let div_stepper = document.querySelectorAll('.v-stepper');
-        [].forEach.call(div_stepper, function(el){
-          el.parentNode.style.display = 'none';
-        });
-
-        let flexs = document.querySelectorAll('.card > div');
-        [].forEach.call(flexs, function(el) {
-          el.classList.remove('lg4');
-          el.classList.add('offset-sm3');
-        });
-
-        let descrs = document.getElementsByClassName('desr');
-        [].forEach.call(descrs, function(el) {
-          el.style.width="14vw";
-        });
-        this.isVisible = false;
-      }
     },
 	created() { 
 		axios.get('http://5dg.utest.space/api/cruises?lg='+this.lang)
 			.then(response => (this.info = response.data))
 			.catch(error => console.log(error));
-	}, 
+	}  
   }
 </script>
 <style>
