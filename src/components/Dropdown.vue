@@ -1,41 +1,28 @@
 <template>
   <div class="text-xs-center">
-    <v-menu
-      bottom
-      origin="center center"
-      transition="scale-transition"
-    >
-    <v-btn
+    <v-menu offset-y>
+      <v-btn
         slot="activator"
-        color="primary"
-        dark
-     >
-     <v-avatar          
-          :tile="tile"
-          :size="avatarSize"
-          color="grey lighten-4"
+        float
       >
-       <img src="../assets/russian-flag.png" alt="avatar">
-      </v-avatar>
-     </v-btn>
-
+        Lang
+      </v-btn>
       <v-list>
         <v-list-tile
-          v-for="(item, i) in items"
-          :key="i"
-          @click=""
+          v-for="lang in $ml.list"
+          :key="lang"
+          @click="$ml.change(lang)"
         >
-		<v-list-tile-title>
-			<v-avatar
-        @click="$ml.change('fr')"
-				:tile="tile"
-				:size="avatarSize"
-				color="grey lighten-4"
-			 >
-			   <img src="../assets/uk-flag.png" alt="avatar">
-			 </v-avatar> 
-         	{{ item.title }}
-         </v-list-tile-title>
+        <v-list-tile-title>
+          <v-avatar          
+            :tile="tile"
+            :size="avatarSize"
+            color="grey lighten-4"
+          >
+            <img :src="require(`@/assets/${lang}.png`)" :alt="lang">
+          </v-avatar>
+          {{ lang }}
+        </v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -52,16 +39,13 @@
         { title: 'English' }
       ],
 	  tile: false,
-	  size: 30
+	  size: 25
     }),
-	computed: {
-		mlmyMessage () {
-			return new MLBuilder('msg').with('f', this.friends).with('l', 406)
-		},
-		
-		avatarSize() {
-			return `${this.size}px`
-		}
+	computed: {		
+  		avatarSize() {
+  			return `${this.size}px`
+  		}
   	}
  }
+  
 </script>

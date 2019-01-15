@@ -7,12 +7,12 @@ export default new MLCreate({
   initial: 'english',
   save: process.env.NODE_ENV === 'production',
   languages: [
-    new MLanguage('en').create({
+    new MLanguage('english').create({
       btn: 'Learn more'
     }),
  
-    new MLanguage('fr').create({
-      btn: 'apprendre encore plus'
+    new MLanguage('french').create({
+      btn: 'Apprendre encore plus'
     })
   ]
 })
