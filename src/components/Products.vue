@@ -1,20 +1,20 @@
 <template>
-  <v-layout row cards>
+  <v-layout cards justify-space-around row style="padding-top:30px">
      <v-icon v-on:click="close_card" class="close_card">clear</v-icon>
-<!--
-    <Product :productID='info[0].id' :imageSrc='info[0].img' :title='info[0].title' :description='info[0].description' :priceTxt='products[0].priceTxt' :price='info[0].price' :caption='products[0].caption' v-if='$store.state.cruiseSelected==0||$store.state.cruiseSelected==1'/>
-    <Product :productID='info[1].id' :imageSrc='info[1].img' :title='info[1].title' :description='info[0].description' :priceTxt='products[0].priceTxt' :price='info[1].price' :caption='products[0].caption' v-if='$store.state.cruiseSelected==0||$store.state.cruiseSelected==2'/>
-    <Product :productID='info[2].id' :imageSrc='info[2].img' :title='info[2].title' :description='info[0].description' :priceTxt='products[0].priceTxt' :price='info[2].price' :caption='products[0].caption' v-if='$store.state.cruiseSelected==0||$store.state.cruiseSelected==3'/>    
--->
-    
-    <Product v-for='(value, key) in info' :productID='info[key].id' :imageSrc="'http://5dg.utest.space/storage/app/public/'+info[key].img" :title='info[key].title' :description='info[key].desc' :priceTxt='products[0].priceTxt' :price='info[key].price' :type='info[key].type' :caption='products[0].caption' v-if='$store.state.cruiseSelected==0||$store.state.cruiseSelected==key'/>
+    <Product v-for='(value, key) in info'
+      :productID='info[key].id'
+      :images="info[key].img"
+      :title='info[key].title'
+      :description='info[key].desc'
+      :priceTxt='products[0].priceTxt'
+      :price='info[key].price'
+      :type='info[key].type'
+      :caption='products[0].caption'
+      v-if='$store.state.cruiseSelected==0||$store.state.cruiseSelected==key'/>
   </v-layout>
 </template>
 
 <style>
-  .cards{
-    position: relative;
-  }
   .close_card{
     display: none;
     position: absolute;
@@ -24,6 +24,7 @@
   }
 </style>
 <script>
+  import { MLBuilder } from 'vue-multilanguage';
   import Product from './Product';
   import axios from 'axios';
 
@@ -31,7 +32,7 @@
     components: {
      	Product,
     },
-
+    props: ['lang'],
     data() {
       return {
         products: [
@@ -55,6 +56,10 @@
         }
     },
 	  methods: {
+      set_info: function(data){
+        console.log(this.isVisible);
+        //this.info = data;
+      },
       close_card(){
         let container = document.querySelector('.layout.row.cards');
         let cards     = document.body.querySelectorAll('.layout.row > .layout');
@@ -101,10 +106,10 @@
       }
     },
 	created() { 
-		axios.get('http://5dg.utest.space/api/cruises')
+		axios.get('http://5dg.utest.space/api/cruises?lg='+this.lang)
 			.then(response => (this.info = response.data))
 			.catch(error => console.log(error));
-	}  
+	}, 
   }
 </script>
 <style>
