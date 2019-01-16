@@ -25,8 +25,8 @@
 							<v-card-actions class="pl-3">
 								{{ price }} EUR
 								<v-spacer></v-spacer>
-								<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.cruiseSelected==0">{{ $ml.get('btn') }}</v-btn>
-								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.cruiseSelected!=0">Back</v-btn>
+								<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.cruiseSelected < 0">{{ $ml.get('btn') }}</v-btn>
+								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.cruiseSelected>=0">Back</v-btn>
 							</v-card-actions>
 						</v-layout>
 					</v-flex>
@@ -36,8 +36,8 @@
 		
 		<!-- Start stepper -->
 		
-		<v-flex lg4 ml-5 v-if="$store.state.cruiseSelected!=0">
-			<Stepper :type='type'/>
+		<v-flex lg4 ml-5 v-if="$store.state.cruiseSelected >= 0">
+			<Stepper :type='type' :cruise_id='productID'/>
 		</v-flex>
 		
 		<!-- End stepper -->
@@ -84,50 +84,9 @@
             ]
 		}),
 		methods: {
-			resizePane(event) {
-				let target = event.target;
-				let container = document.querySelector('.layout.row.cards')
-				let cards = document.body.querySelectorAll('.layout.row.cards > .layout');
-				let curr_el = target.closest('.layout.card');
-				let currentCard = curr_el;
-
-				let card = container.getElementsByClassName('card');
-				[].forEach.call(card, function(el) {
-			        el.style.display = 'none';
-			    });
-
-				let lg4_add = document.querySelector('.layout.justify-space-around.row > .layout.justify-center > .flex');
-				console.log(lg4_add);
-				curr_el.style.display = 'flex';
-				curr_el.style.justifyContent = 'center';
-
-				let btn_act = currentCard.querySelector('.v-card__actions > button').style.display = 'none';
-
-				document.getElementsByClassName('close_card')[0].style.display = 'block';
-
-				let imgs = container.getElementsByClassName('v-image__image');
-				
-				[].forEach.call(imgs, function(el) {
-			        el.style.backgroundSize = '100%';
-			    });
-
-				let sizers = container.getElementsByClassName('v-responsive__sizer');
-				[].forEach.call(sizers, function(el){
-					el.style.paddingBottom = '50%';
-				});
-
-				currentCard.classList.add('lg4');
-				currentCard.classList.remove('offset-sm3');
-
-				container.getElementsByClassName('desr')[0].style.width = 'unset';
-
-				this.isVisible = true;
-
-				curr_el.querySelector('.v-stepper').parentNode.style.display = 'contents';
-			},
 
 			selectCruise(event) {
-				this.$store.state.cruiseSelected = this.productID;
+				this.$store.state.cruiseSelected = this.productID-1;
 				setTimeout(function(){
 					let lg4 =document.querySelector('.layout.justify-center > .flex.xs8');
 					lg4.classList.add('lg4');
@@ -135,12 +94,15 @@
 			},
 
 			showAllCruises(event) {
-				this.$store.state.cruiseSelected = 0;
+				this.$store.state.cruiseSelected = -1;
 				let lg4 =document.querySelector('.layout.justify-center > .flex.xs8');
 				setTimeout(function(){
 					lg4.classList.remove('lg4');
 				},1);
 			}
+		},
+		created(){
+			this.$store.state.cruiseSelected = -1;
 		}
 	}
 </script>

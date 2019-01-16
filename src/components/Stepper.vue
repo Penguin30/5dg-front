@@ -18,7 +18,14 @@
                 <v-card>
                     <v-layout row wrap  style="padding: 10px 0 0">
                         <v-flex xs12>
-                            <DataPicker/>
+                            <v-date-picker
+                                v-model="date"
+                                color="blue lighten-1"
+                                landscape=true
+                                year-icon="mdi-calendar-blank"
+                                prev-icon="mdi-skip-previous"
+                                next-icon="mdi-skip-next"
+                              />
                         </v-flex>
                         <v-flex v-if="type == 'custom'" xs6 class="m-t-10" style="padding-right:10px">
                             <label>Start Time</label>
@@ -32,15 +39,14 @@
                             <label>End Time</label>
                             <datetime v-model="endDate"
                                       class="input-date"
-                                      type="time"
+                                      type=time   
                                       minute-step=15
-                                      :min-datetime="endMinDate"/>
+                                      />
                         </v-flex>
                         <v-flex xs12 class="m-t-10">
                             <label>{{this.dateError}}</label>
                         </v-flex>
                         <v-btn class="next-btn"
-                               disabled="disabled"
                                color="primary"
                                @click="check_date">
                             Continue
@@ -52,7 +58,14 @@
 
             <v-stepper-content step="2">
                 <v-card>
-                    <UserForm/>
+                    <UserForm :step="e1" :type='type'/>
+                </v-card>
+            </v-stepper-content>
+
+
+             <v-stepper-content step="3">
+                <v-card>
+                    <p>thnx</p>
                 </v-card>
             </v-stepper-content>
 
@@ -79,42 +92,64 @@
 </style>
 
 <script>
+    import { MLBuilder } from 'vue-multilanguage';
     import UserForm from './UserForm';
-    import DataPicker from './DataPicker';
+    import axios from 'axios';
+    import { Datetime } from 'vue-datetime'
     import 'vue-datetime/dist/vue-datetime.css';
-
 
     export default {
         components: {
             UserForm,
-            DataPicker
+            Datetime
         },
-        props: ['type'],
+        props: ['type','cruise_id'],
         data() {
             return {
+                step: 0,
+                date: new Date().toISOString().substr(0, 10),
                 e1: 0,
                 startDate: '',
                 endDate: '',
                 endMinDate: new Date().toISOString(),
-                dateError: ''
-            }
-        },
-        watch: {
-            startDate() {
-                this.endMinDate = this.startDate;
-                console.log("start Date", this.startDate);
-            },
-            endDate() {
-                let hourDiff = Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000;
-                if (hourDiff < 3 || hourDiff > 15){
-                    this.dateError="The date duration should be minimum 3 hours and maximum 15 hours";
-                }
+                dateError: '',
             }
         },
         methods: {
-            check_date: function(){
-                console.log(document.getElementsByClassName('v-picker'));
+            check_date(){
+                let event = this.date;
+                let today = new Date();
+                let dd = today.getDate();
+                let mm = today.getMonth()+1;
+                let yyyy = today.getFullYear();
+                if(dd<10) {
+                  dd = '0'+dd
+                } 
+
+                if(mm<10) {
+                  mm = '0'+mm
+                }
+                today = yyyy + '-' + mm + '-' + dd;
+                if(event > today){
+                    this.$store.state.cruise = this.cruise_id;
+                    let data = {
+                        date: event,
+                        cruise: this.cruise_id,
+                        time_start: new Date(this.startDate).getHours()+':'+new Date(this.startDate).getMinutes(),
+                        time_end: new Date(this.endDate).getHours()+':'+new Date(this.endDate).getMinutes()
+                    };
+                    if(Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 < 3 || Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 > 15){
+                        this.dateError = this.$ml.get('short_time_or_long') 
+                    }else{
+                        axios.post('http://5dg.utest.space/api/check_time',{data}).then(response => (console.log(response),(response.data == 'ok') ? (this.e1 = 2,this.$store.state.step = 2,this.$store.state.date = event,this.$store.state.time_s = new Date(this.startDate).getHours()+':'+new Date(this.startDate).getMinutes(),this.$store.state.time_e = new Date(this.endDate).getHours()+':'+new Date(this.endDate).getMinutes()) : this.dateError = this.$ml.get('not_correct_time')))
+                    }
+                }else{
+                    this.dateError = this.$ml.get('date_less_today');
+                }
             }
+        },
+        created(){
+            this.$store.state.step=0;
         }
     }
 </script>

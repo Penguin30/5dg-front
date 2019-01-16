@@ -28,7 +28,7 @@
             </v-layout>
 
             <v-layout justify-space-between column>
-                <v-checkbox v-model="checkbox" :rules="[v => !!v || 'You must agree to continue!']"
+                <v-checkbox v-if="type=='evening'" v-model="checkbox" :rules="[v => !!v || 'You must agree to continue!']"
                             label="Do you agree?" required></v-checkbox>
 
 
@@ -65,6 +65,7 @@
             Stepper,
             DataPicker
         },
+        props: ['step','type'],
         data: () => ({
             valid: true,
             firstName: '',
@@ -89,6 +90,8 @@
 
         methods: {
             submit(event) {
+                this.step = 3;
+                console.log(this.step);
                 if (this.$refs.form.validate()) {
                     let ages = {
                         age1: this.agePerson1,
@@ -97,9 +100,7 @@
                         age4: this.agePerson4,
                         age5: this.agePerson5
                     };
-                    let target = event.target;
-                    let card = target.closest('.layout.card');
-                    let cruise_id = card.getElementsByClassName('v-card')[0].dataset.id;
+                    let cruise_id = this.$store.state.cruise;
                     let data = {
                         firstName: this.firstName,
                         email: this.email,
@@ -110,16 +111,17 @@
                         city: this.city,
                         phone: this.cell,
                         cruise_id: cruise_id,
-                        date: this.$root.date,
-                        time: this.test,
+                        date: this.$store.state.date,
+                        time_start: this.$store.state.time_s,
+                        time_end: this.$store.state.time_e,
                         n_persons: this.attendees,
                         ages: ages,
                         stop: this.checkbox
                     }
                     axios.post('http://5dg.utest.space/api/orders', {data})
-                        .then(function () {
-                            location.reload();
-                        })
+                        .then(
+                            console.log(this)
+                        )
                         .catch(error => console.log(error));
                 }
             },
