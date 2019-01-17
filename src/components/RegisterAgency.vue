@@ -9,8 +9,8 @@
                 <v-card-text>
                     <v-form ref="form" v-model="valid" lazy-validation class="rounded-card">
                         <v-layout justify-space-between column>
-                            <v-text-field v-model="email" label="E-mail" required></v-text-field>
-                            <v-text-field v-model="password" label="Password" required></v-text-field>
+                            <v-text-field :rules="emailRules" v-model="email" label="E-mail" required></v-text-field>
+                            <v-text-field :rules="passwordRules" v-model="password" label="Password" required></v-text-field>
                         </v-layout>
                         <v-btn :disabled="!valid" @click="submit">submit</v-btn>
                         <v-btn @click="clear">clear</v-btn>
@@ -47,6 +47,7 @@
 
 <script>
     import AgencySignUpForm from './AgencyFormSignUp';
+    import axios from 'axios';
 
     export default {
         components: {
@@ -54,7 +55,22 @@
         },
         data() {
             return {
-                dialog: false
+                dialog: false,
+                email: '',
+                emailRules: [v => !!v || 'E-mail is required', v => /.+@.+/.test(v) || 'E-mail must be valid'],
+                passwordRules: [v => !!v || 'Password is required'],
+                password: ''
+            }
+        },
+        methods: {
+            submit(event) {             
+                if (this.$refs.form.validate()) {
+                    let data = {
+                        email: this.email,
+                        password: this.password
+                    }
+                    axios.post('https://srv.5degeneve.ch/api/sign_in_agency',{email: this.email,password: this.password}).then(response => (console.log(response))).catch(error => console.log(error));
+                }
             }
         }
     }

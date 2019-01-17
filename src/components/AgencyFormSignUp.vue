@@ -309,7 +309,7 @@
 						url: this.web,
 						zip: this.zip
 					}										
-					axios.post('http://5dg.utest.space/api/sign_up_agency',{data})
+					axios.post('https://srv.5degeneve.ch/api/sign_up_agency',{data})
 						.then(function(){
 							location.reload();
 						})

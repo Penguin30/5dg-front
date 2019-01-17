@@ -1,13 +1,15 @@
 <template>
   <v-layout justify-space-around row style="padding-top:30px;position: relative;">
     <Product v-for='(value, key) in info'
-      :productID='value.id'
-      :images="value.img"
-      :title='value.title'
-      :description='value.desc'
-      :price='value.price'
-      :type='value.type'
-      v-if='$store.state.cruiseSelected < 0||$store.state.cruiseSelected==key'/>
+      :productID='info[key].id'
+      :images="info[key].img"
+      :title='info[key].title'
+      :description='info[key].desc'
+      :priceTxt='products[0].priceTxt'
+      :price='info[key].price'
+      :type='info[key].type'
+      :caption='products[0].caption'
+      v-if='$store.state.cruiseSelected==0||$store.state.cruiseSelected==key'/>
   </v-layout>
 </template>
 
@@ -59,8 +61,8 @@
           }
         ],
         lang: '',
-		  isVisible: false,
-		  info: null
+		isVisible: false,
+		info: null
       };
     },
 
@@ -71,7 +73,7 @@
         }
     },
 	created() { 
-		axios.get('http://5dg.utest.space/api/cruises?lg='+this.lang)
+		axios.get('https://srv.5degeneve.ch/api/cruises?lg='+this.lang)
 			.then(response => (this.info = response.data))
 			.catch(error => console.log(error));
 	}  

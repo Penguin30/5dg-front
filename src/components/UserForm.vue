@@ -65,7 +65,7 @@
             Stepper,
             DataPicker
         },
-        props: ['step','type'],
+        props: ['e1','type'],
         data: () => ({
             valid: true,
             firstName: '',
@@ -90,8 +90,8 @@
 
         methods: {
             submit(event) {
-                this.step = 3;
-                console.log(this.step);
+                this.e1 = 3;
+                console.log(this.e1);
                 if (this.$refs.form.validate()) {
                     let ages = {
                         age1: this.agePerson1,
@@ -118,7 +118,7 @@
                         ages: ages,
                         stop: this.checkbox
                     }
-                    axios.post('http://5dg.utest.space/api/orders', {data})
+                    axios.post('https://srv.5degeneve.ch/api/orders', {data})
                         .then(
                             console.log(this)
                         )
