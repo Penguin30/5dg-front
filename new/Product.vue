@@ -37,7 +37,7 @@
 		<!-- Start stepper -->
 		
 		<v-flex lg4 ml-5 v-if="$store.state.cruiseSelected!=0">
-			<Stepper :cruise_id="productID" :type='type'/>
+			<Stepper :type='type'/>
 		</v-flex>
 		
 		<!-- End stepper -->
