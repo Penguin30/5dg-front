@@ -13,7 +13,7 @@
     methods: {
     	choose: function (event) {
 	        if(event){
-	        	axios.get('http://5dg.utest.space/api/check_date_time')
+	        	axios.get('https://srv.5degeneve.ch/api/check_date_time')
 					.then(response => (this.info = response.data))
 					.catch(error => console.log(error));
 	        }
