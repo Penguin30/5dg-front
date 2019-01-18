@@ -1,5 +1,5 @@
 <template>
-	<v-layout justify-center style="flex-basis: 0; flex-grow: 1;">
+	<v-layout justify-center justify-space-around style="flex-basis: 0; flex-grow: 1;">
 		<v-flex xs8>
 			<v-card elevation-15 hover class="rounded-card">
 				<v-layout column card>
@@ -15,19 +15,25 @@
 					</v-flex>
 					<v-flex xs8>
 						<v-layout column>
-							<v-card-title primary-title>
+							<v-card-actions class="pl-3">
+								{{ price }} CHF
+								<v-spacer></v-spacer>
+								<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.cruiseSelected==0">{{ $ml.get('btn') }}</v-btn>
+								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.cruiseSelected!=0">Back</v-btn>
+							</v-card-actions>
+
+							<v-card-text primary-title class="discount" style="max-width: 500px;">
+								Your Discount: 15%<br/>
+								Your Price: <b>100 CHF</b><br/>
+								Discount on next order: 16%<br/>
+							</v-card-text>	
+
+							<v-card-title primary-title style="max-width: 500px;">
 								<div>
 									<h3 class="headline mb-0">{{ title }}</h3>
 									<div v-html="description" >{{ description }}</div>
 								</div>
 							</v-card-title>
-
-							<v-card-actions class="pl-3">
-									{{ price }} CHF
-									<v-spacer></v-spacer>
-									<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.cruiseSelected==0">{{ $ml.get('btn') }}</v-btn>
-									<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.cruiseSelected!=0">Back</v-btn>
-							</v-card-actions>
 						</v-layout>
 					</v-flex>
 				</v-layout>
@@ -35,13 +41,10 @@
 		</v-flex>
 		
 		<!-- Start stepper -->
-		
 		<v-flex lg4 ml-5 v-if="$store.state.cruiseSelected!=0">
 			<Stepper :cruise_id="productID" :type='type'/>
 		</v-flex>
-		
 		<!-- End stepper -->
-		
 	</v-layout>
 </template>
 
@@ -60,6 +63,13 @@
 
 	.rounded-card {
 		border-radius:10px;
+	}
+
+	.discount {
+		background-color: #ff5252 !important;
+    	border-color: #ff5252 !important;
+		color: white;
+		border-radius:30px;
 	}
 </style>
 <script>
