@@ -20,11 +20,8 @@
 						<v-flex xs12>
 							<v-date-picker
 								v-model="date"
-								color="blue lighten-1"
-								landscape=true
-								year-icon="mdi-calendar-blank"
-								prev-icon="mdi-skip-previous"
-								next-icon="mdi-skip-next"
+                                :min='new Date().toISOString().substr(0, 10)'
+                                :allowed-dates="allowedDates"
 							  />
 						</v-flex>
 						<v-flex v-if="type == 'custom'" xs6 class="m-t-10" style="padding-right:10px">
@@ -412,6 +409,10 @@
 			}
 		},
 		methods: {
+            allowedDates(val) {
+                return parseInt(val.split('-')[2], 10) % 2 === 0;
+            },
+
 			check_date(){
 				console.log(this.cruise_id);
 				let event = this.date;

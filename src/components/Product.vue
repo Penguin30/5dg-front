@@ -16,16 +16,18 @@
 					<v-flex xs8>
 						<v-layout column>
 							<v-card-actions class="pl-3">
-								{{ price }} CHF
+								<b><big>{{ formatPrice(price) }} CHF</big></b>
 								<v-spacer></v-spacer>
 								<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.cruiseSelected==0">{{ $ml.get('btn') }}</v-btn>
 								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.cruiseSelected!=0">Back</v-btn>
 							</v-card-actions>
 
-							<v-card-text primary-title class="discount" style="max-width: 500px;" v-if="$store.state.cruiseSelected!=0">
-								Your Discount: 15%<br/>
-								Your Price: <b>100 CHF</b><br/>
-								Discount on next order: 16%<br/>
+							<v-card-text primary-title class="discount" style="max-width: 500px;" v-if="$store.state.cruiseSelected!=0&&$store.state.user.roleID==3">
+								<table border='0' width='100%'>
+									<tr><td>Your Discount</td>			<td align='right'><b>{{ discountPercent() }}%</b></td></tr>
+									<tr><td>Your Price</td>				<td align='right'><b>{{ formatPrice(discountProp.disPrice) }} CHF</b></td></tr>
+									<tr><td>Discount on next order</td>	<td align='right'><b>{{ discountProp.next }}%</b></td></tr>
+								</table>
 							</v-card-text>	
 
 							<v-card-title primary-title style="max-width: 500px;">
@@ -90,7 +92,14 @@
                     {src: 'http://www.5degeneve.ch/images/interieur2.jpg'},
                     {src: 'http://www.5degeneve.ch/images/exte1.jpg'},
                     {src: 'http://www.5degeneve.ch/images/exte2.jpg'}
-            ]
+			],
+			discountProp: {
+				curr: 15,	// current discount in percent
+				next: 16,	// next discount in percent
+				discount: 0,	// the discount
+				disPrice: 0		// the discounted Price
+			}
+
 		}),
 		methods: {
 			resizePane(event) {
@@ -149,6 +158,29 @@
 				setTimeout(function(){
 					lg4.classList.remove('lg4');
 				},1);
+			},
+
+			formatPrice(value) {
+				let val = (value/1).toFixed(2).replace('.', ',')
+				return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+			},
+
+			discountPercent() {
+				let numOrders	= 2; // -> make call to Server to get that value
+				let minPercent	= 15;
+				let maxPercent	= 30;
+
+				var d = minPercent + numOrders;
+				if (d>maxPercent) d = maxPercent;
+				this.discountProp.curr = d;
+
+				d++;
+				if (d>maxPercent) d = maxPercent;
+				this.discountProp.next = d;
+
+				this.discountProp.discount = Math.round(this.price * this.discountProp.curr) / 100;
+				this.discountProp.disPrice = this.price - this.discountProp.discount;
+				return this.discountProp.curr;
 			}
 		}
 	}
