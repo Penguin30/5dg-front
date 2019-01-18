@@ -59,7 +59,6 @@
         </v-footer>
     </v-app>
 </template>
-
 <style>
     .cruiseVideoI {
         text-align: center;
@@ -101,6 +100,10 @@
                 ))
                 .catch(error => console.log(error));                
             }
+        },
+        created(){
+            var userLang = navigator.language || navigator.userLanguage; 
+            (userLang == 'ru-Ru') ? this.$ml.change('russian') : (userLang == 'en-En') ? this.$ml.change('english') : (userLang == 'fr-Fr') ? this.$ml.change('french') : (userLang == 'de-De') ? this.$ml.change('deutsch') : (userLang == 'ch-Ch') ? this.$ml.change('chinese') : (userLang == 'ar-Ar') ? this.$ml.change('arabic') : this.$ml.change('english')
         },
         data() {
             return {

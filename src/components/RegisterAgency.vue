@@ -68,9 +68,9 @@
                 if (this.$refs.form.validate()) {
                     let data = {
                         email: this.email,
-                        password: this.password
+                        pass: this.password
                     }
-                    axios.post('https://srv.5degeneve.ch/api/sign_in_agency',{email: this.email,password: this.password}).then(response => (console.log(response))).catch(error => console.log(error));
+                    axios.post('https://srv.5degeneve.ch/api/sign_in_agency',{email: this.email,password: this.password}).then(response => ((response != 401) ? (this.$store.state.email=this.email,this.$store.state.token=response,console.log(response)) : console.log('401'))).catch(error => console.log(error));
                 }
             }
         }
