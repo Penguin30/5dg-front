@@ -22,7 +22,7 @@
 								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.cruiseSelected!=0">Back</v-btn>
 							</v-card-actions>
 
-							<v-card-text primary-title class="discount" style="max-width: 500px;">
+							<v-card-text primary-title class="discount" style="max-width: 500px;" v-if="$store.state.cruiseSelected!=0">
 								Your Discount: 15%<br/>
 								Your Price: <b>100 CHF</b><br/>
 								Discount on next order: 16%<br/>
