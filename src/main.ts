@@ -9,6 +9,7 @@ import './registerServiceWorker';
 import './ml.js';
 
 Vue.config.productionTip = false;
+Vue.use(require('vue-cookies'));
 
 new Vue({
     router,

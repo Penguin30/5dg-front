@@ -15,7 +15,10 @@
                 <img :src="require(`@/assets/${lang}.png`)" :alt="lang" height=35 />
             </v-btn>
 
-            <RegisterAgency/>
+            <RegisterAgency v-if="$cookies.isKey('token') === false"/>
+            <v-btn v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
+                <span class="mr-2">Logout</span>
+            </v-btn>
         </v-toolbar>
        
         <v-content style="padding-bottom:100px;">
@@ -47,6 +50,7 @@
                     </div>
                 </v-flex> -->
             </v-layout>
+            <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true"/></v-layout>
 
   
         </v-content>
@@ -54,7 +58,7 @@
 
         <v-footer dark height="auto">
             <v-card class="flex" flat tile>
-                <v-card-actions class="grey darken-3 justify-center">&copy;2018 by 5 de Geneve   <GTU></GTU></v-card-actions>
+                <v-card-actions class="grey darken-3 justify-center">&copy;2018 by 5 de Geneve<GTU></GTU></v-card-actions>
             </v-card>
         </v-footer>
     </v-app>
@@ -83,15 +87,20 @@
     import axios from 'axios';
     import Product from './components/Product';
     import GTU from './components/GTU';
+    import ListOrders from './components/ListOrders';
 
     export default {
         name: 'App',
         components: {
+            ListOrders,
             Products,
             RegisterAgency,
             GTU
         },
         methods: {
+            logout(){
+                this.$cookies.remove('token');
+            },
             change_lang: function(lang,$ml){ 
                 axios.get('https://srv.5degeneve.ch/api/cruises?lg='+lang)
                 .then(response => (

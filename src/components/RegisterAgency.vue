@@ -64,13 +64,14 @@
             }
         },
         methods: {
-            submit(event) {             
+            submit(event) {          
                 if (this.$refs.form.validate()) {
                     let data = {
                         email: this.email,
                         pass: this.password
                     }
-                    axios.post('https://srv.5degeneve.ch/api/sign_in_agency',{email: this.email,password: this.password}).then(response => ((response != 401) ? (this.$store.state.email=this.email,this.$store.state.token=response,console.log(response)) : console.log('401'))).catch(error => console.log(error));
+                    this.$cookies.config('7d');
+                    axios.post('https://srv.5degeneve.ch/api/sign_in_agency',{data}).then(response => ((response != 401) ? (this.$cookies.set("email",this.email),this.$cookies.set("token",response.data)) : console.log('401'))).catch(error => console.log(error));
                 }
             }
         }
