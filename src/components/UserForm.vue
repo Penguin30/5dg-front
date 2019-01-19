@@ -1,8 +1,7 @@
 <template>
     <v-form ref="form" v-model="valid" lazy-validation>
         <v-layout justify-space-between column>
-            <v-layout justify-space-between column>
-                <v-layout row wrap>
+            <v-layout row wrap>
                     <v-select v-model="gender" :rules="genderRule" :items="genderItems" label="Title"
                               style="width:20%"></v-select>
                     <v-text-field v-model="firstName" :rules="nameRules" :counter="25" label="First Name" required
@@ -25,11 +24,8 @@
 
                 <v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
                 <v-text-field v-model="cell" :rules="emailRules" label="Cell-Phone" required></v-text-field>
-            </v-layout>
 
-            <v-layout justify-space-between column>
-                <v-checkbox v-if="type=='evening'" v-model="checkbox" :rules="[v => !!v || 'You must agree to continue!']"
-                            label="Do you agree?" required></v-checkbox>
+                
 
 
                 <v-text-field v-model="attendees" min="1" max="5" dense
@@ -46,9 +42,8 @@
                     <v-select v-model="agePerson5" label="Age (5)" :items="ageRanges" style="padding-left:20px"
                               v-if="attendees>4"></v-select>
                 </v-layout>
-                <v-text-field type="time" v-model="test" :rules="nameRules" :items="ageRanges"
-                              label="Last Name"></v-text-field>
-            </v-layout>
+
+            <v-checkbox v-if="type=='evening'" v-model="checkbox" :rules="[v => !!v || 'You must agree to continue!']" label="Do you agree?" required></v-checkbox>
         </v-layout>
         <v-btn :disabled="!valid" @click="submit">submit</v-btn>
         <v-btn @click="clear">clear</v-btn>

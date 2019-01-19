@@ -64,7 +64,7 @@
             }
         },
         methods: {
-            submit(event) {          
+            submit(event) {             
                 if (this.$refs.form.validate()) {
                     let data = {
                         email: this.email,

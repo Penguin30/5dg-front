@@ -22,7 +22,7 @@
 								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.cruiseSelected!=0">Back</v-btn>
 							</v-card-actions>
 
-							<v-card-text primary-title class="discount" style="max-width: 500px;" v-if="$store.state.cruiseSelected!=0&&$store.state.user.roleID==3">
+							<v-card-text justify-space-around class="discount" v-if="$store.state.cruiseSelected!=0&&$store.state.user.roleID==3">
 								<table border='0' width='100%'>
 									<tr><td>Your Discount</td>			<td align='right'><b>{{ discountPercent() }}%</b></td></tr>
 									<tr><td>Your Price</td>				<td align='right'><b>{{ formatPrice(discountProp.disPrice) }} CHF</b></td></tr>
@@ -30,7 +30,7 @@
 								</table>
 							</v-card-text>	
 
-							<v-card-title primary-title style="max-width: 500px;">
+							<v-card-title primary-title>
 								<div>
 									<h3 class="headline mb-0">{{ title }}</h3>
 									<div v-html="description" >{{ description }}</div>
