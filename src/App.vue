@@ -33,9 +33,17 @@
             </v-carousel>
               
             <Products :lang="$ml.current"/>
+<<<<<<< HEAD
             
             
             <!-- <v-layout justify-space-around row style="padding-top:30px;position: relative;">
+=======
+
+            <ListOrders></ListOrders>
+
+            <!--
+            <v-layout justify-space-around row style="padding-top:30px;position: relative;">
+>>>>>>> 9963d849a8f6ea34f4f0b177573f960c1bd486dd
                 <v-flex style="text-align: center;">
                     <div class="cruiseVideo">
                     <video id="video1" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="488" height="350" poster="@/assets/Video1.jpg" data-setup="{}">
@@ -50,22 +58,28 @@
                     </video>
                     </div>
                 </v-flex>
+<<<<<<< HEAD
             </v-layout> -->
 
             <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true"/></v-layout>
 
 
             
+=======
+            </v-layout>
+            -->
+>>>>>>> 9963d849a8f6ea34f4f0b177573f960c1bd486dd
         </v-content>
 
 
         <v-footer dark height="auto">
             <v-card class="flex" flat tile>
-                <v-card-actions class="grey darken-3 justify-center">&copy;2018 by 5 de Geneve<GTU></GTU></v-card-actions>
+                <v-card-actions class="grey darken-3 justify-center">&copy;2018 by 5 de Geneve   <GTU></GTU></v-card-actions>
             </v-card>
         </v-footer>
     </v-app>
 </template>
+
 <style>
     .cruiseVideoI {
         text-align: center;
@@ -95,10 +109,10 @@
     export default {
         name: 'App',
         components: {
-            ListOrders,
             Products,
             RegisterAgency,
-            GTU
+            GTU,
+            ListOrders
         },
         methods: {
             logout(){
