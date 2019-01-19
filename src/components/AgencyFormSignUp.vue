@@ -312,8 +312,7 @@
 					axios.post('https://srv.5degeneve.ch/api/sign_up_agency',{data})
 						.then(function(){
 							location.reload();
-						})
-						.catch(error => console.log(error));
+						});
 				}
 			},
 			clear() {

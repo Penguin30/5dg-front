@@ -22,7 +22,7 @@
 								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.cruiseSelected!=0">Back</v-btn>
 							</v-card-actions>
 
-							<v-card-text primary-title class="discount" style="max-width: 500px;" v-if="$store.state.cruiseSelected!=0&&$store.state.user.roleID==3">
+							<v-card-text primary-title class="discount" style="max-width: 500px;" v-if="$store.state.cruiseSelected!=0&&$cookies.get('role')=='3'">
 								<table border='0' width='100%'>
 									<tr><td>Your Discount</td>			<td align='right'><b>{{ discountPercent() }}%</b></td></tr>
 									<tr><td>Your Price</td>				<td align='right'><b>{{ formatPrice(discountProp.disPrice) }} CHF</b></td></tr>
@@ -166,7 +166,7 @@
 			},
 
 			discountPercent() {
-				let numOrders	= 2; // -> make call to Server to get that value
+				let numOrders	= 2;
 				let minPercent	= 15;
 				let maxPercent	= 30;
 

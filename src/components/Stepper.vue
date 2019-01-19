@@ -486,6 +486,7 @@
 		},
 		created(){
 			this.$store.state.step=0;
+            axios.get('https://srv.5degeneve.ch/api/get_allowed_dates?cruise='+this.cruise_id).then(response => (console.log(response))).catch(error => console.log(error));
 		}
 	}
 </script>
