@@ -2,7 +2,7 @@
     <v-app>
         <v-toolbar app>
             <v-toolbar-title class="headline text-uppercase">
-                <span class="font-weight-light">5 de Genève - PRIVATE CRUISE GENEVA LAKE</span>
+                <span class="font-weight-light">5 de Gen&egrave;ve - PRIVATE CRUISE GENEVA LAKE</span>
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn 
@@ -33,9 +33,10 @@
             </v-carousel>
               
             <Products :lang="$ml.current"/>
-
+            
+            <!--
             <v-layout justify-space-around row style="padding-top:30px;position: relative;">
-                <!-- <v-flex style="text-align: center;">
+                <v-flex style="text-align: center;">
                     <div class="cruiseVideo">
                     <video id="video1" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="488" height="350" poster="@/assets/Video1.jpg" data-setup="{}">
                         <source src="https://srv.5degeneve.ch/storage/Video1.mp4" type='video/mp4'>
@@ -48,11 +49,15 @@
                         <source src="https://srv.5degeneve.ch/storage/Video2.mp4" type='video/mp4'>
                     </video>
                     </div>
-                </v-flex> -->
+                </v-flex>
             </v-layout>
+<<<<<<< HEAD
             <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true"/></v-layout>
 
   
+=======
+            -->
+>>>>>>> 5b42fc63ad429e83b6d9be07ace8647a7aa495af
         </v-content>
 
 
