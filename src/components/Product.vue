@@ -22,11 +22,9 @@
 								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.cruiseSelected!=0">Back</v-btn>
 							</v-card-actions>
 
-<<<<<<< HEAD
-							<v-card-text primary-title class="discount" style="max-width: 500px;" v-if="$store.state.cruiseSelected!=0&&$cookies.get('role')=='3'">
-=======
-							<v-card-text justify-space-around class="discount" v-if="$store.state.cruiseSelected!=0&&$store.state.user.roleID==3">
->>>>>>> 9963d849a8f6ea34f4f0b177573f960c1bd486dd
+
+							<v-card-text justify-space-around class="discount" v-if="$store.state.cruiseSelected!=0&&$cookies.get('role')=='3'&&count!=0">
+
 								<table border='0' width='100%'>
 									<tr><td>Your Discount</td>			<td align='right'><b>{{ discountPercent() }}%</b></td></tr>
 									<tr><td>Your Price</td>				<td align='right'><b>{{ formatPrice(discountProp.disPrice) }} CHF</b></td></tr>
@@ -81,7 +79,8 @@
 <script>
 	import { MLBuilder } from 'vue-multilanguage';
 	import Stepper from './Stepper';
-	
+	import axios from 'axios';
+
 	export default {
 		components: {
      		Stepper
@@ -106,47 +105,6 @@
 
 		}),
 		methods: {
-			resizePane(event) {
-				let target = event.target;
-				let container = document.querySelector('.layout.row.cards')
-				let cards = document.body.querySelectorAll('.layout.row.cards > .layout');
-				let curr_el = target.closest('.layout.card');
-				let currentCard = curr_el;
-
-				let card = container.getElementsByClassName('card');
-				[].forEach.call(card, function(el) {
-			        el.style.display = 'none';
-			    });
-
-				let lg4_add = document.querySelector('.layout.justify-space-around.row > .layout.justify-center > .flex');
-				console.log(lg4_add);
-				curr_el.style.display = 'flex';
-				curr_el.style.justifyContent = 'center';
-
-				let btn_act = currentCard.querySelector('.v-card__actions > button').style.display = 'none';
-
-				document.getElementsByClassName('close_card')[0].style.display = 'block';
-
-				let imgs = container.getElementsByClassName('v-image__image');
-				
-				[].forEach.call(imgs, function(el) {
-			        el.style.backgroundSize = '100%';
-			    });
-
-				let sizers = container.getElementsByClassName('v-responsive__sizer');
-				[].forEach.call(sizers, function(el){
-					el.style.paddingBottom = '50%';
-				});
-
-				currentCard.classList.add('lg4');
-				currentCard.classList.remove('offset-sm3');
-
-				container.getElementsByClassName('desr')[0].style.width = 'unset';
-
-				this.isVisible = true;
-
-				curr_el.querySelector('.v-stepper').parentNode.style.display = 'contents';
-			},
 
 			selectCruise(event) {
 				this.$store.state.cruiseSelected = this.productID;
@@ -170,7 +128,11 @@
 			},
 
 			discountPercent() {
-				let numOrders	= 2;
+		      	axios.get('https://srv.5degeneve.ch/api/get_count_ta_orders?email='+this.$cookies.get('email'))
+		      	.then(response => (this.count = response.data))
+		      	.catch(error => console.log(error));
+
+				let numOrders	= this.count;
 				let minPercent	= 15;
 				let maxPercent	= 30;
 

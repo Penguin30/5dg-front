@@ -414,7 +414,6 @@
             },
 
 			check_date(){
-				console.log(this.cruise_id);
 				let event = this.date;
 				let today = new Date();
 				let dd = today.getDate();

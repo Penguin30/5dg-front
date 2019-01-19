@@ -33,17 +33,11 @@
             </v-carousel>
               
             <Products :lang="$ml.current"/>
-<<<<<<< HEAD
             
             
-            <!-- <v-layout justify-space-around row style="padding-top:30px;position: relative;">
-=======
-
-            <ListOrders></ListOrders>
-
-            <!--
             <v-layout justify-space-around row style="padding-top:30px;position: relative;">
->>>>>>> 9963d849a8f6ea34f4f0b177573f960c1bd486dd
+
+            <!-- <v-layout justify-space-around row style="padding-top:30px;position: relative;">
                 <v-flex style="text-align: center;">
                     <div class="cruiseVideo">
                     <video id="video1" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="488" height="350" poster="@/assets/Video1.jpg" data-setup="{}">
@@ -58,17 +52,13 @@
                     </video>
                     </div>
                 </v-flex>
-<<<<<<< HEAD
             </v-layout> -->
 
             <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true"/></v-layout>
 
 
             
-=======
             </v-layout>
-            -->
->>>>>>> 9963d849a8f6ea34f4f0b177573f960c1bd486dd
         </v-content>
 
 
@@ -118,6 +108,7 @@
             logout(){
                 this.$cookies.remove('token');
                 this.$cookies.remove('role');
+                location.reload();
             },
             change_lang: function(lang,$ml){ 
                 axios.get('https://srv.5degeneve.ch/api/cruises?lg='+lang)
