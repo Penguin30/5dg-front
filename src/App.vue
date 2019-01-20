@@ -35,9 +35,8 @@
             <Products :lang="$ml.current"/>
             
             
+            <!--
             <v-layout justify-space-around row style="padding-top:30px;position: relative;">
-
-            <!-- <v-layout justify-space-around row style="padding-top:30px;position: relative;">
                 <v-flex style="text-align: center;">
                     <div class="cruiseVideo">
                     <video id="video1" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="488" height="350" poster="@/assets/Video1.jpg" data-setup="{}">
@@ -52,13 +51,10 @@
                     </video>
                     </div>
                 </v-flex>
-            </v-layout> -->
+            </v-layout>-->
 
             <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true"/></v-layout>
 
-
-            
-            </v-layout>
         </v-content>
 
 
