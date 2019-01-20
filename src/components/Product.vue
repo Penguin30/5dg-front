@@ -23,7 +23,7 @@
 							</v-card-actions>
 
 
-							<v-card-text justify-space-around class="discount" v-if="$store.state.cruiseSelected!=0&&$cookies.get('role')=='3'&&count!=0">
+							<v-card-text justify-space-around class="discount" v-if="$store.state.cruiseSelected!=0&&$cookies.get('role')=='3'">
 
 								<table border='0' width='100%'>
 									<tr><td>Your Discount</td>			<td align='right'><b>{{ discountPercent() }}%</b></td></tr>
@@ -87,6 +87,7 @@
     	},
 		props: ['productID', 'images', 'title', 'description', 'price', 'caption', 'type'],
 		data: () => ({
+			count: 0,
 			isExpanded: false,
 			isVisible: false,
 			imagesSrc: [
@@ -131,7 +132,6 @@
 		      	axios.get('https://srv.5degeneve.ch/api/get_count_ta_orders?email='+this.$cookies.get('email'))
 		      	.then(response => (this.count = response.data))
 		      	.catch(error => console.log(error));
-
 				let numOrders	= this.count;
 				let minPercent	= 15;
 				let maxPercent	= 30;
