@@ -409,10 +409,13 @@
 			}
 		},
 		methods: {
-                allowedDates(val){
-                    // axios.get('https://srv.5degeneve.ch/api/get_allowed_dates?cruise='+this.cruise_id+'&date='+val).then(res => (this.date = res.data)).catch(error => (console.log(error)));
-                    // return this.date === 0;
-                },
+            allowedDates(val){
+                axios.get('https://srv.5degeneve.ch/api/get_allowed_dates?cruise='+this.cruise_id+'&date='+val).then(res => (console.log(val),this.date_allowed = res.data)).catch(error => (console.log(error)));
+                if(this.date_allowed == 1)
+                    return true;
+                else
+                    return false;                    
+            },
 
 			check_date(){
 				let event = this.date;
@@ -446,7 +449,6 @@
 				}
 			},
 			submit(event) {
-				console.log(this.e1);
 				if (this.$refs.form.validate()) {
 					let ages = {
 						age1: this.agePerson1,

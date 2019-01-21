@@ -117,7 +117,8 @@
         },
         created(){
             var userLang = navigator.language || navigator.userLanguage; 
-            (userLang == 'ru-Ru') ? this.$ml.change('russian') : (userLang == 'en-En') ? this.$ml.change('english') : (userLang == 'fr-Fr') ? this.$ml.change('french') : (userLang == 'de-De') ? this.$ml.change('deutsch') : (userLang == 'ch-Ch') ? this.$ml.change('chinese') : (userLang == 'ar-Ar') ? this.$ml.change('arabic') : this.$ml.change('english')
+            console.log(userLang);
+            (userLang == 'ru-RU') ? this.$ml.change('russian') : (userLang == 'en-EN') ? this.$ml.change('english') : (userLang == 'fr-FR') ? this.$ml.change('french') : (userLang == 'de-DE') ? this.$ml.change('deutsch') : (userLang == 'ch-CH') ? this.$ml.change('chinese') : (userLang == 'ar-AR') ? this.$ml.change('arabic') : this.$ml.change('english')
         },
         data() {
             return {

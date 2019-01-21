@@ -131,7 +131,7 @@
 
     created () {
       this.initialize();
-      axios.get('https://srv.5degeneve.ch/api/order_ta?email='+this.$cookies.get('email'))
+      axios.get('https://srv.5degeneve.ch/api/get_ta_orders?email='+this.$cookies.get('email'))
       .then(response => (console.log(this.info = response)))
       .catch(error => console.log(error));
     },
