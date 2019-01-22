@@ -308,10 +308,11 @@
 						company: this.companyName,
 						url: this.web,
 						zip: this.zip
-					}										
+					}
+
 					axios.post('https://srv.5degeneve.ch/api/sign_up_agency',{data})
-						.then(res => (location.reload()))
-                                                .catch(error => (console.log(error)))
+					.then(res => ((res.data != '') ?location.reload() : console.log(res)))
+                                        .catch(error => (console.log(error)))
 				}
 			},
 			clear() {

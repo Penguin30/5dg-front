@@ -410,7 +410,7 @@
 		},
 		methods: {
             allowedDates(val){
-                axios.get('https://srv.5degeneve.ch/api/get_allowed_dates?cruise='+this.cruise_id+'&date='+val).then(res => (console.log(val),this.date_allowed = res.data)).catch(error => (console.log(error)));
+                axios.get('https://srv.5degeneve.ch/api/get_allowed_dates?cruise='+this.cruise_id+'&date='+val).then(res => (this.date_allowed = res.data)).catch(error => (console.log(error)));
                 if(this.date_allowed == 1)
                     return true;
                 else
