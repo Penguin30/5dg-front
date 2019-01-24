@@ -160,6 +160,7 @@
 				agePerson2: null,
 				agePerson3: null,
 				agePerson4: null,
+                date_allowed: 0,
 				ageRanges: ['0 - 3', '3 - 6', '6 - 12', '12 - 18', '18 - 60', '> 60'],
 				countries: [
                 {"text": "Afghanistan", "value": "AF"},
@@ -410,7 +411,7 @@
 		},
 		methods: {
             allowedDates(val){
-                axios.get('https://srv.5degeneve.ch/api/get_allowed_dates?cruise='+this.cruise_id+'&date='+val).then(res => (this.date_allowed = res.data)).catch(error => (console.log(error)));
+                axios.get('https://srv.5degeneve.ch/api/get_allowed_dates?cruise='+this.cruise_id+'&date='+val).then(res => (console.log(res),this.date_allowed = res.data)).catch(error => (console.log(error)));
                 if(this.date_allowed == 1)
                     return true;
                 else
