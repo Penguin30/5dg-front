@@ -131,20 +131,13 @@
 
     created () {
       this.initialize();
-      axios.get('https://srv.5degeneve.ch/api/get_ta_orders?email='+this.$cookies.get('email'))
-      .then(response => (console.log(this.info = response)))
-      .catch(error => console.log(error));
     },
 
     methods: {
       initialize () {
-        this.orders = [
-          { order_id: 1, cruise: 'A', date: '10.10.2019', start: '11:00', end: '17:00', num: 0, first_name: 'Peter', last_name: 'Pan', phone: '+41 56 5465 212', email: 'no@useful.mail'},
-          { order_id: 2, cruise: 'A', date: '10.10.2019', start: '11:00', end: '16:00', num: 0, first_name: 'Peter', last_name: 'Pan', phone: '+41 56 5465 212', email: 'no@useful.mail'},
-          { order_id: 3, cruise: 'A', date: '10.10.2019', start: '11:00', end: '17:00', num: 0, first_name: 'Peter', last_name: 'Pan', phone: '+41 56 5465 212', email: 'no@useful.mail'},
-          { order_id: 4, cruise: 'A', date: '10.10.2019', start: '11:00', end: '16:00', num: 0, first_name: 'Peter', last_name: 'Pan', phone: '+41 56 5465 212', email: 'no@useful.mail'},
-          { order_id: 5, cruise: 'A', date: '10.10.2019', start: '11:00', end: '17:00', num: 0, first_name: 'Peter', last_name: 'Pan', phone: '+41 56 5465 212', email: 'no@useful.mail'}
-        ]
+        axios.get('https://srv.5degeneve.ch/api/get_ta_orders?email='+this.$cookies.get('email'))
+        .then(response => (this.orders = response.data,console.log(response.data)))
+        .catch(error => console.log(error));
       },
 
       viewOrder (item) {

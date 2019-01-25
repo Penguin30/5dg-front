@@ -21,7 +21,6 @@
 							<v-date-picker
 								v-model="date"
                                 :min='new Date().toISOString().substr(0, 10)'
-                                :allowed-dates="allowedDates"
 							  />
 						</v-flex>
 						<v-flex v-if="type == 'custom'" xs6 class="m-t-10" style="padding-right:10px">
@@ -411,11 +410,11 @@
 		},
 		methods: {
             allowedDates(val){
-                axios.get('https://srv.5degeneve.ch/api/get_allowed_dates?cruise='+this.cruise_id+'&date='+val).then(res => (console.log(res),this.date_allowed = res.data)).catch(error => (console.log(error)));
-                if(this.date_allowed == 1)
-                    return true;
-                else
-                    return false;                    
+                // axios.get('https://srv.5degeneve.ch/api/get_allowed_dates?cruise='+this.cruise_id+'&date='+val).then(res => (console.log(res),this.date_allowed = res.data)).catch(error => (console.log(error)));
+                // if(this.date_allowed == 1)
+                //     return true;
+                // else
+                //     return false;                    
             },
 
 			check_date(){
