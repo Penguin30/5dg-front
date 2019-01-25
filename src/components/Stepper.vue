@@ -23,7 +23,7 @@
 						</v-flex>
 						<v-flex v-if="type == 'custom'" xs6 style="padding-left:10px; padding-bottom:20px">
 							<label>End Time</label>
-							<datetime v-model="endDate" class="input-date" type=time :minute-step=15 />
+							<datetime v-model="endDate" class="input-date" type="time" :minute-step=15 />
 						</v-flex>
 
 						<v-flex xs12>
@@ -405,24 +405,21 @@
         },
         watch: {
             'startDate': function() {
-                console.log(this.startDate);
+                let d = new Date(this.startDate);
+                this.$store.state.reservation.timeStart = d.getHours() + ':' + d.getMinutes() + ':00';
+                this.loadBlockedDates();
             },
+
             'endDate': function() {
-                console.log(this.endDate);
+                let d = new Date(this.endDate);
+                this.$store.state.reservation.timeEnd = d.getHours() + ':' + d.getMinutes() + ':00';
+                this.loadBlockedDates();
             }
         },
 		methods: {
             //https://stackoverflow.com/questions/50488703/vuetify-js-datepicker-provide-array-of-allowed-dates/50488938#50488938
             allowedDates(val){
                 return this.datesAllowed.indexOf(val) === -1;
-            },
-
-            change_start_time(val) {
-                console.log(val);
-            },
-
-            change_end_time(val) {
-                console.log(val);
             },
 
 			check_date(){
@@ -496,14 +493,15 @@
 						)
 						.catch(error => (console.log(error)));
 				}
-			},
+            },
+            
 			clear() {
 				this.$refs.form.reset()
             },
 
-            loadBlockedDates(tS, tE) {
-                tS = this.$store.state.reservation.timeStart;
-                tE = this.$store.state.reservation.timeEnd;
+            loadBlockedDates() {
+                let tS = this.$store.state.reservation.timeStart;
+                let tE = this.$store.state.reservation.timeEnd;
 
                 if (!tS) tS = "00:00:00";
                 if (!tE) tE = "23:59:59";
@@ -511,7 +509,12 @@
                 var self = this;
                 let now = (new Date()).getTime();
 
-                axios.get('https://srv.5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tS+"&n="+now)
+                tS = encodeURIComponent(tS);
+                tE = encodeURIComponent(tE);
+
+                let url = 'https://srv.5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
+
+                axios.get(url)
                      .then((res) => {
                          let data = Array.isArray(res.data) ? res.data : [];
                          self.datesAllowed = [];
@@ -526,17 +529,8 @@
             }
 		},
 		created(){
-            
             this.$store.state.step=0;
-
             this.loadBlockedDates();
-
-            let tS = this.$store.state.time_s;
-            let tE = this.$store.state.time_e;
-            //https://srv.5degeneve.ch/api/get_blocked_dates?tS=10:00:00&tE=23:00:00
-            //https://srv.5degeneve.ch/api/get_blocked_dates?tS=10&tE=23
-            
-            //axios.get('https://srv.5degeneve.ch/api/get_allowed_dates?cruise='+this.cruise_id+'&date='+val).then(res => (console.log(res),this.date_allowed = res.data)).catch(error => (console.log(error)));
 		}
 	}
 </script>

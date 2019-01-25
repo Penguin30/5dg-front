@@ -2,8 +2,10 @@
     <v-app>
         <v-toolbar app>
             <v-toolbar-title class="headline text-uppercase">
-                <span class="font-weight-light">5 de Gen&egrave;ve - PRIVATE CRUISE GENEVA LAKE</span>
+                <span class="font-weight-light">5 de Gen&egrave;ve </span>
             </v-toolbar-title>
+            <v-spacer></v-spacer>
+                <span style="font-style: italic; font-size: 25px;">PRIVATE CRUISE GENEVA LAKE</span>
             <v-spacer></v-spacer>
             <v-btn 
                 v-for="lang in $ml.list"
