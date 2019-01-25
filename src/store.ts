@@ -12,13 +12,15 @@ export interface Reservation {
 export default new Vuex.Store({
   state: {
     user: {
-      userID: 2,
-      roleID: 3, // 0=not loggedIn, 1=admin, 3=agency
+      userID: 0,
+      roleID: 0, // 0=not loggedIn, 1=admin, 3=agency
     },
-    reservation: {},
-    reservations: [],
-    cruiseSelected: 0,
-
+    reservation: {
+      cruiseID:   0,
+      timeStart:  null,
+      timeEnd:    null,
+      price:      0
+    },
   },
   mutations: {
 

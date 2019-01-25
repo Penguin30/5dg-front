@@ -9,9 +9,11 @@
       :description='info[key].desc'
       :priceTxt='products[0].priceTxt'
       :price='info[key].price'
+      :timeStart='info[key].time_start'
+      :timeEnd='info[key].time_end'
       :type='info[key].type'
       :caption='products[0].caption'
-      v-if='$store.state.cruiseSelected==0||$store.state.cruiseSelected==info[key].id'/>
+      v-if='$store.state.reservation.cruiseID==0||$store.state.reservation.cruiseID==info[key].id'/>
   </v-layout>
 </template>
 
@@ -70,7 +72,7 @@
 
     computed: {
         testit() {
-            return this.$store.state.cruiseSelected;
+            return this.$store.state.reservation.cruiseID;
             return this.$store.state.info;
         }
     },

@@ -18,12 +18,12 @@
 							<v-card-actions class="pl-3">
 								<b><big>{{ formatPrice(price) }} CHF</big></b>
 								<v-spacer></v-spacer>
-								<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.cruiseSelected==0">{{ $ml.get('btn') }}</v-btn>
-								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.cruiseSelected!=0">Back</v-btn>
+								<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.reservation.cruiseID==0">{{ $ml.get('btn') }}</v-btn>
+								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.reservation.cruiseID!=0">Back</v-btn>
 							</v-card-actions>
 
 
-							<v-card-text justify-space-around class="discount" v-if="$store.state.cruiseSelected!=0&&$cookies.get('role')=='3'">
+							<v-card-text justify-space-around class="discount" v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'">
 
 								<table border='0' width='100%'>
 									<tr><td>Your Discount</td>			<td align='right'><b>{{ discountPercent() }}%</b></td></tr>
@@ -45,7 +45,7 @@
 		</v-flex>
 		
 		<!-- Start stepper -->
-		<v-flex lg4 ml-5 v-if="$store.state.cruiseSelected!=0">
+		<v-flex lg4 ml-5 v-if="$store.state.reservation.cruiseID!=0">
 			<Stepper :cruise_id="productID" :type='type'/>
 		</v-flex>
 		<!-- End stepper -->
@@ -85,7 +85,7 @@
 		components: {
      		Stepper
     	},
-		props: ['productID', 'images', 'title', 'description', 'price', 'caption', 'type'],
+		props: ['productID', 'images', 'title', 'description', 'timeStart', 'timeEnd', 'price', 'caption', 'type'],
 		data: () => ({
 			count: 0,
 			isExpanded: false,
@@ -98,8 +98,8 @@
                     {src: 'http://www.5degeneve.ch/images/exte2.jpg'}
 			],
 			discountProp: {
-				curr: 15,	// current discount in percent
-				next: 16,	// next discount in percent
+				curr: 15,		// current discount in percent
+				next: 16,		// next discount in percent
 				discount: 0,	// the discount
 				disPrice: 0		// the discounted Price
 			}
@@ -108,7 +108,10 @@
 		methods: {
 
 			selectCruise(event) {
-				this.$store.state.cruiseSelected = this.productID;
+				this.$store.state.reservation.cruiseID	= this.productID;
+				this.$store.state.reservation.timeStart	= this.timeStart;
+				this.$store.state.reservation.timeEnd	= this.timeEnd;
+				this.$store.state.reservation.price		= this.price;
 				setTimeout(function(){
 					let lg4 =document.querySelector('.layout.justify-center > .flex.xs8');
 					lg4.classList.add('lg4');
@@ -116,7 +119,10 @@
 			},
 
 			showAllCruises(event) {
-				this.$store.state.cruiseSelected = 0;
+				this.$store.state.reservation.cruiseID	= 0;
+				this.$store.state.reservation.timeStart	= null;
+				this.$store.state.reservation.timeEnd	= null;
+				this.$store.state.reservation.price		= 0;
 				let lg4 =document.querySelector('.layout.justify-center > .flex.xs8');
 				setTimeout(function(){
 					lg4.classList.remove('lg4');

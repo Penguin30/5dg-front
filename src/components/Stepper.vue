@@ -17,34 +17,28 @@
 			<v-stepper-content step="1">
 				<v-card>
 					<v-layout row wrap  style="padding: 10px 0 0">
+                        <v-flex v-if="type == 'custom'" xs6 style="padding-right:10px; padding-bottom:20px">
+							<label>Start Time</label>
+							<datetime v-model="startDate" class="input-date" type="time" :minute-step=15 />
+						</v-flex>
+						<v-flex v-if="type == 'custom'" xs6 style="padding-left:10px; padding-bottom:20px">
+							<label>End Time</label>
+							<datetime v-model="endDate" class="input-date" type=time :minute-step=15 />
+						</v-flex>
+
 						<v-flex xs12>
 							<v-date-picker
 								v-model="date"
+                                :allowed-dates="allowedDates"
                                 :min='new Date().toISOString().substr(0, 10)'
+                                :key="rerenderKey"
 							  />
 						</v-flex>
-						<v-flex v-if="type == 'custom'" xs6 class="m-t-10" style="padding-right:10px">
-							<label>Start Time</label>
-							<datetime v-model="startDate"
-									  class="input-date"
-									  type="time"
-									  minute-step=15
-									  />
-						</v-flex>
-						<v-flex v-if="type == 'custom'" xs6 class="m-t-10" style="padding-left:10px">
-							<label>End Time</label>
-							<datetime v-model="endDate"
-									  class="input-date"
-									  type=time   
-									  minute-step=15
-									  />
-						</v-flex>
+
 						<v-flex xs12 class="m-t-10">
 							<label>{{this.dateError}}</label>
 						</v-flex>
-						<v-btn class="next-btn"
-							   color="primary"
-							   @click="check_date">
+						<v-btn class="next-btn" color="primary" @click="check_date">
 							Continue
 						</v-btn>
 					</v-layout>
@@ -137,6 +131,7 @@
 		props: ['type','cruise_id'],
 		data() {
 			return {
+                rerenderKey: 0,
 				date: new Date().toISOString().substr(0, 10),
 				e1: 0,
 				startDate: '',
@@ -159,7 +154,7 @@
 				agePerson2: null,
 				agePerson3: null,
 				agePerson4: null,
-                date_allowed: 0,
+                datesAllowed: [],
 				ageRanges: ['0 - 3', '3 - 6', '6 - 12', '12 - 18', '18 - 60', '> 60'],
 				countries: [
                 {"text": "Afghanistan", "value": "AF"},
@@ -407,14 +402,27 @@
                 {"text": "Zambia", "value": "ZM"},
                 {"text": "Zimbabwe", "value": "ZW"}			]
 			}
-		},
+        },
+        watch: {
+            'startDate': function() {
+                console.log(this.startDate);
+            },
+            'endDate': function() {
+                console.log(this.endDate);
+            }
+        },
 		methods: {
+            //https://stackoverflow.com/questions/50488703/vuetify-js-datepicker-provide-array-of-allowed-dates/50488938#50488938
             allowedDates(val){
-                // axios.get('https://srv.5degeneve.ch/api/get_allowed_dates?cruise='+this.cruise_id+'&date='+val).then(res => (console.log(res),this.date_allowed = res.data)).catch(error => (console.log(error)));
-                // if(this.date_allowed == 1)
-                //     return true;
-                // else
-                //     return false;                    
+                return this.datesAllowed.indexOf(val) === -1;
+            },
+
+            change_start_time(val) {
+                console.log(val);
+            },
+
+            change_end_time(val) {
+                console.log(val);
             },
 
 			check_date(){
@@ -439,10 +447,17 @@
 						time_start: new Date(this.startDate).getHours()+':'+new Date(this.startDate).getMinutes(),
 						time_end: new Date(this.endDate).getHours()+':'+new Date(this.endDate).getMinutes()
 					};
-					if(Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 < 3 || Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 > 15){
+					if(Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 < 3 || Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 > 15) {
 						this.dateError = this.$ml.get('short_time_or_long') 
 					}else{
-						axios.post('https://srv.5degeneve.ch/api/check_time',{data}).then(response => ((response.data == 'ok') ? (this.e1 = 2,this.$store.state.step = 2,this.$store.state.date = event,this.$store.state.time_s = new Date(this.startDate).getHours()+':'+new Date(this.startDate).getMinutes(),this.$store.state.time_e = new Date(this.endDate).getHours()+':'+new Date(this.endDate).getMinutes()) : this.dateError = this.$ml.get('not_correct_time')))
+                        axios.post('https://srv.5degeneve.ch/api/check_time',{data})
+                            .then(response => ((response.data == 'ok') ? (
+                                this.e1 = 2,
+                                this.$store.state.step = 2,
+                                this.$store.state.date = event,
+                                this.$store.state.time_s = new Date(this.startDate).getHours()+':'+new Date(this.startDate).getMinutes(),
+                                this.$store.state.time_e = new Date(this.endDate).getHours()+':'+new Date(this.endDate).getMinutes()
+                            ) : this.dateError = this.$ml.get('not_correct_time')))
 					}
 				}else{
 					this.dateError = this.$ml.get('date_less_today');
@@ -459,21 +474,21 @@
 					};
 					let cruise_id = this.$store.state.cruise;
 					let data = {
-						firstName: this.firstName,
-						email: this.email,
-						gender: this.gender,
+						firstName:  this.firstName,
+						email:      this.email,
+						gender:     this.gender,
 						laststName: this.laststName,
-						street: this.street,
-						country: this.country,
-						city: this.city,
-						phone: this.cell,
-						cruise_id: cruise_id,
-						date: this.$store.state.date,
+						street:     this.street,
+						country:    this.country,
+						city:       this.city,
+						phone:      this.cell,
+						cruise_id:  cruise_id,
+						date:       this.$store.state.date,
 						time_start: this.$store.state.time_s,
-						time_end: this.$store.state.time_e,
-						n_persons: this.attendees,
-						ages: ages,
-						stop: this.checkbox
+						time_end:   this.$store.state.time_e,
+						n_persons:  this.attendees,
+						ages:       ages,
+						stop:       this.checkbox
 					}
 					axios.post('https://srv.5degeneve.ch/api/orders', {data})
 						.then(
@@ -484,10 +499,44 @@
 			},
 			clear() {
 				this.$refs.form.reset()
-			},
+            },
+
+            loadBlockedDates(tS, tE) {
+                tS = this.$store.state.reservation.timeStart;
+                tE = this.$store.state.reservation.timeEnd;
+
+                if (!tS) tS = "00:00:00";
+                if (!tE) tE = "23:59:59";
+
+                var self = this;
+                let now = (new Date()).getTime();
+
+                axios.get('https://srv.5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tS+"&n="+now)
+                     .then((res) => {
+                         let data = Array.isArray(res.data) ? res.data : [];
+                         self.datesAllowed = [];
+
+                         for (var i=0; i<data.length; i++) {
+                             self.datesAllowed.push(data[i].date);
+                         }
+
+                         self.rerenderKey++;
+                     })
+                     .catch(error => (console.log(error)));
+            }
 		},
 		created(){
-			this.$store.state.step=0;
+            
+            this.$store.state.step=0;
+
+            this.loadBlockedDates();
+
+            let tS = this.$store.state.time_s;
+            let tE = this.$store.state.time_e;
+            //https://srv.5degeneve.ch/api/get_blocked_dates?tS=10:00:00&tE=23:00:00
+            //https://srv.5degeneve.ch/api/get_blocked_dates?tS=10&tE=23
+            
+            //axios.get('https://srv.5degeneve.ch/api/get_allowed_dates?cruise='+this.cruise_id+'&date='+val).then(res => (console.log(res),this.date_allowed = res.data)).catch(error => (console.log(error)));
 		}
 	}
 </script>
