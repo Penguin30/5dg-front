@@ -57,10 +57,14 @@
                 </v-flex>
             </v-layout>-->
 
-            <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true"/></v-layout>
+            <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 3"/></v-layout>
+
+            <v-layout justify-space-around row><AdminListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
+
+             <v-layout justify-space-around row><AdminListTa v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
         </v-content>
 
-
+        
         <v-footer dark height="auto">
             <v-card class="flex" flat tile>
                 <v-card-actions class="grey darken-3 justify-center">&copy;2018 by 5 de Geneve   <GTU></GTU></v-card-actions>
@@ -95,6 +99,8 @@
     import GTU from './components/GTU';
     import ListOrders from './components/ListOrders';
     import Admin from './components/Admin';
+    import AdminListOrders from './components/AdminListOrders';
+    import AdminListTa from './components/AdminListTa';
 
     export default {
         name: 'App',
@@ -103,7 +109,9 @@
             RegisterAgency,
             GTU,
             ListOrders,
-            Admin
+            Admin,
+            AdminListOrders,
+            AdminListTa
         },
         methods: {
             logout(){
