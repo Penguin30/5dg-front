@@ -307,7 +307,8 @@
 						phone: this.phone,
 						company: this.companyName,
 						url: this.web,
-						zip: this.zip
+						zip: this.zip,
+                                                lang: this.$ml.current
 					}
 
 					axios.post('https://srv.5degeneve.ch/api/sign_up_agency',{data})

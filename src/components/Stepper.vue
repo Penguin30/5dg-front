@@ -485,7 +485,9 @@
 						time_end:   this.$store.state.time_e,
 						n_persons:  this.attendees,
 						ages:       ages,
-						stop:       this.checkbox
+						stop:       this.checkbox,
+                        lang:       this.$ml.current,
+                        agency_email: (this.$cookies.get("email") != '') ? this.$cookies.get("email") : ''
 					}
 					axios.post('https://srv.5degeneve.ch/api/orders', {data})
 						.then(

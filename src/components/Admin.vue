@@ -19,7 +19,6 @@
 				</v-calendar>
 			</v-sheet>
 		</v-flex>
-
 		<v-flex sm6 xs12 class="text-sm-left text-xs-center">
 			<v-btn @click="monthPrev">
 				<v-icon dark>keyboard_arrow_left</v-icon>
