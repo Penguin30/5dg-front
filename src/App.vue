@@ -22,7 +22,7 @@
                 <span class="mr-2">Logout</span>
             </v-btn>
         </v-toolbar>
-       
+
         <v-content style="padding-bottom:100px;">
             <v-carousel>
                 <v-carousel-item
@@ -33,7 +33,9 @@
                     <v-layout column align-center justify-center class="white--text"></v-layout>
                 </v-carousel-item>
             </v-carousel>
-              
+
+            <!--<Admin></Admin>-->
+
             <Products :lang="$ml.current"/>
             
             
@@ -56,7 +58,6 @@
             </v-layout>-->
 
             <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true"/></v-layout>
-
         </v-content>
 
 
@@ -93,6 +94,7 @@
     import Product from './components/Product';
     import GTU from './components/GTU';
     import ListOrders from './components/ListOrders';
+    import Admin from './components/Admin';
 
     export default {
         name: 'App',
@@ -100,7 +102,8 @@
             Products,
             RegisterAgency,
             GTU,
-            ListOrders
+            ListOrders,
+            Admin
         },
         methods: {
             logout(){

@@ -1,16 +1,16 @@
 <template>
-	<v-layout>
-		<v-flex>
+	<v-layout wrap>
+		<v-flex xs12 class="mb-3">
 			<v-sheet height="500">
-				<v-calendar :now="today" :value="today" color="primary" :key="calRenderKey">
+				<v-calendar ref="calendar" :now="today" :value="today" color="primary" :key="calRenderKey">
 					<v-layout slot="day" slot-scope="{ present, past, date }" fill-height>
 						<template v-if="past && tracked[date]">
 							<v-sheet
 								v-for="(percent, i) in tracked[date]"
 								:key="i"
-								:title="category[i]"
-								:color="colors[i]"
-								:width="`${percent}%`"
+								:title="category[percent[1]]"
+								:color="colors[percent[1]]"
+								:width="`${percent[0]}%`"
 								height="100%"
 								tile
 							></v-sheet>
@@ -18,6 +18,19 @@
 					</v-layout>
 				</v-calendar>
 			</v-sheet>
+		</v-flex>
+
+		<v-flex sm6 xs12 class="text-sm-left text-xs-center">
+			<v-btn @click="monthPrev">
+				<v-icon dark>keyboard_arrow_left</v-icon>
+				Prev
+			</v-btn>
+		</v-flex>
+		<v-flex sm6 xs12 class="text-sm-right text-xs-center">
+			<v-btn @click="monthNext">
+				Next
+				<v-icon right dark>keyboard_arrow_right</v-icon>
+			</v-btn>
 		</v-flex>
 	</v-layout>
 </template>
@@ -34,19 +47,25 @@
             calRenderKey: 0,
 			today: '2019-01-10',
 			tracked: {
-				'2019-01-09': [23, 45, 10],
-				'2019-01-08': [10],
-				'2019-01-07': [0, 78, 5],
-				'2019-01-06': [0, 0, 50],
-				'2019-01-05': [0, 10, 23],
-				'2019-01-04': [2, 90],
-				'2019-01-03': [10, 32],
-				'2019-01-02': [80, 10, 10],
-				'2019-01-01': [20, 25, 10]
+				'2019-01-09': [[23, 2], [45, 1], [10,3]],
+				'2019-01-08': [[10,1]]
 			},
-			colors: ['#1867c0', '#fb8c00', '#000000'],
-			category: ['Development', 'Meetings', 'Slacking']
+			colors: ['#FFFFFF', '#1867c0', '#fb8c00', '#000000'],
+			category: ['', 'Cruise A', 'Cruise B', 'Cruise C']
 		}),
+		methods: {
+			monthPrev() {
+				this.$refs.calendar.prev();
+			},
+			monthNext() {
+				this.$refs.calendar.next();
+			},			
+			changeCalendarDate(val) {
+				//$refs.calendar.next()
+				//this.$refs.calendar.times.today.year
+				let a = 10;
+			}
+		},
 		created() {
 			let today = new Date();
 			let dd = today.getDate();
@@ -58,7 +77,7 @@
 
 
 			let tS = encodeURIComponent("00:00:00");
-			let tE = encodeURIComponent("00:00:01");
+			let tE = encodeURIComponent("23:59:59");
 			var self = this;
 			let now = (new Date()).getTime();
 			let url = 'https://srv.5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
@@ -75,11 +94,12 @@
                     var nM = (eH - sH) * 60 - sM + eM;      // number of Minutes in a day
                     let o = sH * 60 + sM;
 
-                    var k, c, s, e, hS, mS, oS, hE, mE, oE, a;
+					var k, c, s, e, hS, mS, oS, hE, mE, oE, a;
+					var result = {};
 
 					for (var i=0; i<data.length; i++) {
 						key = data[i].date;
-                        if (!res[key]) res[key] = [];
+                        if (!result[key]) result[key] = [];
 
                         k = data[i].id;
                         c = data[i].cruise_id;
@@ -100,17 +120,32 @@
                         if (oE>nM) oE = nM;
                         e = 100 * oE / nM;
 
-                        res[key].push([k, c, s, e]);
-                    }
+                        result[key].push([k, c, s, e]);
+					}
+					
+					var ret = {}, prc = [];
 
-                    
+					for (k in result) {
+						a = result[k];
+						a.sort(function(p, q) {return p[2]-q[2];});
 
+						prc = [];
+						e	= 0;
+						//if (s>0) prc.push([s, 0]);	// [percentWidth, cruiseID]
+						
+						for (var i=0; i<a.length; i++) {
+							s = a[i][2];
+							if (e<s) prc.push([(s-e), 0]);
 
+							e = a[i][3];
+							prc.push([(e-s), a[i][1]]);
+						}
 
-                    self.tracked = res;
+						ret[k] = prc;
+					}
 
-						 self.rerenderKey++;
-
+                    self.tracked = ret;
+					self.calRenderKey++;
 					
 				})
 				.catch(error => (console.log(error)));
