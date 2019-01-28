@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Admin from './views/Admin.vue'
+import Checkout from './views/Checkout.vue'
 
 Vue.use(Router)
 
@@ -15,9 +16,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/admin',
-      name: 'admin',
-      component: Admin
+      path: '/checkout',
+      name: 'pay',
+      component: Checkout
     },
     {
       path: '/about',

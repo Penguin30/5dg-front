@@ -1,6 +1,6 @@
 <template>
     <div class="text-xs-center">
-        <v-menu v-model="menu" :close-on-content-click="false" offset-y nudge-top=-10>
+        <v-menu v-model="menu" :close-on-content-click="false" offset-y nudge-top=-10 offset-x>
             <v-btn round color="error" slot="activator">
                 <span class="mr-2">Travel Agency sign up</span>
             </v-btn>
