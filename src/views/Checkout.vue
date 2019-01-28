@@ -32,29 +32,6 @@
               env="sandbox">
             </PayPal>
             
-            <!--
-            <v-layout justify-space-around row style="padding-top:30px;position: relative;">
-                <v-flex style="text-align: center;">
-                    <div class="cruiseVideo">
-                    <video id="video1" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="488" height="350" poster="@/assets/Video1.jpg" data-setup="{}">
-                        <source src="https://srv.5degeneve.ch/storage/Video1.mp4" type='video/mp4'>
-                    </video>
-                    </div>
-                </v-flex>
-                <v-flex>
-                    <div class="cruiseVideo">
-                    <video id="video2" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="488" height="350" poster="@/assets/Video2.jpg" data-setup="{}">
-                        <source src="https://srv.5degeneve.ch/storage/Video2.mp4" type='video/mp4'>
-                    </video>
-                    </div>
-                </v-flex>
-            </v-layout>-->
-
-            <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 3"/></v-layout>
-
-            <v-layout justify-space-around row><AdminListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
-
-             <v-layout justify-space-around row><AdminListTa v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
         </v-content>
 
         
@@ -105,30 +82,20 @@
                 location.reload();
             },
             change_lang: function(lang,$ml){ 
-                axios.get('https://srv.5degeneve.ch/api/cruises?lg='+lang)
-                .then(response => (
-                    $ml.change(lang),
-                    this.$store.state.info = response.data
-                ))
-                .catch(error => console.log(error));                
+                $ml.change(lang);               
             }
         },
         created(){
             var userLang = navigator.language || navigator.userLanguage; 
             (userLang == 'ru-RU') ? this.$ml.change('russian') : (userLang == 'en-EN') ? this.$ml.change('english') : (userLang == 'fr-FR') ? this.$ml.change('french') : (userLang == 'de-DE') ? this.$ml.change('deutsch') : (userLang == 'ch-CH') ? this.$ml.change('chinese') : (userLang == 'ar-AR') ? this.$ml.change('arabic') : this.$ml.change('english');
-            
+
         },
         data() {
             return {
                 credentials: {
                     sandbox: 'Aft68bXaah3C8yR-P7D3miakX_dWgN6wJkGW8EDMAfwE8YCebXq2KytvN6HPYCZ3tgjNHyuN9H9yamjf',
                     production: '<production client id>'
-                },
-                mainImages: [
-                    {src: './img/main/main1.jpg'},
-                    {src: './img/main/main2.jpg'},
-                    {src: './img/main/main3.jpg'}
-                ]
+                }
             }
         }
     }
