@@ -9,16 +9,14 @@
 						<v-text-field	v-model="laststName"	label="Last Name"		required :rules="stringRules"		style="width:40%; padding-left:10px"></v-text-field>
 					</v-layout>
 
-
 					<v-text-field		v-model="street"		label="Street"			required :rules="stringRules"			></v-text-field>
-
 
 					<v-layout row wrap>
 						<v-text-field	v-model="zip"			label="ZIP"				required :rules="stringRules" style="width:40%;"						></v-text-field>
 						<v-text-field	v-model="city"			label="City"			required :rules="stringRules" style="width:60%; padding-left:10px"		></v-text-field>
 					</v-layout>
 
-					<v-autocomplete 	v-model="country"		label="Country"			required  :items="countries"></v-autocomplete>
+					<v-autocomplete 	v-model="country"		label="Country"			required  :items="countries" name="noFillCountry"></v-autocomplete>
 
 					<v-text-field		v-model="email"			label="E-mail"			required :rules="emailRules"						></v-text-field>
 					<v-text-field		v-model="phone"			label="Phone Number"	required :rules="phoneRules"						></v-text-field>
@@ -308,7 +306,7 @@
 						company: this.companyName,
 						url: this.web,
 						zip: this.zip,
-                                                lang: this.$ml.current
+                        lang: this.$ml.current
 					}
 
 					axios.post('https://srv.5degeneve.ch/api/sign_up_agency',{data})

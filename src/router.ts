@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
-import Admin from './views/Admin.vue'
-import Checkout from './views/Checkout.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Home from './views/Home.vue';
+import Admin from './views/Admin.vue';
+import Checkout from './views/Checkout.vue';
 
 Vue.use(Router)
 

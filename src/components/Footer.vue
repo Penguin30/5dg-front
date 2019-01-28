@@ -3,7 +3,7 @@
         <v-layout justify-center row wrap>
             <GTU></GTU>
             <v-btn  href="mailto:info@5degeneve.ch" color="white" flat round>Contact Us</v-btn>
-            <v-flex grey darken-3 py-3 text-xs-center white--text xs12>&copy;2018 - <strong>by 5 de Geneve</strong></v-flex>
+            <v-flex grey darken-3 py-3 text-xs-center white--text xs12>&copy;2019 - <strong>by www.5dg.ch</strong></v-flex>
         </v-layout>
     </v-footer>
 </template>

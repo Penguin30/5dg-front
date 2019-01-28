@@ -1,7 +1,5 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
 import App from './App.vue';
 import Checkout from './views/Checkout.vue'
 import router from './router';
@@ -27,10 +25,7 @@ new Vue({
   data: {
     currentRoute: window.location.pathname
   },
-  computed: {
-    ViewComponent () {
-      return routes[this.currentRoute] || NotFound
-    }
-  },
-  render (h) { return h(this.ViewComponent) }
+  render (h) { 
+    return h(routes[this.currentRoute]||App);
+  }
 })

@@ -17,8 +17,6 @@
 
             <Products :lang="$ml.current"/>
             
-            
-            <!--
             <v-layout justify-space-around row style="padding-top:30px;position: relative;">
                 <v-flex style="text-align: center;">
                     <div class="cruiseVideo">
@@ -34,7 +32,7 @@
                     </video>
                     </div>
                 </v-flex>
-            </v-layout>-->
+            </v-layout>
 
             <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 3"/></v-layout>
 
