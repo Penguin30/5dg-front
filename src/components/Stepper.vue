@@ -490,8 +490,9 @@
                         agency_email: (this.$cookies.get("email") != '') ? this.$cookies.get("email") : ''
 					}
 					axios.post('https://srv.5degeneve.ch/api/orders', {data})
-						.then(
-							this.e1 = 3
+						.then( res => (
+                            console.log(res),
+							this.e1 = 3)
 						)
 						.catch(error => (console.log(error)));
 				}

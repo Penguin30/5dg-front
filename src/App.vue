@@ -117,6 +117,7 @@
             logout(){
                 this.$cookies.remove('token');
                 this.$cookies.remove('role');
+                this.$cookies.remove('email');
                 location.reload();
             },
             change_lang: function(lang,$ml){ 
