@@ -1,27 +1,6 @@
 <template>
     <v-app>
-        <v-toolbar app>
-            <v-toolbar-title class="headline text-uppercase">
-                <span class="font-weight-light">5 de Gen&egrave;ve </span>
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-                <span style="font-style: italic; font-size: 25px;">PRIVATE CRUISE GENEVA LAKE</span>
-            <v-spacer></v-spacer>
-            <v-btn 
-                v-for="lang in $ml.list"
-                :key="lang"
-                @click="change_lang(lang,$ml)"
-                flat 
-                icon 
-            >
-                <img :src="require(`@/assets/${lang}.png`)" :alt="lang" height=35 />
-            </v-btn>
-
-            <RegisterAgency v-if="$cookies.isKey('token') === false"/>
-            <v-btn v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
-                <span class="mr-2">Logout</span>
-            </v-btn>
-        </v-toolbar>
+        <Header/>
 
         <v-content style="padding-bottom:100px;">
             <v-carousel>
@@ -65,11 +44,7 @@
         </v-content>
 
         
-        <v-footer dark height="auto">
-            <v-card class="flex" flat tile>
-                <v-card-actions class="grey darken-3 justify-center">&copy;2018 by 5 de Geneve   <GTU></GTU></v-card-actions>
-            </v-card>
-        </v-footer>
+        <Footer/>
     </v-app>
 </template>
 
@@ -93,10 +68,10 @@
 <script>
     import { MLBuilder } from 'vue-multilanguage';
     import Products from './components/Products';
-    import RegisterAgency from './components/RegisterAgency';
+    import Header from './components/Header';
     import axios from 'axios';
     import Product from './components/Product';
-    import GTU from './components/GTU';
+    import Footer from './components/Footer';
     import ListOrders from './components/ListOrders';
     import Admin from './components/Admin';
     import AdminListOrders from './components/AdminListOrders';
@@ -106,8 +81,8 @@
         name: 'App',
         components: {
             Products,
-            RegisterAgency,
-            GTU,
+            Header,
+            Footer,
             ListOrders,
             Admin,
             AdminListOrders,
