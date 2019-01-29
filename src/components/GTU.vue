@@ -1,9 +1,9 @@
 <template>
 	<div class="text-xs-center">
 		<v-dialog v-model="dialog" width="500">
-			<a slot="activator" color="red lighten-2" dark>
-				Conditions Generales
-			</a>
+			<v-btn slot="activator" color="white" text round>
+				Terms & Conditions
+			</v-btn>
 
 			<v-card>
 				<v-card-title class="headline grey lighten-2 primary-title">
@@ -32,7 +32,7 @@ For judiciaire : Gen&egrave;ve<br/>
 
 				<v-card-actions>
 					<v-spacer></v-spacer>
-					<v-btn color="primary" flat @click="dialog = false">
+					<v-btn color="primary" text @click="dialog = false">
 						OK
 					</v-btn>
 				</v-card-actions>

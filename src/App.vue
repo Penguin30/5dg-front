@@ -1,6 +1,27 @@
 <template>
     <v-app>
-        <Header/>
+        <v-toolbar app>
+            <v-toolbar-title class="headline text-uppercase">
+                <span class="font-weight-light">5 de Gen&egrave;ve </span>
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+                <span style="font-style: italic; font-size: 25px;">PRIVATE CRUISE GENEVA LAKE</span>
+            <v-spacer></v-spacer>
+            <v-btn 
+                v-for="lang in $ml.list"
+                :key="lang"
+                @click="change_lang(lang,$ml)"
+                flat 
+                icon 
+            >
+                <img :src="require(`@/assets/${lang}.png`)" :alt="lang" height=35 />
+            </v-btn>
+
+            <RegisterAgency v-if="$cookies.isKey('token') === false"/>
+            <v-btn v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
+                <span class="mr-2">Logout</span>
+            </v-btn>
+        </v-toolbar>
 
         <v-content style="padding-bottom:100px;">
             <v-carousel>
@@ -65,8 +86,8 @@
 
 <script>
     import { MLBuilder } from 'vue-multilanguage';
+    import RegisterAgency from './components/RegisterAgency';
     import Products from './components/Products';
-    import Header from './components/Header';
     import axios from 'axios';
     import Product from './components/Product';
     import Footer from './components/Footer';
@@ -78,8 +99,8 @@
     export default {
         name: 'App',
         components: {
+            RegisterAgency,
             Products,
-            Header,
             Footer,
             ListOrders,
             Admin,
