@@ -17,6 +17,9 @@
 			<v-stepper-content step="1">
 				<v-card>
 					<v-layout row wrap  style="padding: 10px 0 0">
+                        <v-flex xs12 style="padding-bottom:20px">
+                            <b><big>{{ formatPrice(this.$store.state.reservation.price) }} CHF<p v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'">{{this.$store.state.reservation.disPrice}} CHF [your discounted Price]</p></big></b>
+                        </v-flex>
                         <v-flex v-if="type == 'custom'" xs6 style="padding-right:10px; padding-bottom:20px">
 							<label>Start Time</label>
 							<datetime v-model="startDate" class="input-date" type="time" :minute-step=15 />
@@ -25,6 +28,12 @@
 							<label>End Time</label>
 							<datetime v-model="endDate" class="input-date" type="time" :minute-step=15 />
 						</v-flex>
+                        <v-flex v-if="type == 'evening'" xs12>
+                             <v-radio-group v-model="extended">
+                                <v-radio value='20:30:00' label="Normal Cruise"></v-radio>
+                                <v-radio value='22:30:00' label="With Restaurant Stop-Over"></v-radio>
+                            </v-radio-group>
+                        </v-flex>
 
 						<v-flex xs12>
 							<v-date-picker
@@ -131,6 +140,7 @@
 		props: ['type','cruise_id'],
 		data() {
 			return {
+                extended: '20:30:00',
                 rerenderKey: 0,
 				date: new Date().toISOString().substr(0, 10),
 				e1: 0,
@@ -405,14 +415,86 @@
         },
         watch: {
             'startDate': function() {
-                let d = new Date(this.startDate);
-                this.$store.state.reservation.timeStart = d.getHours() + ':' + d.getMinutes() + ':00';
+                let dS = new Date(this.startDate);
+                var hS = dS.getHours();
+                var mS = dS.getMinutes();
+
+                if (hS<6 || hS==6 && mS<30) {
+                    dS.setHours(6);
+                    dS.setMinutes(30);
+                    this.startDate = dS.toISOString();
+                    hS = 6;
+                    mS = 30;
+                }
+
+                this.$store.state.reservation.timeStart = ('00'+hS).substr(-2) + ':' + ('00'+mS).substr(-2) + ':00';
+
+                if (this.endDate && this.endDate!='') {
+                    let dE = new Date(this.endDate);
+                    var hE = dE.getHours();
+                    var mE = dE.getMinutes();
+                    var s = hS * 60 + mS;
+                    var e = hE * 60 + mE;
+                    var d = e-s;
+                    if (d<180) {
+                        dE.setHours(hS+3);
+                        dE.setMinutes(mS);
+                        this.endDate = dE.toISOString();
+                        d = 180;
+                    }
+                    this.$store.state.reservation.price = 320 * d / 60;
+                    if ($cookies.get('role')=='3') {
+                        this.discountProp.disPrice = this.$store.state.reservation.price - Math.round(this.$store.state.reservation.price * this.$store.state.reservation.disPerct) / 100;
+                    }
+                }
+
                 this.loadBlockedDates();
             },
 
             'endDate': function() {
-                let d = new Date(this.endDate);
-                this.$store.state.reservation.timeEnd = d.getHours() + ':' + d.getMinutes() + ':00';
+                let dE = new Date(this.endDate);
+                var hE = dE.getHours();
+                var mE = dE.getMinutes();
+
+                if (hE==23 && mE!=0) {
+                    dE.setMinutes(0);
+                    this.endDate = dE.toISOString();
+                    mE = 0;
+                }
+
+                this.$store.state.reservation.timeEnd = ('00'+hE).substr(-2) + ':' + ('00'+mE).substr(-2) + ':00';
+
+                if (this.startDate && this.startDate!='') {
+                    let dS = new Date(this.startDate);
+                    var hS = dS.getHours();
+                    var mS = dS.getMinutes();
+                    var s = hS * 60 + mS;
+                    var e = hE * 60 + mE;
+                    var d = e-s;
+                    if (d<180) {
+                        dS.setHours(hE-3);
+                        dS.setMinutes(mE);
+                        this.startDate = dS.toISOString();
+                        d = 180;
+                    }
+                    this.$store.state.reservation.price = 320 * d / 60;
+                    if ($cookies.get('role')=='3') {
+                        this.discountProp.disPrice = this.$store.state.reservation.price - Math.round(this.$store.state.reservation.price * this.$store.state.reservation.disPerct) / 100;
+                    }
+                }
+
+                this.loadBlockedDates();
+            },
+
+            'extended': function() {
+                this.$store.state.reservation.timeEnd = this.extended;
+                if (this.extended=='20:30:00')  this.$store.state.reservation.price = 960;
+                else                            this.$store.state.reservation.price = 1280;
+
+                if ($cookies.get('role')=='3') {
+                    this.discountProp.disPrice = this.$store.state.reservation.price - Math.round(this.$store.state.reservation.price * this.$store.state.reservation.disPerct) / 100;
+                }
+                
                 this.loadBlockedDates();
             }
         },
@@ -421,6 +503,11 @@
             allowedDates(val){
                 return this.datesAllowed.indexOf(val) === -1;
             },
+
+            formatPrice(value) {
+				let val = (value/1).toFixed(2).replace('.', ',')
+				return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+			},
 
 			check_date(){
 				let event = this.date;

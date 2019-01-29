@@ -22,9 +22,7 @@
 								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.reservation.cruiseID!=0">Back</v-btn>
 							</v-card-actions>
 
-
 							<v-card-text justify-space-around class="discount" v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'">
-
 								<table border='0' width='100%'>
 									<tr><td>Your Discount</td>			<td align='right'><b>{{ discountPercent() }}%</b></td></tr>
 									<tr><td>Your Price</td>				<td align='right'><b>{{ formatPrice(discountProp.disPrice) }} CHF</b></td></tr>
@@ -91,11 +89,11 @@
 			isExpanded: false,
 			isVisible: false,
 			imagesSrc: [
-                    {src: 'http://www.5degeneve.ch/images/5degeneve-1.jpg'},
-                    {src: 'http://www.5degeneve.ch/images/interieur1.jpg'},
-                    {src: 'http://www.5degeneve.ch/images/interieur2.jpg'},
-                    {src: 'http://www.5degeneve.ch/images/exte1.jpg'},
-                    {src: 'http://www.5degeneve.ch/images/exte2.jpg'}
+                {src: 'http://www.5degeneve.ch/images/5degeneve-1.jpg'},
+                {src: 'http://www.5degeneve.ch/images/interieur1.jpg'},
+                {src: 'http://www.5degeneve.ch/images/interieur2.jpg'},
+                {src: 'http://www.5degeneve.ch/images/exte1.jpg'},
+                {src: 'http://www.5degeneve.ch/images/exte2.jpg'}
 			],
 			discountProp: {
 				curr: 15,		// current discount in percent
@@ -112,6 +110,9 @@
 				this.$store.state.reservation.timeStart	= this.timeStart;
 				this.$store.state.reservation.timeEnd	= this.timeEnd;
 				this.$store.state.reservation.price		= this.price;
+
+				this.$store.state.reservation.disPrice	= this.discountProp.disPrice;
+				this.$store.state.reservation.disPerct	= this.discountProp.curr;
 				setTimeout(function(){
 					let lg4 =document.querySelector('.layout.justify-center > .flex.xs8');
 					lg4.classList.add('lg4');
@@ -135,9 +136,6 @@
 			},
 
 			discountPercent() {
-		      	axios.get('https://srv.5degeneve.ch/api/get_count_ta_orders?email='+this.$cookies.get('email'))
-		      	.then(response => (this.count = response.data))
-		      	.catch(error => console.log(error));
 				let numOrders	= this.count;
 				let minPercent	= 15;
 				let maxPercent	= 30;
@@ -152,7 +150,19 @@
 
 				this.discountProp.discount = Math.round(this.price * this.discountProp.curr) / 100;
 				this.discountProp.disPrice = this.price - this.discountProp.discount;
+
 				return this.discountProp.curr;
+			}
+		},
+		created() {
+			if ($store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3') {
+				var self = this;
+				axios.get('https://srv.5degeneve.ch/api/get_count_ta_orders?email='+this.$cookies.get('email'))
+					.then((response) => {
+						this.count = response.data;
+						self.discountPercent();
+					})
+					.catch(error => console.log(error));
 			}
 		}
 	}
