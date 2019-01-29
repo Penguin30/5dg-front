@@ -33,7 +33,6 @@
                     </div>
                 </v-flex>
             </v-layout>
-
             <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 3"/></v-layout>
 
             <v-layout justify-space-around row><AdminListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
