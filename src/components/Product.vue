@@ -16,7 +16,7 @@
 					<v-flex xs8>
 						<v-layout column>
 							<v-card-actions class="pl-3">
-								<b><big>{{ formatPrice(price) }} CHF</big></b>
+								<span v-if="productID!=1" style="padding-right: 10px;">starting from</span> <b> <big> {{ formatPrice(price) }} CHF</big></b>
 								<v-spacer></v-spacer>
 								<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.reservation.cruiseID==0">{{ $ml.get('btn') }}</v-btn>
 								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.reservation.cruiseID!=0">Back</v-btn>
