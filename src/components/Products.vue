@@ -77,7 +77,7 @@
         }
     },
 	created() { 
-		axios.get('https://5degeneve.ch/api/cruises?lg='+this.lang)
+		axios.get('https://www.5degeneve.ch/api/cruises?lg='+this.lang)
 			.then(response => (this.info = response.data))
 			.catch(error => console.log(error));
 	}  

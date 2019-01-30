@@ -71,7 +71,7 @@
                         pass: this.password
                     }
                     this.$cookies.config('7d');
-                    axios.post('/api/sign_in_agency',{data}).then(response => ((response.data != 401) ? (this.$cookies.set("email",this.email),this.$cookies.set("token",response.data.token),this.$cookies.set("role",response.data.role),location.reload()) : console.log('401'))).catch(error => console.log(error));
+                    axios.post('https://www.5degeneve.ch/api/sign_in_agency',{data}).then(response => ((response != 401) ? (this.$cookies.set("email",this.email),this.$cookies.set("token",response.data.token),this.$cookies.set("role",response.data.role),location.reload()) : console.log('401'))).catch(error => console.log(error));
                 }
             }
         }

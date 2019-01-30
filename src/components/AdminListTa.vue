@@ -68,7 +68,7 @@
 
     methods: {
       initialize () {
-        axios.get('https://5degeneve.ch/api/travel_agencies')
+        axios.get('https://www.5degeneve.ch/api/travel_agencies')
         .then(response => (this.agencies = response.data,console.log(response.data)))
         .catch(error => console.log(error));
       },
@@ -78,8 +78,8 @@
           status : '1',
           lang : this.$ml.current
         }
-        axios.post('https://5degeneve.ch/api/ta_update',{data})
-        .then(response => (axios.get('https://5degeneve.ch/api/travel_agencies')
+        axios.post('https://www.5degeneve.ch/api/ta_update',{data})
+        .then(response => (axios.get('https://www.5degeneve.ch/api/travel_agencies')
         .then(response => (this.agencies = response.data,console.log(response.data)))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))
@@ -90,8 +90,8 @@
           status : '0',
           lang : this.$ml.current
         }
-        axios.post('https://5degeneve.ch/api/ta_update',{data})
-        .then(response => (axios.get('https://5degeneve.ch/api/travel_agencies')
+        axios.post('https://www.5degeneve.ch/api/ta_update',{data})
+        .then(response => (axios.get('https://www.5degeneve.ch/api/travel_agencies')
         .then(response => (this.agencies = response.data,console.log(response.data)))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))

@@ -13,7 +13,7 @@ Vue.config.productionTip = false;
 Vue.use(Vuetify)
 Vue.use(require('vue-cookies'));
 
-let routes = {
+const routes = {
   '/': App,
   '/checkout': Checkout
 }
@@ -26,6 +26,6 @@ new Vue({
     currentRoute: window.location.pathname
   },
   render (h) { 
-    return h(routes[this.currentRoute]);
+    return h(routes[this.currentRoute]||App);
   }
-});
+})
