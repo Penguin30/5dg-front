@@ -1,78 +1,58 @@
 <template>
     <v-app>
-        <v-toolbar app>
-            <v-toolbar-title class="headline text-uppercase">
-                <span class="font-weight-light">5 de Gen&egrave;ve </span>
-            </v-toolbar-title>
-            <v-spacer></v-spacer>
-                <span style="font-style: italic; font-size: 25px;">PRIVATE CRUISE GENEVA LAKE</span>
-            <v-spacer></v-spacer>
-            <v-btn 
-                v-for="lang in $ml.list"
-                :key="lang"
-                @click="change_lang(lang,$ml)"
-                flat 
-                icon 
-            >
-                <img :src="require(`@/assets/${lang}.png`)" :alt="lang" height=35 />
-            </v-btn>
+        <Header/>
+        <v-content style="padding-bottom:100px;" v-if="order.length != 0 && cruise.length != 0">
+            <v-layout justify-center justify-space-around style="flex-basis: 0; flex-grow: 1;">
+                <v-flex xs6>
+                <Product
+                    :key='cruise.id'
+                    :productID='cruise.id'
+                    :images='cruise.img'
+                    :title='cruise.title'
+                    :description='cruise.desc'
+                    :priceTxt='order.price'
+                    :price='order.price'
+                    :timeStart='order.time_start'
+                    :timeEnd='order.time_end'
+                    :type='cruise.type'
+                    :caption='order.caption'>
+                </Product>
+                </v-flex>
 
-            <RegisterAgency v-if="$cookies.isKey('token') === false"/>
-            <v-btn v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
-                <span class="mr-2">Logout</span>
-            </v-btn>
-        </v-toolbar>
-
-        <v-content style="padding-bottom:100px;">
-            
-            <PayPal
-              amount="100"
-              currency="USD"
-              :client="credentials"
-              env="sandbox">
-            </PayPal>
-            
+                <v-flex xs6>
+                <PayPal
+                    :amount="order.price"
+                    currency="CHF"
+                    :client="credentials"
+                    env="sandbox">
+                </PayPal>
+                </v-flex>
+            </v-layout>
         </v-content>
 
         
-        <v-footer dark height="auto">
-            <v-card class="flex" flat tile>
-                <v-card-actions class="grey darken-3 justify-center">&copy;2018 by 5 de Geneve   <GTU></GTU></v-card-actions>
-            </v-card>
-        </v-footer>
+        <Footer/>
     </v-app>
 </template>
 
 <style>
-    .cruiseVideoI {
-        text-align: center;
-        width: 588px;
-        height: 350px;
-        float:right;
-    }
-    .cruiseVideoO {
-        text-align: center;
-    }
-    .cruiseVideo {
-      float: left;
-      position: relative;
-      left: 25%;
-    }
+
 </style>
 
 <script>
     import { MLBuilder } from 'vue-multilanguage';
-    import Products from '../components/Products';
-    import RegisterAgency from '../components/RegisterAgency';
     import axios from 'axios';
-    import GTU from '../components/GTU';
+    import Header from '../components/Header';
+    import Footer from '../components/Footer';
+    import Product from '../components/Product';
     import PayPal from 'vue-paypal-checkout';
 
     export default {
         name: 'App',
         components: {
-            RegisterAgency,
-            GTU,
+            Header,
+            Footer,
+            Product,
             PayPal
         },
         methods: {
@@ -89,12 +69,36 @@
             var userLang = navigator.language || navigator.userLanguage; 
             (userLang == 'ru-RU') ? this.$ml.change('russian') : (userLang == 'en-EN') ? this.$ml.change('english') : (userLang == 'fr-FR') ? this.$ml.change('french') : (userLang == 'de-DE') ? this.$ml.change('deutsch') : (userLang == 'ch-CH') ? this.$ml.change('chinese') : (userLang == 'ar-AR') ? this.$ml.change('arabic') : this.$ml.change('english');
 
+            var q = this.$route.query;
+            this.$data.order.orderID = q && q.orderID ? q.orderID : 0;
+            axios.get('https://5degeneve.ch/api/cruise?lg='+this.$ml.current+'&id='+this.$data.order.orderID)
+			    .then(response => (console.log(response.data[0]),this.cruise=response.data[0]))
+			    .catch(error => console.log(error));
+            axios.get('https://5degeneve.ch/api/order?lg='+this.$ml.current+'&id='+this.$data.order.orderID)
+                .then(response => (console.log(response.data[0]),this.order=response.data[0]))
+                .catch(error => console.log(error));
+
         },
         data() {
             return {
                 credentials: {
                     sandbox: 'Aft68bXaah3C8yR-P7D3miakX_dWgN6wJkGW8EDMAfwE8YCebXq2KytvN6HPYCZ3tgjNHyuN9H9yamjf',
                     production: '<production client id>'
+                },
+                cruise: {
+
+                },
+                order: {
+                    orderID: 0,
+                    productID: 0,
+                    images: "[]",
+                    title: '',
+                    description: '',
+                    timeStart: null,
+                    timeEnd: null,
+                    price: 0,
+                    caption: '',
+                    type: ''
                 }
             }
         }

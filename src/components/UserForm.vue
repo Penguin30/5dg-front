@@ -113,7 +113,7 @@
                         ages: ages,
                         stop: this.checkbox
                     }
-                    axios.post('https://srv.5degeneve.ch/api/orders', {data})
+                    axios.post('https://5degeneve.ch/api/orders', {data})
                         .then(
                             console.log(this)
                         )

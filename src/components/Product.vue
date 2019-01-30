@@ -8,7 +8,7 @@
 							<v-carousel-item
 								v-for="(item,i) in JSON.parse(images)"
 									:key="i"
-									:src="'https://srv.5degeneve.ch/storage/'+item"
+									:src="'https://5degeneve.ch/storage/'+item"
 							>
 							</v-carousel-item>
             			</v-carousel>
@@ -46,7 +46,7 @@
 		
 		<!-- Start stepper -->
 		<v-flex lg4 ml-5 v-if="$store.state.reservation.cruiseID!=0">
-			<Stepper :cruise_id="productID" :type='type'/>
+			<Stepper :price="formatPrice(discountProp.disPrice)" :cruise_id="productID" :type='type'/>
 		</v-flex>
 		<!-- End stepper -->
 	</v-layout>
@@ -135,7 +135,7 @@
 			},
 
 			discountPercent() {
-		      	axios.get('https://srv.5degeneve.ch/api/get_count_ta_orders?email='+this.$cookies.get('email'))
+		      	axios.get('https://5degeneve.ch/api/get_count_ta_orders?email='+this.$cookies.get('email'))
 		      	.then(response => (this.count = response.data))
 		      	.catch(error => console.log(error));
 				let numOrders	= this.count;

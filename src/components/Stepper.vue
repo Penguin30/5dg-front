@@ -128,7 +128,7 @@
 			UserForm,
 			Datetime
 		},
-		props: ['type','cruise_id'],
+		props: ['type','cruise_id','price'],
 		data() {
 			return {
                 rerenderKey: 0,
@@ -447,7 +447,7 @@
 					if(Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 < 3 || Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 > 15) {
 						this.dateError = this.$ml.get('short_time_or_long') 
 					}else{
-                        axios.post('https://srv.5degeneve.ch/api/check_time',{data})
+                        axios.post('https://5degeneve.ch/api/check_time',{data})
                             .then(response => ((response.data == 'ok') ? (
                                 this.e1 = 2,
                                 this.$store.state.step = 2,
@@ -487,9 +487,11 @@
 						ages:       ages,
 						stop:       this.checkbox,
                         lang:       this.$ml.current,
+                        price:      this.price,
+                        lang:       this.$ml.current,
                         agency_email: (this.$cookies.get("email") != '') ? this.$cookies.get("email") : ''
 					}
-					axios.post('https://srv.5degeneve.ch/api/orders', {data})
+					axios.post('https://5degeneve.ch/api/orders', {data})
 						.then( res => (
                             console.log(res),
 							this.e1 = 3)
@@ -515,7 +517,7 @@
                 tS = encodeURIComponent(tS);
                 tE = encodeURIComponent(tE);
 
-                let url = 'https://srv.5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
+                let url = 'https://5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
 
                 axios.get(url)
                      .then((res) => {

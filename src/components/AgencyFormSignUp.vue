@@ -20,7 +20,7 @@
 
 					<v-text-field		v-model="email"			label="E-mail"			required :rules="emailRules"						></v-text-field>
 					<v-text-field		v-model="phone"			label="Phone Number"	required :rules="phoneRules"						></v-text-field>
-					<v-text-field		v-model="web"			label="URL"				required :rules="urlRules"							></v-text-field>
+					<v-text-field		v-model="url"			label="URL"				required :rules="urlRules"							></v-text-field>
 					<v-checkbox		v-model="checkbox"		:rules="[v => !!v || 'You must agree to continue!']"     label="Do you agree?"      required    ></v-checkbox>
 			</v-layout>
 			<v-btn      :disabled="!valid"      @click="submit">submit</v-btn>
@@ -304,12 +304,12 @@
 						city: this.city,
 						phone: this.phone,
 						company: this.companyName,
-						url: this.web,
+						url: this.url,
 						zip: this.zip,
                         lang: this.$ml.current
 					}
 
-					axios.post('https://srv.5degeneve.ch/api/sign_up_agency',{data})
+					axios.post('https://5degeneve.ch/api/sign_up_agency',{data})
 					.then(res => ((res.data != '') ?location.reload() : console.log(res)))
                                         .catch(error => (console.log(error)))
 				}

@@ -72,7 +72,7 @@
 
     methods: {
       initialize () {
-        axios.get('https://srv.5degeneve.ch/api/orders')
+        axios.get('https://5degeneve.ch/api/orders')
         .then(response => (this.orders = response.data,console.log(response.data)))
         .catch(error => console.log(error));
       },
@@ -82,8 +82,8 @@
           status : 'Confirmed',
           lang : this.$ml.current
         }
-        axios.post('https://srv.5degeneve.ch/api/order_update',{data})
-        .then(response => (axios.get('https://srv.5degeneve.ch/api/orders')
+        axios.post('https://5degeneve.ch/api/order_update',{data})
+        .then(response => (axios.get('https://5degeneve.ch/api/orders')
         .then(response => (this.orders = response.data,console.log(response.data)))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))
@@ -94,8 +94,8 @@
           status : 'Declined',
           lang : this.$ml.current
         }
-        axios.post('https://srv.5degeneve.ch/api/order_update',{data})
-        .then(response => (axios.get('https://srv.5degeneve.ch/api/orders')
+        axios.post('https://5degeneve.ch/api/order_update',{data})
+        .then(response => (axios.get('https://5degeneve.ch/api/orders')
         .then(response => (this.orders = response.data,console.log(response.data)))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))

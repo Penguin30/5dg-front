@@ -39,7 +39,7 @@
                 location.reload();
             },
             change_lang: function(lang,$ml){ 
-                axios.get('https://srv.5degeneve.ch/api/cruises?lg='+lang)
+                axios.get('https://5degeneve.ch/api/cruises?lg='+lang)
                 .then(response => (
                     $ml.change(lang),
                     this.$store.state.info = response.data
