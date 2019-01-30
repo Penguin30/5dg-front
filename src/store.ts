@@ -19,7 +19,9 @@ export default new Vuex.Store({
       cruiseID:   0,
       timeStart:  null,
       timeEnd:    null,
-      price:      0
+      price:      0,
+      disPrice:   0,
+      disPerct:   0
     },
   },
   mutations: {

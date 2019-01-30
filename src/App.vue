@@ -42,18 +42,19 @@
                 <v-flex style="text-align: center;">
                     <div class="cruiseVideo">
                     <video id="video1" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="488" height="350" poster="@/assets/Video1.jpg" data-setup="{}">
-                        <source src="https://5degeneve.ch/storage/Video1.mp4" type='video/mp4'>
+                        <source src="https://www.5degeneve.ch/storage/Video1.mp4" type='video/mp4'>
                     </video>
                     </div>
                 </v-flex>
                 <v-flex>
                     <div class="cruiseVideo">
                     <video id="video2" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="488" height="350" poster="@/assets/Video2.jpg" data-setup="{}">
-                        <source src="https://5degeneve.ch/storage/Video2.mp4" type='video/mp4'>
+                        <source src="https://www.5degeneve.ch/storage/Video2.mp4" type='video/mp4'>
                     </video>
                     </div>
                 </v-flex>
             </v-layout>
+
             <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 3"/></v-layout>
 
             <v-layout justify-space-around row><AdminListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
@@ -114,7 +115,7 @@
                 location.reload();
             },
             change_lang: function(lang,$ml){ 
-                axios.get('https://5degeneve.ch/api/cruises?lg='+lang)
+                axios.get('https://www.5degeneve.ch/api/cruises?lg='+lang)
                 .then(response => (
                     $ml.change(lang),
                     this.$store.state.info = response.data

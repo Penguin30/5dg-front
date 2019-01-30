@@ -15,9 +15,7 @@
 
 
                 <v-layout row wrap>
-                    <v-autocomplete v-model="country" :items="countries" label="Country" required style="width:40%">
-
-                    </v-autocomplete>
+                    <v-autocomplete v-model="country" :items="countries" label="Country" required style="width:40%" name="noFillCountry"></v-autocomplete>
                     <v-text-field v-model="city" :rules="nameRules" style="width:60%; padding-left:10px"
                                   label="City"></v-text-field>
                 </v-layout>
@@ -113,7 +111,7 @@
                         ages: ages,
                         stop: this.checkbox
                     }
-                    axios.post('https://5degeneve.ch/api/orders', {data})
+                    axios.post('https://www.5degeneve.ch/api/orders', {data})
                         .then(
                             console.log(this)
                         )

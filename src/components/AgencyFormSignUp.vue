@@ -309,7 +309,7 @@
                         lang: this.$ml.current
 					}
 
-					axios.post('https://5degeneve.ch/api/sign_up_agency',{data})
+					axios.post('https://www.5degeneve.ch/api/sign_up_agency',{data})
 					.then(res => ((res.data != '') ?location.reload() : console.log(res)))
                                         .catch(error => (console.log(error)))
 				}
