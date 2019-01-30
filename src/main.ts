@@ -9,14 +9,14 @@ import './ml.js';
 
 import 'vuetify/dist/vuetify.min.css';
 
-Vue.config.productionTip = true;
+Vue.config.productionTip = false;
 Vue.use(Vuetify)
 Vue.use(require('vue-cookies'));
 
 let routes = {
   '/': App,
   '/checkout': Checkout
-},
+}
 
 new Vue({
   el: '#app',
