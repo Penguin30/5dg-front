@@ -18,7 +18,7 @@
 				<v-card>
 					<v-layout row wrap  style="padding: 10px 0 0">
                         <v-flex xs12 style="padding-bottom:20px">
-                            <b><big>{{ formatPrice(this.$store.state.reservation.price) }} CHF<p v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'">{{this.$store.state.reservation.disPrice}} CHF [your discounted Price]</p></big></b>
+                            <b><big>{{ formatPrice(this.$store.state.reservation.price) }} CHF<p v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'">{{formatPrice(this.dprice)}} CHF [your discounted Price]</p></big></b>
                         </v-flex>
                         <v-flex v-if="type == 'custom'" xs6 style="padding-right:10px; padding-bottom:20px">
 							<label>Start Time</label>
@@ -137,7 +137,7 @@
 			UserForm,
 			Datetime
 		},
-		props: ['type','cruise_id'],
+		props: ['type','cruise_id','price','dprice'],
 		data() {
 			return {
                 extended: '20:30:00',
@@ -534,7 +534,7 @@
 					if(Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 < 3 || Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 > 15) {
 						this.dateError = this.$ml.get('short_time_or_long') 
 					}else{
-                        axios.post('https://srv.5degeneve.ch/api/check_time',{data})
+                        axios.post('https://www.5degeneve.ch/api/check_time',{data})
                             .then(response => ((response.data == 'ok') ? (
                                 this.e1 = 2,
                                 this.$store.state.step = 2,
@@ -574,9 +574,11 @@
 						ages:       ages,
 						stop:       this.checkbox,
                         lang:       this.$ml.current,
-                        agency_email: (this.$cookies.get("email") != '') ? this.$cookies.get("email") : ''
+                        agency_email: (this.$cookies.get("email") != '') ? this.$cookies.get("email") : '',
+                        price: this.price,
+                        dprice: this.dprice
 					}
-					axios.post('https://srv.5degeneve.ch/api/orders', {data})
+					axios.post('https://www.5degeneve.ch/api/orders', {data})
 						.then( res => (
                             console.log(res),
 							this.e1 = 3)
@@ -602,7 +604,7 @@
                 tS = encodeURIComponent(tS);
                 tE = encodeURIComponent(tE);
 
-                let url = 'https://srv.5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
+                let url = 'https://www.5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
 
                 axios.get(url)
                      .then((res) => {

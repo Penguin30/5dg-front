@@ -8,7 +8,7 @@
 							<v-carousel-item
 								v-for="(item,i) in JSON.parse(images)"
 									:key="i"
-									:src="'https://srv.5degeneve.ch/storage/'+item"
+									:src="'https://www.5degeneve.ch/storage/'+item"
 							>
 							</v-carousel-item>
             			</v-carousel>
@@ -44,7 +44,7 @@
 		
 		<!-- Start stepper -->
 		<v-flex lg4 ml-5 v-if="$store.state.reservation.cruiseID!=0">
-			<Stepper :cruise_id="productID" :type='type'/>
+			<Stepper :price="price" :dprice="discountProp.disPrice" :cruise_id="productID" :type='type'/>
 		</v-flex>
 		<!-- End stepper -->
 	</v-layout>
@@ -89,11 +89,11 @@
 			isExpanded: false,
 			isVisible: false,
 			imagesSrc: [
-                {src: 'http://www.5degeneve.ch/images/5degeneve-1.jpg'},
-                {src: 'http://www.5degeneve.ch/images/interieur1.jpg'},
-                {src: 'http://www.5degeneve.ch/images/interieur2.jpg'},
-                {src: 'http://www.5degeneve.ch/images/exte1.jpg'},
-                {src: 'http://www.5degeneve.ch/images/exte2.jpg'}
+                {src: 'https://www.5degeneve.ch/images/5degeneve-1.jpg'},
+                {src: 'https://www.5degeneve.ch/images/interieur1.jpg'},
+                {src: 'https://www.5degeneve.ch/images/interieur2.jpg'},
+                {src: 'https://www.5degeneve.ch/images/exte1.jpg'},
+                {src: 'https://www.5degeneve.ch/images/exte2.jpg'}
 			],
 			discountProp: {
 				curr: 15,		// current discount in percent
@@ -157,7 +157,7 @@
 		created() {
 			if ($store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3') {
 				var self = this;
-				axios.get('https://srv.5degeneve.ch/api/get_count_ta_orders?email='+this.$cookies.get('email'))
+				axios.get('https://www.5degeneve.ch/api/get_count_ta_orders?email='+this.$cookies.get('email'))
 					.then((response) => {
 						this.count = response.data;
 						self.discountPercent();

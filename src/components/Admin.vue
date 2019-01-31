@@ -79,7 +79,7 @@
 			let tE = encodeURIComponent("23:59:59");
 			var self = this;
 			let now = (new Date()).getTime();
-			let url = 'https://srv.5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
+			let url = 'https://www.5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
 			var res = {};
 			var key;
 			

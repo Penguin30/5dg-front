@@ -43,3 +43,5 @@ Administration
 Calendar (large)
 
 
+EMails: /laravel/resources/views/emails/
+

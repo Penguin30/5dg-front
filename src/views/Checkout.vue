@@ -84,7 +84,7 @@
             var q = this.$route.query;
             this.$data.order.orderID = q && q.orderID ? q.orderID : 0;
 
-            axios.get('https://srv.5degeneve.ch/api/cruises?lg='+this.lang)  // TODO: point to the right API
+            axios.get('https://www.5degeneve.ch/api/cruises?lg='+this.lang)  // TODO: point to the right API
 			    .then((response) => {
                     response.data;  // TODO: assign the values
                 })
