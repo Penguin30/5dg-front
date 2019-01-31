@@ -44,7 +44,7 @@
 		
 		<!-- Start stepper -->
 		<v-flex lg4 ml-5 v-if="$store.state.reservation.cruiseID!=0">
-			<Stepper :cruise_id="productID" :type='type'/>
+			<Stepper :price="price" :dprice="discountProp.disPrice" :cruise_id="productID" :type='type'/>
 		</v-flex>
 		<!-- End stepper -->
 	</v-layout>
