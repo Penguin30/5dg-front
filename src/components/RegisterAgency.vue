@@ -14,6 +14,9 @@
                         </v-layout>
                         <v-btn :disabled="!valid" @click="submit">submit</v-btn>
                         <v-btn @click="clear">clear</v-btn>
+                        <v-btn round color="error" flat @click="lost_pass_modal = true" >
+                            <span class="mr-2">Forget password?</span>
+                        </v-btn>
                         
                         <v-dialog v-model="dialog" width="500">
                             <v-btn color="error" flat slot="activator">
@@ -33,6 +36,22 @@
                                 <v-divider></v-divider>
                             </v-card>
                         </v-dialog>
+                        
+                        <v-dialog v-model="lost_pass_modal" width="500">
+                            <v-card class="rounded-card">
+                                <v-card-title
+                                        class="headline grey lighten-2"
+                                        style="color: #fff; background: #ff5252 !important;justify-content: center;"
+                                        primary-title>
+                                    Travel Agency Reset Password
+                                </v-card-title>
+
+                                <v-card-text>
+                                    <ResetPassAgency/>
+                                </v-card-text>
+                                <v-divider></v-divider>
+                            </v-card>
+                        </v-dialog>                        
                     </v-form>
                 </v-card-text>
             </v-card>
@@ -48,15 +67,18 @@
 
 <script>
     import AgencySignUpForm from './AgencyFormSignUp';
+    import ResetPassAgency from './ResetPassAgency';
     import axios from 'axios';
 
     export default {
         components: {
-            AgencySignUpForm
+            AgencySignUpForm,
+            ResetPassAgency
         },
         data() {
             return {
                 dialog: false,
+                lost_pass_modal: false,
                 email: '',
                 emailRules: [v => !!v || 'E-mail is required', v => /.+@.+/.test(v) || 'E-mail must be valid'],
                 passwordRules: [v => !!v || 'Password is required'],

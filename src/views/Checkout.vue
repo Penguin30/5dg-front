@@ -7,14 +7,14 @@
                 <v-flex xs6>
                 <Product
                     :key='order.orderID'
-                    :productID='order.orderID'
-                    :images='order.images'
-                    :title='order.title'
-                    :description='order.description'
+                    :productID='order.cruise_id'
+                    :images='cruise.img'
+                    :title='cruise.title'
+                    :description='cruise.desc'
                     :priceTxt='order.price'
                     :price='order.price'
-                    :timeStart='order.timeStart'
-                    :timeEnd='order.timeEnd'
+                    :timeStart='order.time_start'
+                    :timeEnd='order.time_end'
                     :type='order.type'
                     :caption='order.caption'>
                 </Product>
@@ -27,8 +27,8 @@
                         <v-radio value='down' :label="priceDownLabel()"></v-radio>
                     </v-radio-group>                    
                     <PayPal
-                        amount="100"
-                        currency="USD"
+                        :amount="pay_price"
+                        currency="CHF"
                         :client="credentials"
                         env="sandbox">
                     </PayPal>
@@ -68,9 +68,11 @@
                 location.reload();
             },
             priceFullLabel() {
+                this.pay_price = this.order.price;
                 return this.order.price + " CHF .   [the full amount - no further payment required]";
             },
             priceDownLabel() {
+                this.pay_price = Math.round(this.order.price * 3 / 10);
                 return Math.round(this.order.price * 3 / 10) + " CHF .   [the 30% down-payment]";
             },
             change_lang: function(lang,$ml){ 
@@ -83,10 +85,15 @@
 
             var q = this.$route.query;
             this.$data.order.orderID = q && q.orderID ? q.orderID : 0;
+            axios.get('https://www.5degeneve.ch/api/order?id='+this.$data.order.orderID)
+                .then((response) => {
+                    this.order = response.data[0];
+                })
+                .catch(error => console.log(error));
 
-            axios.get('https://www.5degeneve.ch/api/cruises?lg='+this.lang)  // TODO: point to the right API
+            axios.get('https://www.5degeneve.ch/api/cruise?id='+this.$data.order.orderID+'&lg='+this.$ml.current)
 			    .then((response) => {
-                    response.data;  // TODO: assign the values
+                    this.cruise = response.data[0];
                 })
 			    .catch(error => console.log(error));
 
@@ -98,6 +105,8 @@
                     sandbox: 'Aft68bXaah3C8yR-P7D3miakX_dWgN6wJkGW8EDMAfwE8YCebXq2KytvN6HPYCZ3tgjNHyuN9H9yamjf',
                     production: '<production client id>'
                 },
+                pay_price: 0,
+                cruise: {},
                 order: {
                     orderID: 0,
                     productID: 0,
