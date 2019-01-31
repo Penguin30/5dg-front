@@ -2,7 +2,7 @@
     <v-app>
         <v-toolbar app>
             <v-toolbar-title class="headline text-uppercase">
-                <span class="font-weight-light">5 de Gen&egrave;ve </span>
+                <img src="https://www.5degeneve.ch/5deGeneve.png" alt="5 de Geneve" width=230 height=45 />
             </v-toolbar-title>
             <v-spacer></v-spacer>
                 <span style="font-style: italic; font-size: 25px;">PRIVATE CRUISE GENEVA LAKE</span>
