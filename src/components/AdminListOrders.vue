@@ -97,7 +97,7 @@
           lang : this.$ml.current
         }
         axios.post('https://www.5degeneve.ch/api/order_update',{data})
-        .then(response => (axios.get('https://www.5degeneve.ch/api/orders')
+        .then(response => (axios.get('https://www.5degeneve.ch/api/orders?status='+this.status)
         .then(response => (this.orders = response.data))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))
@@ -109,7 +109,7 @@
           lang : this.$ml.current
         }
         axios.post('https://www.5degeneve.ch/api/order_update',{data})
-        .then(response => (axios.get('https://www.5degeneve.ch/api/orders')
+        .then(response => (axios.get('https://www.5degeneve.ch/api/orders?status='+this.status)
         .then(response => (this.orders = response.data))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))
