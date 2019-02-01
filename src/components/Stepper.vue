@@ -12,7 +12,7 @@
 			<v-stepper-step :complete="e1 > 3" step="3">Confirmation</v-stepper-step>
 
 		</v-stepper-header>
-
+    
 		<v-stepper-items>
 			<v-stepper-content step="1">
 				<v-card>
@@ -34,7 +34,6 @@
                                 <v-radio value='22:30:00' label="With Restaurant Stop-Over"></v-radio>
                             </v-radio-group>
                         </v-flex>
-
 						<v-flex xs12>
 							<v-date-picker
 								v-model="date"
@@ -575,7 +574,7 @@
 						stop:       this.checkbox,
                         lang:       this.$ml.current,
                         agency_email: (this.$cookies.get("email") != '') ? this.$cookies.get("email") : '',
-                        price: this.price,
+                        price: this.$store.state.reservation.price,
                         dprice: this.dprice
 					}
 					axios.post('https://www.5degeneve.ch/api/orders', {data})
