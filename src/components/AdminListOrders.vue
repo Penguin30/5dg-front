@@ -3,11 +3,17 @@
     <v-toolbar flat color="white" class="elevation-5 rounded-top">
       <v-toolbar-title>List of Orders Admin</v-toolbar-title>
       <v-divider class="mx-2" inset vertical></v-divider>
+      <v-radio-group v-on:change="change_status" v-model="status" row>
+        <v-radio label="All" value="all"></v-radio>
+        <v-radio label="To be checked" value=""></v-radio>
+        <v-radio label="Approved" value="option1"></v-radio>
+        <v-radio label="Declined" value="option2"></v-radio>
+      </v-radio-group>
     </v-toolbar>
 
 
     <v-data-table :headers="headers" :items="orders" class="elevation-5">
-      <template v-if="props.item.order_status == ''" slot="items" slot-scope="props">
+      <template slot="items" slot-scope="props">
         <td>{{ props.item.first_name }}</td>
         <td>{{ props.item.last_name }}</td>
         <td class="text-xs-right">{{ props.item.phone }}</td>
@@ -17,8 +23,9 @@
         <td class="text-xs-right">{{ props.item.start }}</td>
         <td class="text-xs-right">{{ props.item.end }}</td>
         <td class="text-xs-right">{{ props.item.num }}</td>
+        <td class="text-xs-right">{{ (props.item.order_status == '') ? 'to be checked' : (props.item.order_status == 'option1') ? 'approved' : 'declined' }}</td>
 
-        <td class="justify-center layout px-0">
+        <td class="justify-center layout px-0" v-if="props.item.order_status == ''">
           <v-icon :data-id="props.item.order_id" small class="mr-2" @click="confirm">done</v-icon>
           <v-icon :data-id="props.item.order_id" small class="mr-2" @click="decline">clear</v-icon>
         </td>
@@ -48,8 +55,10 @@
         { text: 'Date', align: 'right', value: 'date' },
         { text: 'Start Time', align: 'right', value: 'start' },
         { text: 'End Time', align: 'right', value: 'end' },
-        { text: 'Passengers', align: 'right', value: 'num' }
+        { text: 'Passengers', align: 'right', value: 'num' },
+        { text: 'Status', align: 'right', value: 'order_status' }
       ],
+      status: 'all',
       orders: [],
       defaultItem: {
         order_id: 0,
@@ -71,9 +80,14 @@
     },
 
     methods: {
+      change_status (event){
+        axios.get('https://www.5degeneve.ch/api/orders?status='+this.status)
+        .then(response => (this.orders = response.data))
+        .catch(error => console.log(error));
+      },
       initialize () {
-        axios.get('https://www.5degeneve.ch/api/orders')
-        .then(response => (this.orders = response.data,console.log(response.data)))
+        axios.get('https://www.5degeneve.ch/api/orders?status='+this.status)
+        .then(response => (this.orders = response.data))
         .catch(error => console.log(error));
       },
       confirm (event) {
@@ -84,7 +98,7 @@
         }
         axios.post('https://www.5degeneve.ch/api/order_update',{data})
         .then(response => (axios.get('https://www.5degeneve.ch/api/orders')
-        .then(response => (this.orders = response.data,console.log(response.data)))
+        .then(response => (this.orders = response.data))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))
       },
@@ -96,7 +110,7 @@
         }
         axios.post('https://www.5degeneve.ch/api/order_update',{data})
         .then(response => (axios.get('https://www.5degeneve.ch/api/orders')
-        .then(response => (this.orders = response.data,console.log(response.data)))
+        .then(response => (this.orders = response.data))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))
       },
