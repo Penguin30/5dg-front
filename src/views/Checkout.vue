@@ -113,7 +113,7 @@
             axios.get('https://www.5degeneve.ch/api/order?id='+this.$data.order.orderID)
                 .then((response) => {
                     this.order = response.data[0];
-                    if(this.order.dprice != ''){
+                    if(this.order.dprice == 0){
                         this.prices.full      = this.order.price;
                         this.prices.fullLabel = this.prices.full + " CHF .   [the full amount - no further payment required]";
                         this.prices.down      = Math.round(this.order.price * 3 / 10);
