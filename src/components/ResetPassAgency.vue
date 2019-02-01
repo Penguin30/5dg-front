@@ -22,7 +22,7 @@
 
                                       <v-stepper-content step="2">
                                         <v-card>
-                                                <v-form ref="form" v-model="code" lazy-validation>
+                                                <v-form ref="form_code" v-model="code" lazy-validation>
                                                         <v-layout justify-space-between column>
                                                                 <v-text-field v-model="code_field" label="Code" required :rules="code_field_rules"></v-text-field>
                                                         </v-layout>
@@ -33,20 +33,16 @@
                                       </v-stepper-content>
 
                                       <v-stepper-content step="3">
-                                        <v-card
-                                          class="mb-5"
-                                          color="grey lighten-1"
-                                          height="200px"
-                                        ></v-card>
-
-                                        <v-btn
-                                          color="primary"
-                                          @click="e1 = 1"
-                                        >
-                                          Continue
-                                        </v-btn>
-
-                                        <v-btn flat>Cancel</v-btn>
+                                        <v-card>
+                                            <v-form ref="set_pass_form" v-model="set_pass_form" lazy-validation>
+                                                        <v-layout justify-space-between column>
+                                                                <v-text-field v-model="pass" label="Password" required></v-text-field>
+                                                                <v-text-field v-model="pass2" label="Password again" required></v-text-field>
+                                                        </v-layout>
+                                                        <v-btn :disabled="!set_pass_form" @click="set_pass">submit</v-btn>
+                                                        <v-btn @click="clear">clear</v-btn>
+                                                </v-form>
+                                        </v-card>
                                       </v-stepper-content>
                                     </v-stepper-items>
                                   </v-stepper>
@@ -58,8 +54,11 @@
         export default {
                 data: () => ({
                         e1: 0,
+                        pass: '',
+                        pass2: '',
                         code: false,
                         valid: false,
+                        set_pass_form: false,
                         code_field: '',
                         email: '',
                         code_field_rules: [v => !!v || 'Code is required'],
@@ -67,16 +66,25 @@
                 }),
 
                 methods: {
+                        set_pass(event){
+                            if (this.$refs.set_pass_form.validate() && this.pass == this.pass2) {
+                                let data = {
+                                    email: this.email,
+                                    pass: this.pass
+                                }
+                                axios.post('https://www.5degeneve.ch/api/set_pass',{data}).then(res => ((res.data == 200) ? location.reload() : '')).catch(error => (console.log(error)));
+                            }
+                        },
                         check_code(event){
-                                if (this.$refs.form.validate()) {
-                                       if(this.$cookies.get("code") == this.code){
+                                if (this.$refs.form_code.validate()) {
+                                       if(this.$cookies.get("code") == this.code_field){
                                         this.e1 = 3;
                                        }
                                 }
                         },
                         submit(event) {                         
                                 if (this.$refs.form.validate()) {
-                                        axios.get('https://www.5degeneve.ch/api/get_reset_code?email='+this.email).then(res => (this.$cookies.set("code",res.data.code),this.e1 = 2))
+                                        axios.get('https://www.5degeneve.ch/api/get_reset_code?email='+this.email).then(res => (this.$cookies.set("code",res.data),this.e1 = 2))
                                         .catch(error => (console.log(error)));
                                 }
                         },
