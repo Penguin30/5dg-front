@@ -27,7 +27,7 @@
             <v-layout justify-center justify-space-around style="flex-basis: 0; flex-grow: 1;">
                 <v-flex xs6>
                 <Product
-                    :key='order.orderID'
+                    :key='order.id'
                     :productID='order.cruise_id'
                     :images='cruise.img'
                     :title='cruise.title'
@@ -44,12 +44,13 @@
                 <v-flex xs6>
                     The Total Price of your Cruise is {{ order.price }} CHF. A minimum down-payment of 30% is expected to be payed within 10 days after reservation. But you may choose to pay the full amount right away. Please note that if you choose the 30% option, you will have to pay the remaining 70% latest 30 days before departure or your Cruise will be canceled.
                     <v-radio-group v-model="radioGroup">
-                        <v-radio value='full' :label="prices.fullLabel"></v-radio>
-                        <v-radio value='down' :label="prices.downLabel"></v-radio>
-                    </v-radio-group>                    
-                    <PayPal
-                        :amount="pay_price"
+                        <v-radio :value="prices.full" :label="prices.fullLabel"></v-radio>
+                        <v-radio :value="prices.down" :label="prices.downLabel"></v-radio>
+                    </v-radio-group>                
+                    <PayPal v-if="radioGroup != ''"
+                        :amount="radioGroup"
                         currency="CHF"
+                        v-on:payment-completed="completed"
                         :client="credentials"
                         env="sandbox">
                     </PayPal>
@@ -83,6 +84,17 @@
             PayPal
         },
         methods: {
+            completed(event){
+                if(event.state == 'approved'){
+                    let paid_perc = (this.radioGroup == this.prices.full) ? 100 : 30;
+                    let data = {
+                        order_id: this.order.id,
+                        paide: this.radioGroup,
+                        paid_perc: paid_perc
+                    }
+                    axios.post('https://www.5degeneve.ch/api/approve_order',{data}).then(res => (location.href="/")).catch(error => (console.log(error)));   
+                }
+            },
             logout(){
                 this.$cookies.remove('token');
                 this.$cookies.remove('role');
@@ -101,10 +113,17 @@
             axios.get('https://www.5degeneve.ch/api/order?id='+this.$data.order.orderID)
                 .then((response) => {
                     this.order = response.data[0];
-                    this.prices.full      = this.order.price;
-                    this.prices.fullLabel = this.prices.full + " CHF .   [the full amount - no further payment required]";
-                    this.prices.down      = Math.round(this.order.price * 3 / 10);
-                    this.prices.downLabel = this.prices.down + " CHF .   [the 30% down-payment]";
+                    if(this.order.dprice != ''){
+                        this.prices.full      = this.order.price;
+                        this.prices.fullLabel = this.prices.full + " CHF .   [the full amount - no further payment required]";
+                        this.prices.down      = Math.round(this.order.price * 3 / 10);
+                        this.prices.downLabel = this.prices.down + " CHF .   [the 30% down-payment]";
+                    }else{
+                        this.prices.full      = this.order.dprice;
+                        this.prices.fullLabel = this.prices.full + " CHF .   [the full amount - no further payment required]";
+                        this.prices.down      = Math.round(this.order.dprice * 3 / 10);
+                        this.prices.downLabel = this.prices.down + " CHF .   [the 30% down-payment]";
+                    }
                 })
                 .catch(error => console.log(error));
 
@@ -117,10 +136,10 @@
         },
         data() {
             return {
-                radioGroup: 'full',
+                radioGroup: '',
                 credentials: {
                     sandbox: 'Aft68bXaah3C8yR-P7D3miakX_dWgN6wJkGW8EDMAfwE8YCebXq2KytvN6HPYCZ3tgjNHyuN9H9yamjf',
-                    production: '<production client id>'
+                    production: ''
                 },
                 pay_price: 0,
                 cruise: {},
