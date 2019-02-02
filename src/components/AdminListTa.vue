@@ -3,11 +3,17 @@
     <v-toolbar flat color="white" class="elevation-5 rounded-top">
       <v-toolbar-title>List of Travel Agencies Admin</v-toolbar-title>
       <v-divider class="mx-2" inset vertical></v-divider>
+      <v-radio-group v-on:change="change_status" v-model="status" row>
+        <v-radio label="All" value="all"></v-radio>
+        <v-radio label="To be checked" value=""></v-radio>
+        <v-radio label="Approved" value="1"></v-radio>
+        <v-radio label="Declined" value="0"></v-radio>
+      </v-radio-group>
     </v-toolbar>
 
 
     <v-data-table :headers="headers" :items="agencies" class="elevation-5">
-      <template v-if="props.item.status == null"  slot="items" slot-scope="props">
+      <template slot="items" slot-scope="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.last_name }}</td>
         <td class="text-xs-right">{{ props.item.phone }}</td>
@@ -15,8 +21,8 @@
         <td>{{ props.item.company }}</td>
         <td class="text-xs-right">{{ props.item.url }}</td>
         <td class="text-xs-right">{{ props.item.country }}</td>
-
-        <td class="justify-center layout px-0">
+        <td class="text-xs-right">{{ (props.item.status == null) ? 'to be checked' : (props.item.status == '1') ? 'approved' : 'declined' }}</td>
+        <td class="justify-center layout px-0" v-if="props.item.status == null">
           <v-icon :data-id="props.item.id" small class="mr-2" @click="confirm">done</v-icon>
           <v-icon :data-id="props.item.id" small class="mr-2" @click="decline">clear</v-icon>
         </td>
@@ -46,6 +52,7 @@
         { text: 'URL', align: 'right', value: 'url', sortable: false },
         { text: 'Country', align: 'right', value: 'country', sortable: false },
       ],
+      status: 'all',
       agencies: [],
       defaultItem: {
         order_id: 0,
@@ -67,8 +74,13 @@
     },
 
     methods: {
+      change_status (event){
+        axios.get('https://www.5degeneve.ch/api/travel_agencies?status='+this.status)
+        .then(response => (this.agencies = response.data))
+        .catch(error => console.log(error));
+      },
       initialize () {
-        axios.get('https://www.5degeneve.ch/api/travel_agencies')
+        axios.get('https://www.5degeneve.ch/api/travel_agencies?status='+this.status)
         .then(response => (this.agencies = response.data,console.log(response.data)))
         .catch(error => console.log(error));
       },
@@ -79,7 +91,7 @@
           lang : this.$ml.current
         }
         axios.post('https://www.5degeneve.ch/api/ta_update',{data})
-        .then(response => (axios.get('https://www.5degeneve.ch/api/travel_agencies')
+        .then(response => (axios.get('https://www.5degeneve.ch/api/travel_agencies?status='+this.status)
         .then(response => (this.agencies = response.data,console.log(response.data)))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))
@@ -91,7 +103,7 @@
           lang : this.$ml.current
         }
         axios.post('https://www.5degeneve.ch/api/ta_update',{data})
-        .then(response => (axios.get('https://www.5degeneve.ch/api/travel_agencies')
+        .then(response => (axios.get('https://www.5degeneve.ch/api/travel_agencies?status='+this.status)
         .then(response => (this.agencies = response.data,console.log(response.data)))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))

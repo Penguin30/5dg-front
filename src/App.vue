@@ -34,8 +34,6 @@
                 </v-carousel-item>
             </v-carousel>
 
-            <!-- <Admin></Admin> -->
-
             <Products :lang="$ml.current"/>
             
             <v-layout justify-space-around row style="padding-top:30px;position: relative;">
@@ -60,6 +58,7 @@
             <v-layout justify-space-around row><AdminListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
 
              <v-layout justify-space-around row><AdminListTa v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
+             <!-- <Admin/> -->
         </v-content>
 
         
