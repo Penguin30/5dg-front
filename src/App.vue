@@ -58,6 +58,8 @@
             <v-layout justify-space-around row><AdminListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
 
              <v-layout justify-space-around row><AdminListTa v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
+
+             <v-layout justify-space-around row><BlockDate v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
              <!-- <Admin/> -->
         </v-content>
 
@@ -94,6 +96,7 @@
     import Admin from './components/Admin';
     import AdminListOrders from './components/AdminListOrders';
     import AdminListTa from './components/AdminListTa';
+    import BlockDate from './components/BlockDate';
 
     export default {
         name: 'App',
@@ -104,7 +107,8 @@
             ListOrders,
             Admin,
             AdminListOrders,
-            AdminListTa
+            AdminListTa,
+            BlockDate
         },
         methods: {
             logout(){
