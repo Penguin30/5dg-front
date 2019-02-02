@@ -51,7 +51,7 @@
                                 </v-card-text>
                                 <v-divider></v-divider>
                             </v-card>
-                        </v-dialog>                        
+                        </v-dialog>                       
                     </v-form>
                 </v-card-text>
             </v-card>
@@ -77,6 +77,8 @@
         },
         data() {
             return {
+                reg_thnx: false,
+                reg_text: '',
                 dialog: false,
                 lost_pass_modal: false,
                 email: '',
@@ -86,7 +88,7 @@
             }
         },
         methods: {
-            submit(event) {             
+            submit(event) {
                 if (this.$refs.form.validate()) {
                     let data = {
                         email: this.email,

@@ -1,5 +1,22 @@
 <template>
+        
 		<v-form ref="form" v-model="valid" lazy-validation>
+                        <v-dialog v-model="reg_thnx" width="500">
+                            <v-card class="rounded-card">
+                                <v-card-title
+                                        class="headline grey lighten-2"
+                                        style="color: #fff; background: #ff5252 !important;justify-content: center;"
+                                        primary-title>
+                                    Thank you for registering!
+                                </v-card-title>
+
+                                <v-card-text>
+                                   Thank you for registering, we will come back to you shortly!
+                                   <v-btn @click="close_forms"><span>ok</span></v-btn>
+                                </v-card-text>
+                                <v-divider></v-divider>
+                            </v-card>
+                        </v-dialog> 
 			<v-layout justify-space-between column>
 					<v-text-field		v-model="companyName"	label="Company Name"	required :rules="stringRules"></v-text-field>
 
@@ -34,6 +51,7 @@
 		data: () => ({
 			valid: false,
 			firstName: '',
+                        reg_thnx: false,
 			laststName: '',
 			stringRules: [v => !!v || 'Field is required', v => (v && v.length <= 255) || 'Name must be less than 255 characters'],
 			email: '',
@@ -292,6 +310,9 @@
 		}),
 
 		methods: {
+                        close_forms(){
+                                location.reload();
+                        },
 			submit(event) {				
 				if (this.$refs.form.validate()) {
 					let data = {
@@ -310,7 +331,7 @@
 					}
 
 					axios.post('https://www.5degeneve.ch/api/sign_up_agency',{data})
-					.then(res => ((res.data != '') ?location.reload() : console.log(res)))
+					.then(res => ((res.data != '') ? this.reg_thnx = true : console.log(res)))
                                         .catch(error => (console.log(error)))
 				}
 			},

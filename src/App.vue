@@ -58,8 +58,8 @@
             <v-layout justify-space-around row><AdminListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
 
              <v-layout justify-space-around row><AdminListTa v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
-
-             <v-layout justify-space-around row><BlockDate v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
+<!-- 
+             <v-layout justify-space-around row><BlockDate v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout> -->
              <!-- <Admin/> -->
         </v-content>
 

@@ -24,6 +24,9 @@
         <td class="text-xs-right">{{ props.item.end }}</td>
         <td class="text-xs-right">{{ props.item.num }}</td>
         <td class="text-xs-right">{{ (props.item.order_status == '') ? 'to be checked' : (props.item.order_status == 'option1') ? 'approved' : 'declined' }}</td>
+        <td class="text-xs-right">{{ props.item.price }}</td>
+        <td class="text-xs-right">{{ props.item.dprice }}</td>
+        <td class="text-xs-right">{{ props.item.paide }}</td>
 
         <td class="justify-center layout px-0" v-if="props.item.order_status == ''">
           <v-icon :data-id="props.item.order_id" small class="mr-2" @click="confirm">done</v-icon>
@@ -56,7 +59,10 @@
         { text: 'Start Time', align: 'right', value: 'start' },
         { text: 'End Time', align: 'right', value: 'end' },
         { text: 'Passengers', align: 'right', value: 'num' },
-        { text: 'Status', align: 'right', value: 'order_status' }
+        { text: 'Status', align: 'right', value: 'order_status' },
+        { text: 'Price ', align: 'right', value: 'price'},
+        { text: 'D Price', align: 'right', value: 'dprice'},
+        { text: 'Paid', align: 'right', value: 'paide'}
       ],
       status: 'all',
       orders: [],
@@ -87,7 +93,7 @@
       },
       initialize () {
         axios.get('https://www.5degeneve.ch/api/orders?status='+this.status)
-        .then(response => (this.orders = response.data))
+        .then(response => (this.orders = response.data,console.log(this.orders)))
         .catch(error => console.log(error));
       },
       confirm (event) {
