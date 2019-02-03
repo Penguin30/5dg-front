@@ -51,13 +51,46 @@
                         :amount="radioGroup"
                         currency="CHF"
                         v-on:payment-completed="completed"
+                        v-on:payment-cancelled="cancelled"
                         :client="credentials"
                         env="sandbox">
                     </PayPal>
                 </v-flex>
             </v-layout>
         </v-content>
+    <v-dialog v-model="pay_thnx" width="500">
+                            <v-card class="rounded-card">
+                                <v-card-title
+                                        class="headline grey lighten-2"
+                                        style="color: #fff; background: #ff5252 !important;justify-content: center;"
+                                        primary-title>
+                                    Thank you for payment!
+                                </v-card-title>
 
+                                <v-card-text>
+                                   Thank you for payment, we will come back to you shortly!
+                                   <v-btn @click="close_forms"><span>ok</span></v-btn>
+                                </v-card-text>
+                                <v-divider></v-divider>
+                            </v-card>
+                        </v-dialog> 
+
+                        <v-dialog v-model="eror_pay" width="500">
+                            <v-card class="rounded-card">
+                                <v-card-title
+                                        class="headline grey lighten-2"
+                                        style="color: #fff; background: #ff5252 !important;justify-content: center;"
+                                        primary-title>
+                                    We are sorry, but your payment wasn't success!
+                                </v-card-title>
+
+                                <v-card-text>
+                                    We are sorry, but your payment wasn't success!
+                                   <v-btn @click="close_form_error"><span>ok</span></v-btn>
+                                </v-card-text>
+                                <v-divider></v-divider>
+                            </v-card>
+                        </v-dialog> 
         
         <Footer/>
     </v-app>
@@ -84,6 +117,15 @@
             PayPal
         },
         methods: {
+            close_forms(){
+                location.href='/';
+            },
+            close_form_error(){
+                this.eror_pay = false;
+            },
+            cancelled(){
+                this.eror_pay = true;
+            },
             completed(event){
                 if(event.state == 'approved'){
                     let paid_perc = (this.radioGroup == this.prices.full) ? 100 : 30;
@@ -92,7 +134,7 @@
                         paide: this.radioGroup,
                         paid_perc: paid_perc
                     }
-                    axios.post('https://www.5degeneve.ch/api/approve_order',{data}).then(res => (location.href="/")).catch(error => (console.log(error)));   
+                    axios.post('https://www.5degeneve.ch/api/approve_order',{data}).then(res => (this.pay_thnx = true)).catch(error => (console.log(error)));   
                 }
             },
             logout(){
@@ -137,6 +179,8 @@
         data() {
             return {
                 radioGroup: '',
+                pay_thnx: false,
+                eror_pay: false,
                 credentials: {
                     sandbox: 'Aft68bXaah3C8yR-P7D3miakX_dWgN6wJkGW8EDMAfwE8YCebXq2KytvN6HPYCZ3tgjNHyuN9H9yamjf',
                     production: ''
