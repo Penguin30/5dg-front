@@ -1,7 +1,7 @@
 <template>
   <div style="margin: 50px;" class="rounded-top">
     <v-toolbar flat color="white" class="elevation-5 rounded-top">
-      <v-toolbar-title>List of Orders</v-toolbar-title>
+      <v-toolbar-title>{{ $ml.get('list_ta_o_t') }}</v-toolbar-title>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-spacer></v-spacer>
 
@@ -75,19 +75,21 @@
 
 <script>
   import axios from 'axios';
+  import { MLBuilder } from 'vue-multilanguage';
+
   export default {
     data: () => ({
       dialog: false,
       headers: [
-        { text: 'First Name', value: 'first_name', sortable: false },
-        { text: 'Last Name', value: 'last_name', sortable: false },
-        { text: 'Phone', align: 'right', value: 'phone', sortable: false },
-        { text: 'Email', align: 'right', value: 'email', sortable: false },
-        { text: 'Cruise', align: 'left', sortable: false, value: 'cruise'},
-        { text: 'Date', align: 'right', value: 'date' },
-        { text: 'Start Time', align: 'right', value: 'start' },
-        { text: 'End Time', align: 'right', value: 'end' },
-        { text: 'Passengers', align: 'right', value: 'num' }
+        { text: $ml.get('f_name'), value: 'first_name', sortable: false },
+        { text: $ml.get('l_name'), value: 'last_name', sortable: false },
+        { text: $ml.get('phone'), align: 'right', value: 'phone', sortable: false },
+        { text: $ml.get('email'), align: 'right', value: 'email', sortable: false },
+        { text: $ml.get('cruise'), align: 'left', sortable: false, value: 'cruise'},
+        { text: $ml.get('date'), align: 'right', value: 'date' },
+        { text: $ml.get('s_time'), align: 'right', value: 'start' },
+        { text: $ml.get('e_time'), align: 'right', value: 'end' },
+        { text: $ml.get('num'), align: 'right', value: 'num' }
       ],
       orders: [],
       editedIndex: -1,

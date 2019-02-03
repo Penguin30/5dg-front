@@ -46,6 +46,7 @@
 </template>
 
 <script>
+    import { MLBuilder } from 'vue-multilanguage';
 	import axios from 'axios';
 	export default {
 		data: () => ({

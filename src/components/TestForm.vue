@@ -63,6 +63,7 @@
 	
 </style>
 <script>
+  import { MLBuilder } from 'vue-multilanguage';
   export default {
     data: () => ({
       dialog: false

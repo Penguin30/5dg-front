@@ -19,7 +19,7 @@
 
             <RegisterAgency v-if="$cookies.isKey('token') === false"/>
             <v-btn v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
-                <span class="mr-2">Logout</span>
+                <span class="mr-2">{{ $ml.get('logout') }}</span>
             </v-btn>          
         </v-toolbar>
 

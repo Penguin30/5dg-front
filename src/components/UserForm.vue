@@ -49,6 +49,7 @@
 </template>
 
 <script>
+    import { MLBuilder } from 'vue-multilanguage';
     import Stepper from './Stepper';
     import axios from 'axios';
     import DataPicker from './DataPicker';

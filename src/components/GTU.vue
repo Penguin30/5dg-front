@@ -2,12 +2,12 @@
 	<div class="text-xs-center">
 		<v-dialog v-model="dialog" width="500">
 			<v-btn slot="activator" color="white" text round>
-				Terms & Conditions
+				{{ $ml.get('t_c') }}
 			</v-btn>
 
 			<v-card>
 				<v-card-title class="headline grey lighten-2 primary-title">
-					CONDITIONS GENERALES
+					{{ $ml.get('c_g') }}
 				</v-card-title>
 
 				<v-card-text>
@@ -42,6 +42,7 @@ For judiciaire : Gen&egrave;ve<br/>
 </template>
 
 <script>
+	import { MLBuilder } from 'vue-multilanguage';
 	export default {
 		data () {
 			return {

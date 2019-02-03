@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+  import { MLBuilder } from 'vue-multilanguage';
   export default {
     data () {
       return {

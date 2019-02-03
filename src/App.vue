@@ -19,7 +19,7 @@
 
             <RegisterAgency v-if="$cookies.isKey('token') === false"/>
             <v-btn v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
-                <span class="mr-2">Logout</span>
+                <span class="mr-2">{{ $ml.get('logout') }}</span>
             </v-btn>          
         </v-toolbar>
         <v-content style="padding-bottom:100px;">
@@ -34,18 +34,6 @@
             </v-carousel>
 
             <Products :lang="$ml.current"/>
-
-            <Product 
-            v-if="$cookies.isKey('token') === true && $cookies.get('role') == 3"
-            key='0'
-            productID='0'
-            title='Block Date'
-            description='Block Date'
-            priceTxt='0'
-            price='0'
-            timeStart=''
-            timeEnd=''
-            />
 
             <v-layout justify-space-around row style="padding-top:30px;position: relative;">
                 <v-flex style="text-align: center;">
@@ -69,6 +57,7 @@
             <v-layout justify-space-around row><AdminListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
 
              <v-layout justify-space-around row><AdminListTa v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
+             
              <!-- <Admin/> -->
              <!-- <RotateSquare></RotateSquare> -->
         </v-content>

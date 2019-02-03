@@ -2,32 +2,32 @@
     <div class="text-xs-center">
         <v-menu v-model="menu" :close-on-content-click="false" offset-y nudge-top=-10 offset-x>
             <v-btn round color="error" slot="activator">
-                <span class="mr-2">Travel Agency sign up</span>
+                <span class="mr-2">{{ $ml.get('ta_sign_up_title') }}</span>
             </v-btn>
 
             <v-card class="rounded-card">
                 <v-card-text>
                     <v-form ref="form" v-model="valid" lazy-validation class="rounded-card">
                         <v-layout justify-space-between column>
-                            <v-text-field :rules="emailRules" v-model="email" label="E-mail" required></v-text-field>
-                            <v-text-field :rules="passwordRules" v-model="password" label="Password" required></v-text-field>
+                            <v-text-field :rules="emailRules" v-model="email" :label="$ml.get('email')" required></v-text-field>
+                            <v-text-field :rules="passwordRules" v-model="password" :label="$ml.get('pass')" required></v-text-field>
                         </v-layout>
-                        <v-btn :disabled="!valid" @click="submit">submit</v-btn>
-                        <v-btn @click="clear">clear</v-btn>
+                        <v-btn :disabled="!valid" @click="submit">{{ $ml.get('submit') }}</v-btn>
+                        <v-btn @click="clear">{{ $ml.get('clear') }}</v-btn>
                         <v-btn round color="error" flat @click="lost_pass_modal = true" >
-                            <span class="mr-2">Forget password?</span>
+                            <span class="mr-2">{{ $ml.get('f_pass') }}</span>
                         </v-btn>
                         
                         <v-dialog v-model="dialog" width="500">
                             <v-btn color="error" flat slot="activator">
-                                <span class="mr-2">Not registered yet, please click here!</span>
+                                <span class="mr-2">{{ $ml.get('reg_act') }}</span>
                             </v-btn>
                             <v-card class="rounded-card">
                                 <v-card-title
                                         class="headline grey lighten-2"
                                         style="color: #fff; background: #ff5252 !important;justify-content: center;"
                                         primary-title>
-                                    Travel Agency sign up
+                                    {{ $ml.get('ta_sign_up_title') }}
                                 </v-card-title>
 
                                 <v-card-text>
@@ -43,7 +43,7 @@
                                         class="headline grey lighten-2"
                                         style="color: #fff; background: #ff5252 !important;justify-content: center;"
                                         primary-title>
-                                    Travel Agency Reset Password
+                                    {{ $ml.get('reset_pass_title') }}
                                 </v-card-title>
 
                                 <v-card-text>
@@ -66,6 +66,7 @@
 </style>
 
 <script>
+    import { MLBuilder } from 'vue-multilanguage';
     import AgencySignUpForm from './AgencyFormSignUp';
     import ResetPassAgency from './ResetPassAgency';
     import axios from 'axios';
@@ -82,8 +83,8 @@
                 dialog: false,
                 lost_pass_modal: false,
                 email: '',
-                emailRules: [v => !!v || 'E-mail is required', v => /.+@.+/.test(v) || 'E-mail must be valid'],
-                passwordRules: [v => !!v || 'Password is required'],
+                emailRules: [v => !!v || $ml.get('e_req'), v => /.+@.+/.test(v) || $ml.get('e_valid')],
+                passwordRules: [v => !!v || $ml.get('p_req')],
                 password: ''
             }
         },

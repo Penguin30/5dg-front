@@ -40,7 +40,7 @@
 <script>
     // https://next.vuetifyjs.com/en-US/components/sheets
 	import axios from 'axios';
-
+import { MLBuilder } from 'vue-multilanguage';
 	export default {
 		data: () => ({
             calRenderKey: 0,

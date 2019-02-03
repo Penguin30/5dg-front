@@ -1,15 +1,15 @@
 <template>
 	<v-stepper v-model="e1">
 		<v-stepper-header>
-			<v-stepper-step :complete="e1 > 1" step="1">Choose date</v-stepper-step>
+			<v-stepper-step :complete="e1 > 1" step="1">{{ $ml.get('choose_date') }}</v-stepper-step>
 
 			<v-divider></v-divider>
 
-			<v-stepper-step :complete="e1 > 2" step="2">Register</v-stepper-step>
+			<v-stepper-step :complete="e1 > 2" step="2">{{ $ml.get('register') }}</v-stepper-step>
 
 			<v-divider></v-divider>
 
-			<v-stepper-step :complete="e1 > 3" step="3">Confirmation</v-stepper-step>
+			<v-stepper-step :complete="e1 > 3" step="3">{{ $ml.get('conf') }}</v-stepper-step>
 
 		</v-stepper-header>
     
@@ -18,14 +18,14 @@
 				<v-card>
 					<v-layout row wrap  style="padding: 10px 0 0">
                         <v-flex xs12 style="padding-bottom:20px">
-                            <b><big>{{ formatPrice(this.$store.state.reservation.price) }} CHF<p v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'">{{formatPrice(this.$store.state.reservation.disPrice)}} CHF [your discounted Price]</p></big></b>
+                            <b><big>{{ formatPrice(this.$store.state.reservation.price) }} CHF<p v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'">{{formatPrice(this.$store.state.reservation.disPrice)}} CHF [{{ $ml.get('y_disc_p') }}]</p></big></b>
                         </v-flex>
                         <v-flex v-if="type == 'custom'" xs6 style="padding-right:10px; padding-bottom:20px">
-							<label>Start Time</label>
+							<label>{{ $ml.get('s_time') }}</label>
 							<datetime v-model="startDate" class="input-date" type="time" :minute-step=15 />
 						</v-flex>
 						<v-flex v-if="type == 'custom'" xs6 style="padding-left:10px; padding-bottom:20px">
-							<label>End Time</label>
+							<label>{{ $ml.get('e_time') }}</label>
 							<datetime v-model="endDate" class="input-date" type="time" :minute-step=15 />
 						</v-flex>
                         <v-flex v-if="type == 'evening'" xs12>
@@ -61,19 +61,19 @@
 							<v-layout justify-space-between column>
 									<v-layout row wrap>
 										<v-select v-model="gender" :rules="genderRule" :items="genderItems" label="Title" style="width:20%"></v-select>
-										<v-text-field v-model="firstName" :rules="nameRules" :counter="25" label="First Name" required style="width:40%; padding-left:10px"></v-text-field>
-										<v-text-field v-model="laststName" :rules="nameRules" :counter="25" label="Last Name" required style="width:40%; padding-left:10px"></v-text-field>
+										<v-text-field v-model="firstName" :rules="nameRules" :counter="25" :label="$ml.get('f_name')" required style="width:40%; padding-left:10px"></v-text-field>
+										<v-text-field v-model="laststName" :rules="nameRules" :counter="25" :label="$ml.get('l_name')" required style="width:40%; padding-left:10px"></v-text-field>
 									</v-layout>
 
-									<v-text-field v-model="street" :rules="nameRules" :counter="25" label="Street"></v-text-field>
+									<v-text-field v-model="street" :rules="nameRules" :counter="25" :label="$ml.get('street')"></v-text-field>
 
 									<v-layout row wrap>
-										<v-autocomplete v-model="country" :items="countries" label="Country" required style="width:40%"></v-autocomplete>
-										<v-text-field v-model="city" :rules="nameRules" style="width:60%; padding-left:10px" label="City"></v-text-field>
+										<v-autocomplete v-model="country" :items="countries" :label="$ml.get('country')" required style="width:40%"></v-autocomplete>
+										<v-text-field v-model="city" :rules="nameRules" style="width:60%; padding-left:10px" :label="$ml.get('city')"></v-text-field>
 									</v-layout>
 
-									<v-text-field v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
-									<v-text-field v-model="cell" :rules="phoneRules" label="Cell-Phone" required></v-text-field>
+									<v-text-field v-model="email" :rules="emailRules" :label="$ml.get('email')" required></v-text-field>
+									<v-text-field v-model="cell" :rules="phoneRules" :label="$ml.get('phone')" required></v-text-field>
 
                                     <v-checkbox v-if="type=='evening'" v-model="checkbox" label="Do you want to make a Restaurant stop? If yes the Cruise ends at 22h30 instead of 20h30."></v-checkbox>
 									

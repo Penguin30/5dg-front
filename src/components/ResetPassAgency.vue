@@ -1,21 +1,21 @@
 <template>
         <v-stepper v-model="e1">
                 <v-stepper-header>
-                        <v-stepper-step :complete="e1 > 1" step="1">E-mail</v-stepper-step>
+                        <v-stepper-step :complete="e1 > 1" step="1">{{ $ml.get('email') }}</v-stepper-step>
                         <v-divider></v-divider>
-                        <v-stepper-step :complete="e1 > 2" step="2">Code</v-stepper-step>
+                        <v-stepper-step :complete="e1 > 2" step="2">{{ $ml.get('code') }}</v-stepper-step>
                         <v-divider></v-divider>
-                        <v-stepper-step step="3">New password</v-stepper-step>
+                        <v-stepper-step step="3">{{ $ml.get('n_pass') }}</v-stepper-step>
                         </v-stepper-header>
                         <v-stepper-items>
                                 <v-stepper-content step="1">
                                         <v-card>
                                                 <v-form ref="form" v-model="valid" lazy-validation>
                                                         <v-layout justify-space-between column>
-                                                                <v-text-field v-model="email" label="E-mail" required :rules="emailRules"></v-text-field>
+                                                                <v-text-field v-model="email" :label="$ml.get('email')" required :rules="emailRules"></v-text-field>
                                                         </v-layout>
-                                                        <v-btn :disabled="!valid" @click="submit">submit</v-btn>
-                                                        <v-btn @click="clear">clear</v-btn>
+                                                        <v-btn :disabled="!valid" @click="submit">{{ $ml.get('submit') }}</v-btn>
+                                                        <v-btn @click="clear">{{ $ml.get('clear') }}</v-btn>
                                                 </v-form>
                                         </v-card>
                                 </v-stepper-content>
@@ -24,10 +24,10 @@
                                         <v-card>
                                                 <v-form ref="form_code" v-model="code" lazy-validation>
                                                         <v-layout justify-space-between column>
-                                                                <v-text-field v-model="code_field" label="Code" required :rules="code_field_rules"></v-text-field>
+                                                                <v-text-field v-model="code_field" :label="$ml.get('code')" required :rules="code_field_rules"></v-text-field>
                                                         </v-layout>
-                                                        <v-btn :disabled="!code" @click="check_code">submit</v-btn>
-                                                        <v-btn @click="clear">clear</v-btn>
+                                                        <v-btn :disabled="!code" @click="check_code">{{ $ml.get('submit') }}</v-btn>
+                                                        <v-btn @click="clear">{{ $ml.get('clear') }}</v-btn>
                                                 </v-form>
                                         </v-card>
                                       </v-stepper-content>
@@ -36,11 +36,11 @@
                                         <v-card>
                                             <v-form ref="set_pass_form" v-model="set_pass_form" lazy-validation>
                                                         <v-layout justify-space-between column>
-                                                                <v-text-field v-model="pass" label="Password" required></v-text-field>
-                                                                <v-text-field v-model="pass2" label="Password again" required></v-text-field>
+                                                                <v-text-field v-model="pass" :label="$ml.get('pass')" required></v-text-field>
+                                                                <v-text-field v-model="pass2" :label="$ml.get('pass_again')" required></v-text-field>
                                                         </v-layout>
-                                                        <v-btn :disabled="!set_pass_form" @click="set_pass">submit</v-btn>
-                                                        <v-btn @click="clear">clear</v-btn>
+                                                        <v-btn :disabled="!set_pass_form" @click="set_pass">{{ $ml.get('submit') }}</v-btn>
+                                                        <v-btn @click="clear">{{ $ml.get('clear') }}</v-btn>
                                                 </v-form>
                                         </v-card>
                                       </v-stepper-content>
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+    import { MLBuilder } from 'vue-multilanguage';
         import axios from 'axios';
         export default {
                 data: () => ({
@@ -61,8 +62,8 @@
                         set_pass_form: false,
                         code_field: '',
                         email: '',
-                        code_field_rules: [v => !!v || 'Code is required'],
-                        emailRules: [v => !!v || 'E-mail is required', v => /.+@.+/.test(v) || 'E-mail must be valid'],
+                        code_field_rules: [v => !!v || $ml.get('code_req')],
+                        emailRules: [v => !!v || $ml.get('e_req'), v => /.+@.+/.test(v) || $ml.get('e_valid')],
                 }),
 
                 methods: {

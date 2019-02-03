@@ -41,13 +41,14 @@
 
 <script>
   import axios from 'axios';
+  import { MLBuilder } from 'vue-multilanguage';
   export default {
     data: () => ({
       headers: [
         { text: 'First Name', value: 'first_name', sortable: true },
         { text: 'Last Name', value: 'last_name', sortable: true },
         { text: 'Phone', align: 'right', value: 'phone', sortable: false },
-        { text: 'Email', align: 'right', value: 'email', sortable: false },
+        { text: 'E-mail', align: 'right', value: 'email', sortable: false },
         { text: 'Company', align: 'right', value: 'company', sortable: false },
         { text: 'URL', align: 'right', value: 'url', sortable: false },
         { text: 'Country', align: 'right', value: 'country', sortable: true },

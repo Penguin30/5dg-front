@@ -1,13 +1,13 @@
 <template>
   <div style="margin: 50px;" class="rounded-top">
     <v-toolbar flat color="white" class="elevation-5 rounded-top">
-      <v-toolbar-title>List of Orders Admin</v-toolbar-title>
+      <v-toolbar-title>{{ $ml.get('orders_ad_title') }}</v-toolbar-title>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-radio-group v-on:change="change_status" v-model="status" row>
-        <v-radio label="All" value="all"></v-radio>
-        <v-radio label="To be checked" value=""></v-radio>
-        <v-radio label="Approved" value="option1"></v-radio>
-        <v-radio label="Declined" value="option2"></v-radio>
+        <v-radio :label="$ml.get('status_all')" value="all"></v-radio>
+        <v-radio :label="$ml.get('status_check')" value=""></v-radio>
+        <v-radio :label="$ml.get('status_approved')" value="option1"></v-radio>
+        <v-radio :label="$ml.get('status_declined')" value="option2"></v-radio>
       </v-radio-group>
     </v-toolbar>
 
@@ -47,20 +47,21 @@
 
 <script>
   import axios from 'axios';
+  import { MLBuilder } from 'vue-multilanguage';
   export default {
     data: () => ({
       headers: [
         { text: 'First Name', value: 'first_name', sortable: false },
         { text: 'Last Name', value: 'last_name', sortable: false },
         { text: 'Phone', align: 'right', value: 'phone', sortable: false },
-        { text: 'Email', align: 'right', value: 'email', sortable: false },
+        { text: 'E-mail', align: 'right', value: 'email', sortable: false },
         { text: 'Cruise', align: 'left', sortable: false, value: 'cruise'},
         { text: 'Date', align: 'right', value: 'date' },
-        { text: 'Start Time', align: 'right', value: 'start' },
-        { text: 'End Time', align: 'right', value: 'end' },
+        { text: 'Time Start', align: 'right', value: 'start' },
+        { text: 'Time End', align: 'right', value: 'end' },
         { text: 'Passengers', align: 'right', value: 'num' },
         { text: 'Status', align: 'right', value: 'order_status' },
-        { text: 'Price ', align: 'right', value: 'price'},
+        { text: 'Price', align: 'right', value: 'price'},
         { text: 'D Price', align: 'right', value: 'dprice'},
         { text: 'Paid', align: 'right', value: 'paide'}
       ],
