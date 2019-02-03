@@ -34,7 +34,19 @@
             </v-carousel>
 
             <Products :lang="$ml.current"/>
-            
+
+            <Product 
+            v-if="$cookies.isKey('token') === true && $cookies.get('role') == 3"
+            key='0'
+            productID='0'
+            title='Block Date'
+            description='Block Date'
+            priceTxt='0'
+            price='0'
+            timeStart=''
+            timeEnd=''
+            />
+
             <v-layout justify-space-around row style="padding-top:30px;position: relative;">
                 <v-flex style="text-align: center;">
                     <div class="cruiseVideo">
@@ -101,6 +113,7 @@
         components: {
             RegisterAgency,
             Products,
+            Product,
             Footer,
             ListOrders,
             Admin,
