@@ -44,15 +44,17 @@
   export default {
     data: () => ({
       headers: [
-        { text: 'First Name', value: 'first_name', sortable: false },
-        { text: 'Last Name', value: 'last_name', sortable: false },
+        { text: 'First Name', value: 'first_name', sortable: true },
+        { text: 'Last Name', value: 'last_name', sortable: true },
         { text: 'Phone', align: 'right', value: 'phone', sortable: false },
         { text: 'Email', align: 'right', value: 'email', sortable: false },
         { text: 'Company', align: 'right', value: 'company', sortable: false },
         { text: 'URL', align: 'right', value: 'url', sortable: false },
-        { text: 'Country', align: 'right', value: 'country', sortable: false },
+        { text: 'Country', align: 'right', value: 'country', sortable: true },
+        { text: 'Status', align: 'right', value: 'status', sortable: true },
       ],
       status: 'all',
+      allAgencies: [],
       agencies: [],
       defaultItem: {
         order_id: 0,
@@ -70,20 +72,35 @@
 
 
     created () {
-      this.initialize();
+      this.reload();
     },
 
     methods: {
       change_status (event){
-        axios.get('https://www.5degeneve.ch/api/travel_agencies?status='+this.status)
-        .then(response => (this.agencies = response.data))
-        .catch(error => console.log(error));
+        this.agencies = this.filter(this.status);
       },
-      initialize () {
-        axios.get('https://www.5degeneve.ch/api/travel_agencies?status='+this.status)
-        .then(response => (this.agencies = response.data,console.log(response.data)))
-        .catch(error => console.log(error));
+
+      reload() {
+        axios.get('https://www.5degeneve.ch/api/travel_agencies?status=all')
+          .then((response) => {
+            this.allAgencies = response.data;
+            this.agencies    = this.filter('all');
+          })
+          .catch(error => console.log(error));
       },
+
+      filter(type) {
+        var result = [];
+
+        for (const item of this.allAgencies) {
+          if (type=='all' || item.status==type || item.status==null && type=='') result.push(item);
+        }
+
+        return result;
+      },
+
+
+      // TODO: only submit the ID
       confirm (event) {
         let data = {
           ta_id : event.target.getAttribute('data-id'),
@@ -96,6 +113,8 @@
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))
       },
+
+      // TODO: only submit the ID
       decline (event) {
         let data = {
           ta_id : event.target.getAttribute('data-id'),

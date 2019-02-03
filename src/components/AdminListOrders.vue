@@ -65,6 +65,7 @@
         { text: 'Paid', align: 'right', value: 'paide'}
       ],
       status: 'all',
+      allOrders: [],
       orders: [],
       defaultItem: {
         order_id: 0,
@@ -82,20 +83,34 @@
 
 
     created () {
-      this.initialize();
+      this.reload();
     },
 
     methods: {
       change_status (event){
-        axios.get('https://www.5degeneve.ch/api/orders?status='+this.status)
-        .then(response => (this.orders = response.data))
-        .catch(error => console.log(error));
+        this.orders = this.filter(this.status);
       },
-      initialize () {
-        axios.get('https://www.5degeneve.ch/api/orders?status='+this.status)
-        .then(response => (this.orders = response.data,console.log(this.orders)))
-        .catch(error => console.log(error));
+
+      reload() {
+        axios.get('https://www.5degeneve.ch/api/orders?status=all')
+          .then((response) => {
+            this.allOrders = response.data;
+            this.orders    = this.filter('all');
+          })
+          .catch(error => console.log(error));
       },
+
+      filter(type) {
+        var result = [];
+
+        for (const item of this.allOrders) {
+          if (type=='all' || item.order_status==type) result.push(item);
+        }
+
+        return result;
+      },
+
+      // TODO: only submit the ID
       confirm (event) {
         let data = {
           order_id : event.target.getAttribute('data-id'),
@@ -108,6 +123,8 @@
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))
       },
+
+      // TODO: only submit the ID
       decline (event) {
         let data = {
           order_id : event.target.getAttribute('data-id'),
