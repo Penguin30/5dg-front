@@ -22,7 +22,6 @@
                 <span class="mr-2">Logout</span>
             </v-btn>          
         </v-toolbar>
-
         <v-content style="padding-bottom:100px;">
             <v-carousel>
                 <v-carousel-item
@@ -58,9 +57,8 @@
             <v-layout justify-space-around row><AdminListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
 
              <v-layout justify-space-around row><AdminListTa v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
-<!-- 
-             <v-layout justify-space-around row><BlockDate v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout> -->
              <!-- <Admin/> -->
+             <!-- <RotateSquare></RotateSquare> -->
         </v-content>
 
         
@@ -96,7 +94,7 @@
     import Admin from './components/Admin';
     import AdminListOrders from './components/AdminListOrders';
     import AdminListTa from './components/AdminListTa';
-    import BlockDate from './components/BlockDate';
+    import {RotateSquare} from 'vue-loading-spinner'
 
     export default {
         name: 'App',
@@ -108,7 +106,7 @@
             Admin,
             AdminListOrders,
             AdminListTa,
-            BlockDate
+            RotateSquare
         },
         methods: {
             logout(){
