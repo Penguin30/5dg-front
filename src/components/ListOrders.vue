@@ -81,15 +81,15 @@
     data: () => ({
       dialog: false,
       headers: [
-        { text: $ml.get('f_name'), value: 'first_name', sortable: false },
-        { text: $ml.get('l_name'), value: 'last_name', sortable: false },
-        { text: $ml.get('phone'), align: 'right', value: 'phone', sortable: false },
-        { text: $ml.get('email'), align: 'right', value: 'email', sortable: false },
-        { text: $ml.get('cruise'), align: 'left', sortable: false, value: 'cruise'},
-        { text: $ml.get('date'), align: 'right', value: 'date' },
-        { text: $ml.get('s_time'), align: 'right', value: 'start' },
-        { text: $ml.get('e_time'), align: 'right', value: 'end' },
-        { text: $ml.get('num'), align: 'right', value: 'num' }
+        { text: 'First Name', value: 'first_name', sortable: false },
+        { text: 'Last Name', value: 'last_name', sortable: false },
+        { text: 'Phone', align: 'right', value: 'phone', sortable: false },
+        { text: 'Email', align: 'right', value: 'email', sortable: false },
+        { text: 'Cruise', align: 'left', sortable: false, value: 'cruise'},
+        { text: 'Date', align: 'right', value: 'date' },
+        { text: 'Time start', align: 'right', value: 'start' },
+        { text: 'Time end', align: 'right', value: 'end' },
+        { text: 'Passengers', align: 'right', value: 'num' }
       ],
       orders: [],
       editedIndex: -1,
