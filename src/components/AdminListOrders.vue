@@ -14,19 +14,19 @@
 
     <v-data-table :headers="headers" :items="orders" class="elevation-5">
       <template slot="items" slot-scope="props">
+        <td class="text-xs-right">{{ props.item.date }}</td>
+        <td>{{ props.item.cruise }}</td>
+        <td class="text-xs-right">{{ props.item.num }}</td>
+        <td class="text-xs-right">{{ props.item.start }}</td>
+        <td class="text-xs-right">{{ props.item.end }}</td>
         <td>{{ props.item.first_name }}</td>
         <td>{{ props.item.last_name }}</td>
         <td class="text-xs-right">{{ props.item.phone }}</td>
         <td class="text-xs-right">{{ props.item.email }}</td>
-        <td>{{ props.item.cruise }}</td>
-        <td class="text-xs-right">{{ props.item.date }}</td>
-        <td class="text-xs-right">{{ props.item.start }}</td>
-        <td class="text-xs-right">{{ props.item.end }}</td>
-        <td class="text-xs-right">{{ props.item.num }}</td>
-        <td class="text-xs-right">{{ (props.item.order_status == '') ? 'to be checked' : (props.item.order_status == 'option1') ? 'approved' : 'declined' }}</td>
         <td class="text-xs-right">{{ props.item.price }}</td>
         <td class="text-xs-right">{{ props.item.dprice }}</td>
         <td class="text-xs-right">{{ props.item.paide }}</td>
+        <td class="text-xs-right">{{ (props.item.order_status == '') ? 'to be checked' : (props.item.order_status == 'option1') ? 'approved' : 'declined' }}</td>
 
         <td class="justify-center layout px-0" v-if="props.item.order_status == ''">
           <v-icon :data-id="props.item.order_id" small class="mr-2" @click="confirm">done</v-icon>
@@ -51,19 +51,19 @@
   export default {
     data: () => ({
       headers: [
+        { text: 'Date', align: 'right', value: 'date' },
+        { text: 'Cruise', align: 'left', sortable: false, value: 'cruise'},
+        { text: 'Passengers', align: 'right', value: 'num' },
+        { text: 'Time Start', align: 'right', value: 'start' },
+        { text: 'Time End', align: 'right', value: 'end' },
         { text: 'First Name', value: 'first_name', sortable: false },
         { text: 'Last Name', value: 'last_name', sortable: false },
         { text: 'Phone', align: 'right', value: 'phone', sortable: false },
         { text: 'E-mail', align: 'right', value: 'email', sortable: false },
-        { text: 'Cruise', align: 'left', sortable: false, value: 'cruise'},
-        { text: 'Date', align: 'right', value: 'date' },
-        { text: 'Time Start', align: 'right', value: 'start' },
-        { text: 'Time End', align: 'right', value: 'end' },
-        { text: 'Passengers', align: 'right', value: 'num' },
-        { text: 'Status', align: 'right', value: 'order_status' },
         { text: 'Price', align: 'right', value: 'price'},
         { text: 'D Price', align: 'right', value: 'dprice'},
-        { text: 'Paid', align: 'right', value: 'paide'}
+        { text: 'Paid', align: 'right', value: 'paide'},
+        { text: 'Status', align: 'right', value: 'order_status' }
       ],
       status: 'all',
       allOrders: [],

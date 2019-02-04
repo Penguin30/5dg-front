@@ -622,6 +622,8 @@
 		created(){
             this.$store.state.step=0;
             this.loadBlockedDates();
+            this.$store.state.reservation.price = this.price;
+            this.$store.state.reservation.disPrice = this.dprice;
 		}
 	}
 </script>
