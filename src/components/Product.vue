@@ -22,7 +22,7 @@
 								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.reservation.cruiseID!=0">Back</v-btn>
 							</v-card-actions>
 
-							<v-card-text justify-space-around class="discount" v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'">
+							<v-card-text justify-space-around class="discount" v-if="$cookies.get('role')=='3'">
 								<table border='0' width='100%'>
 									<tr><td>{{ $ml.get('y_disc') }}</td>			<td align='right'><b>{{ discountPercent() }}%</b></td></tr>
 									<tr><td>{{ $ml.get('y_pr') }}</td>				<td align='right'><b>{{ formatPrice(discountProp.disPrice) }} CHF</b></td></tr>

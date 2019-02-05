@@ -332,7 +332,7 @@
 					}
 
 					axios.post('https://www.5degeneve.ch/api/sign_up_agency',{data})
-					.then(res => ((res.data != '') ? this.reg_thnx = true : console.log(res)))
+					.then(res => ((res.data != '') ? this.reg_thnx = true : (res.data == 'email') ? alert('We are sorry but you cannot register with this EMail-Address, as it is already is use.') : console.log(res)))
                                         .catch(error => (console.log(error)))
 				}
 			},

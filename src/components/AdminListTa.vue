@@ -14,11 +14,11 @@
 
     <v-data-table :headers="headers" :items="agencies" class="elevation-5">
       <template slot="items" slot-scope="props">
+        <td>{{ props.item.company }}</td>
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.last_name }}</td>
         <td class="text-xs-right">{{ props.item.phone }}</td>
         <td class="text-xs-right">{{ props.item.email }}</td>
-        <td>{{ props.item.company }}</td>
         <td class="text-xs-right">{{ props.item.url }}</td>
         <td class="text-xs-right">{{ props.item.country }}</td>
         <td class="text-xs-right">{{ (props.item.status == null) ? 'to be checked' : (props.item.status == '1') ? 'approved' : 'declined' }}</td>
@@ -45,11 +45,11 @@
   export default {
     data: () => ({
       headers: [
+        { text: 'Company', align: 'right', value: 'company', sortable: false },
         { text: 'First Name', value: 'first_name', sortable: true },
         { text: 'Last Name', value: 'last_name', sortable: true },
         { text: 'Phone', align: 'right', value: 'phone', sortable: false },
         { text: 'E-mail', align: 'right', value: 'email', sortable: false },
-        { text: 'Company', align: 'right', value: 'company', sortable: false },
         { text: 'URL', align: 'right', value: 'url', sortable: false },
         { text: 'Country', align: 'right', value: 'country', sortable: true },
         { text: 'Status', align: 'right', value: 'status', sortable: true },

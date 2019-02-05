@@ -38,14 +38,14 @@
             <v-layout justify-space-around row style="padding-top:30px;position: relative;">
                 <v-flex style="text-align: center;">
                     <div class="cruiseVideo">
-                    <video id="video1" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="488" height="350" poster="@/assets/Video1.jpg" data-setup="{}">
+                    <video id="video1" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="none" width="488" height="350" poster="@/assets/Video1.jpg" data-setup="{}">
                         <source src="https://www.5degeneve.ch/storage/Video1.mp4" type='video/mp4'>
                     </video>
                     </div>
                 </v-flex>
                 <v-flex>
                     <div class="cruiseVideo">
-                    <video id="video2" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" width="488" height="350" poster="@/assets/Video2.jpg" data-setup="{}">
+                    <video id="video2" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="none" width="488" height="350" poster="@/assets/Video2.jpg" data-setup="{}">
                         <source src="https://www.5degeneve.ch/storage/Video2.mp4" type='video/mp4'>
                     </video>
                     </div>
@@ -54,9 +54,44 @@
 
             <v-layout justify-space-around row><ListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 3"/></v-layout>
 
-            <v-layout justify-space-around row><AdminListOrders v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
+            <v-layout v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1">
+                <v-flex xs12>
+                    <AdminListOrders/>
+                </v-flex>
+            </v-layout>
 
-             <v-layout justify-space-around row><AdminListTa v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1"/></v-layout>
+            <v-layout v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1">
+                <v-flex xs12>
+                    <AdminListTa/>
+                </v-flex>
+            </v-layout>
+
+            <!--
+            <v-layout v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1">
+                <v-flex xs12>
+                        <v-flex xs6 style="padding-right:10px; padding-bottom:20px">
+							<label>{{ $ml.get('s_time') }}</label>
+							<datetime v-model="startDate" class="input-date" type="time" :minute-step=15 />
+						</v-flex>
+						<v-flex xs6 style="padding-left:10px; padding-bottom:20px">
+							<label>{{ $ml.get('e_time') }}</label>
+							<datetime v-model="endDate" class="input-date" type="time" :minute-step=15 />
+						</v-flex>
+						<v-flex xs12>
+							<v-date-picker
+								v-model="date"
+                                :allowed-dates="allowedDates"
+                                :min='new Date().toISOString().substr(0, 10)'
+                                :key="rerenderKey"
+							  />
+						</v-flex>
+
+						<v-flex xs12 class="m-t-10">
+							<label>{{this.dateError}}</label>
+						</v-flex>
+                </v-flex>
+            </v-layout>
+            -->
              
              <!-- <Admin/> -->
              <!-- <RotateSquare></RotateSquare> -->
