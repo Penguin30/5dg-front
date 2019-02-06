@@ -97,6 +97,7 @@
           .then((response) => {
             this.allOrders = response.data;
             this.orders    = this.filter('all');
+            console.log(this.allOrders);
           })
           .catch(error => console.log(error));
       },

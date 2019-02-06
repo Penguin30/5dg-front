@@ -68,10 +68,10 @@
 									<v-text-field v-model="street" :rules="nameRules" :counter="25" :label="$ml.get('street')"></v-text-field>
 
 									<v-layout row wrap>
-										<v-autocomplete v-model="country" :items="countries" :label="$ml.get('country')" required style="width:40%"></v-autocomplete>
-										<v-text-field v-model="city" :rules="nameRules" style="width:60%; padding-left:10px" :label="$ml.get('city')"></v-text-field>
+										<v-autocomplete v-model="country" :items="countries" :label="$ml.get('country')" required style="width:33%"></v-autocomplete>
+										<v-text-field v-model="city" :rules="nameRules" style="width:33%; padding-left:10px" :label="$ml.get('city')"></v-text-field>
+                                        <v-text-field v-model="zip" style="width:33%; padding-left:10px" label="ZIP"></v-text-field>
 									</v-layout>
-
 									<v-text-field v-model="email" :rules="emailRules" :label="$ml.get('email')" required></v-text-field>
 									<v-text-field v-model="cell" :rules="phoneRules" :label="$ml.get('phone')" required></v-text-field>
 
@@ -573,6 +573,7 @@
 						ages:       ages,
 						stop:       this.checkbox,
                         lang:       this.$ml.current,
+                        zip:        this.zip,
                         agency_email: (this.$cookies.get("email") != '') ? this.$cookies.get("email") : '',
                         price:      this.$store.state.reservation.price,
                         dprice:     this.$store.state.reservation.disPrice
