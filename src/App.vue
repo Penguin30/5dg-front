@@ -66,14 +66,15 @@
                 </v-flex>
             </v-layout>
 
-            <!--
+            
             <v-layout v-if="$cookies.isKey('token') === true && $cookies.get('role') == 1">
-                <v-flex xs12>
-                        <v-flex xs6 style="padding-right:10px; padding-bottom:20px">
+                <v-form ref="block" v-model="block_date">
+                    <v-flex xs12>
+                        <v-flex style="padding-right:10px; padding-bottom:20px">
 							<label>{{ $ml.get('s_time') }}</label>
 							<datetime v-model="startDate" class="input-date" type="time" :minute-step=15 />
 						</v-flex>
-						<v-flex xs6 style="padding-left:10px; padding-bottom:20px">
+						<v-flex col-6 style="padding-left:10px; padding-bottom:20px">
 							<label>{{ $ml.get('e_time') }}</label>
 							<datetime v-model="endDate" class="input-date" type="time" :minute-step=15 />
 						</v-flex>
@@ -89,9 +90,16 @@
 						<v-flex xs12 class="m-t-10">
 							<label>{{this.dateError}}</label>
 						</v-flex>
-                </v-flex>
+                        <v-btn
+                          :disabled="!block_date"
+                          @click="validate"
+                        >
+                          Block
+                        </v-btn>
+                    </v-flex>
+                </v-form>
             </v-layout>
-            -->
+            
              
              <!-- <Admin/> -->
              <!-- <RotateSquare></RotateSquare> -->
@@ -146,11 +154,26 @@
             RotateSquare
         },
         methods: {
+            validate(){
+                console.log(this.date);
+                if (this.$refs.block.validate()) {
+                    let data = {
+                        time_start: this.startDate,
+                        time_end: this.endDate
+                    }
+                    axios.get('https://www.5degeneve.ch/api/block_date',{date})
+                    .then(response => (console.log('blocked')))
+                    .catch(error => console.log(error));    
+                }
+            },
             logout(){
                 this.$cookies.remove('token');
                 this.$cookies.remove('role');
                 this.$cookies.remove('email');
                 location.reload();
+            },
+            allowedDates(val){
+                return this.datesAllowed.indexOf(val) === -1;
             },
             change_lang: function(lang,$ml){ 
                 axios.get('https://www.5degeneve.ch/api/cruises?lg='+lang)
@@ -159,15 +182,43 @@
                     this.$store.state.info = response.data
                 ))
                 .catch(error => console.log(error));                
+            },
+            loadBlockedDates() {
+
+                let tS = "00:00:00";
+                let tE = "23:59:59";
+
+                var self = this;
+                let now = (new Date()).getTime();
+
+                tS = encodeURIComponent(tS);
+                tE = encodeURIComponent(tE);
+
+                let url = 'https://www.5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
+
+                axios.get(url)
+                     .then((res) => {
+                         let data = Array.isArray(res.data) ? res.data : [];
+                         self.datesAllowed = [];
+
+                         for (var i=0; i<data.length; i++) {
+                             self.datesAllowed.push(data[i].date);
+                         }
+
+                         self.rerenderKey++;
+                     })
+                     .catch(error => (console.log(error)));
             }
         },
         created(){
+            this.loadBlockedDates();
             var userLang = navigator.language || navigator.userLanguage; 
             console.log(userLang);
             (userLang == 'ru-RU' || userLang == 'ru' || userLang == 'RU' || userLang == 'Ru') ? this.$ml.change('russian') : (userLang == 'en-EN' || userLang == 'en' || userLang == 'EN' || userLang == 'En') ? this.$ml.change('english') : (userLang == 'fr-FR' || userLang == 'fr' || userLang == 'FR' || userLang == 'Fr') ? this.$ml.change('french') : (userLang == 'de-DE' || userLang == 'de' || userLang == 'DE' || userLang == 'De') ? this.$ml.change('deutsch') : (userLang == 'ch-CH' || userLang == 'ch' || userLang == 'CH' || userLang == 'Ch') ? this.$ml.change('chinese') : (userLang == 'ar-AR' || userLang == 'ar' || userLang == 'AR' || userLang == 'Ar') ? this.$ml.change('arabic') : this.$ml.change('english')
         },
         data() {
             return {
+                block_date: false,
                 mainImages: [
                     {src: './img/main/main1.jpg'},
                     {src: './img/main/main2.jpg'},
