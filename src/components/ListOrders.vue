@@ -48,11 +48,11 @@
         <td>{{ props.item.last_name }}</td>
         <td class="text-xs-right">{{ props.item.phone }}</td>
         <td class="text-xs-right">{{ props.item.email }}</td>
-        <td>{{ props.item.cruise }}</td>
+        <td>{{ (props.item.cruise_id == 1) ? 'A' : (props.item.cruise_id == 2) ? 'B' : 'C' }}</td>
         <td class="text-xs-right">{{ props.item.date }}</td>
-        <td class="text-xs-right">{{ props.item.start }}</td>
-        <td class="text-xs-right">{{ props.item.end }}</td>
-        <td class="text-xs-right">{{ props.item.num }}</td>
+        <td class="text-xs-right">{{ props.item.time_start }}</td>
+        <td class="text-xs-right">{{ props.item.time_end }}</td>
+        <td class="text-xs-right">{{ props.item.passengers }}</td>
 
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="viewOrder(props.item)">search</v-icon>

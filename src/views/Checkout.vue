@@ -27,7 +27,7 @@
             <v-layout justify-center justify-space-around style="flex-basis: 0; flex-grow: 1;">
                 <v-flex xs6>
                 <Product
-                    :key='order.id'
+                    :key='order.order_id'
                     :productID='order.cruise_id'
                     :images='cruise.img'
                     :title='cruise.title'
@@ -153,17 +153,17 @@
             var q = this.$route.query;
             this.$data.order.orderID = q && q.orderID ? q.orderID : 0;
             axios.get('https://www.5degeneve.ch/api/order?id='+this.$data.order.orderID)
-                .then((response) => {
+                .then((response) => {                   
                     this.order = response.data[0];
-                    if(this.order.dprice == 0){
+                    if(this.order.discounted_price == 0){
                         this.prices.full      = this.order.price;
                         this.prices.fullLabel = this.prices.full + " CHF .   [the full amount - no further payment required]";
                         this.prices.down      = Math.round(this.order.price * 3 / 10);
                         this.prices.downLabel = this.prices.down + " CHF .   [the 30% down-payment]";
                     }else{
-                        this.prices.full      = this.order.dprice;
+                        this.prices.full      = this.order.discounted_price;
                         this.prices.fullLabel = this.prices.full + " CHF .   [the full amount - no further payment required]";
-                        this.prices.down      = Math.round(this.order.dprice * 3 / 10);
+                        this.prices.down      = Math.round(this.order.discounted_price * 3 / 10);
                         this.prices.downLabel = this.prices.down + " CHF .   [the 30% down-payment]";
                     }
                 })

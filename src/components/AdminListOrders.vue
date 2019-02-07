@@ -26,7 +26,7 @@
         <td class="text-xs-right">{{ props.item.price }}</td>
         <td class="text-xs-right">{{ props.item.dprice }}</td>
         <td class="text-xs-right">{{ props.item.paide }}</td>
-        <td class="text-xs-right">{{ (props.item.order_status == '') ? 'to be checked' : (props.item.order_status == 'option1') ? 'approved' : 'declined' }}</td>
+        <td class="text-xs-right">{{ (props.item.order_status == '') ? 'to be checked' : (props.item.order_status == 'approved') ? 'approved' : 'declined' }}</td>
 
         <td class="justify-center layout px-0" v-if="props.item.order_status == ''">
           <v-icon :data-id="props.item.order_id" small class="mr-2" @click="confirm">done</v-icon>
