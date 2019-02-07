@@ -86,7 +86,7 @@
 						</v-flex>
 
 						<v-flex xs12 class="m-t-10">
-							<label>{{this.dateError}}</label>
+							<label>{{dateError}}</label>
 						</v-flex>
                         <v-btn
                           :disabled="!block_date"
@@ -163,7 +163,7 @@
                         time_end: this.block_endDate
                     }
                     axios.post('https://www.5degeneve.ch/api/block_date',{data})
-                    .then(response => (console.log('blocked')))
+                    .then(response => ((response.data == 1) ? (this.dateError = 'Date blocked',location.reload()) : (response.data == 2) ? this.dateError = "You can't block this date, bacause you have cruise(s) on this day!" : location.reload()))
                     .catch(error => console.log(error));    
                 }
             },

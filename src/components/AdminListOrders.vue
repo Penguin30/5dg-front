@@ -26,6 +26,7 @@
         <td class="text-xs-right">{{ props.item.price }}</td>
         <td class="text-xs-right">{{ props.item.dprice }}</td>
         <td class="text-xs-right">{{ props.item.paide }}</td>
+         <td class="text-xs-right">{{ props.item.company }}</td>
         <td class="text-xs-right">{{ (props.item.order_status == '') ? 'to be checked' : (props.item.order_status == 'approved') ? 'approved' : 'declined' }}</td>
 
         <td class="justify-center layout px-0" v-if="props.item.order_status == ''">
@@ -63,6 +64,7 @@
         { text: 'Price', align: 'right', value: 'price'},
         { text: 'D Price', align: 'right', value: 'dprice'},
         { text: 'Paid', align: 'right', value: 'paide'},
+        { text: 'Agency', align: 'right', value: 'company' },
         { text: 'Status', align: 'right', value: 'order_status' }
       ],
       status: 'all',
