@@ -28,10 +28,10 @@
         <td class="text-xs-right">{{ props.item.paide }}</td>
          <td class="text-xs-right">{{ props.item.company }}</td>
         <td class="text-xs-right">{{ (props.item.order_status == '') ? 'to be checked' : (props.item.order_status == 'approved') ? 'approved' : 'declined' }}</td>
-
-        <td class="justify-center layout px-0" v-if="props.item.order_status == ''">
-          <v-icon :data-id="props.item.order_id" small class="mr-2" @click="confirm">done</v-icon>
-          <v-icon :data-id="props.item.order_id" small class="mr-2" @click="decline">clear</v-icon>
+        {{ d }}
+        <td class="justify-center layout px-0">
+          <v-icon v-if="props.item.order_status == ''" :data-id="props.item.order_id" small class="mr-2" @click="confirm">done</v-icon>
+          <v-icon v-if="props.item.order_status == 'approved'" :data-id="props.item.order_id" small class="mr-2" @click="decline">clear</v-icon>
         </td>
       </template>
 
@@ -68,6 +68,7 @@
         { text: 'Status', align: 'right', value: 'order_status' }
       ],
       status: 'all',
+      d: new Date(2017,1,12),
       allOrders: [],
       orders: [],
       defaultItem: {
@@ -86,6 +87,7 @@
 
 
     created () {
+      d.setDate(d.getDate() + 10);
       this.reload();
     },
 

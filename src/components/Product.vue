@@ -155,9 +155,10 @@
 			}
 		},
 		created() {
-			if ($store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3') {
+			if ($cookies.get('role')=='3') {
 				var self = this;
-				axios.get('https://www.5degeneve.ch/api/get_count_ta_orders?email='+this.$cookies.get('email'))
+				var now = (new Date()).getTime();
+				axios.get('https://www.5degeneve.ch/api/get_count_ta_orders?email='+this.$cookies.get('email')+'&n='+now)
 					.then((response) => {
 						this.count = response.data;
 						self.discountPercent();
