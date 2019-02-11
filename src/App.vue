@@ -97,10 +97,6 @@
                     </v-flex>
                 </v-form>
             </v-layout>
-            
-             
-             <!-- <Admin/> -->
-             <!-- <RotateSquare></RotateSquare> -->
         </v-content>
 
         
@@ -163,7 +159,7 @@
                         time_end: this.block_endDate
                     }
                     axios.post('https://www.5degeneve.ch/api/block_date',{data})
-                    .then(response => ((response.data == 1) ? (this.dateError = 'Date blocked',location.reload()) : (response.data == 2) ? this.dateError = "You can't block this date, bacause you have cruise(s) on this day!" : location.reload()))
+                    .then(response => ((response.data == 1) ? (this.dateError = 'Date blocked') : (response.data == 2) ? this.dateError = "You can't block this date, bacause you have cruise(s) on this day!" : location.reload()))
                     .catch(error => console.log(error));    
                 }
             },
@@ -173,10 +169,10 @@
                 this.$cookies.remove('email');
                 location.reload();
             },
-            change_lang: function(lang,$ml){ 
+            change_lang: function(lang){ 
                 axios.get('https://www.5degeneve.ch/api/cruises?lg='+lang)
                 .then(response => (
-                    $ml.change(lang),
+                    this.$ml.change(lang),
                     this.$store.state.info = response.data
                 ))
                 .catch(error => console.log(error));                
@@ -185,12 +181,13 @@
         created(){
             var userLang = navigator.language || navigator.userLanguage; 
             console.log(userLang);
-            (userLang == 'ru-RU' || userLang == 'ru' || userLang == 'RU' || userLang == 'Ru') ? this.$ml.change('russian') : (userLang == 'en-EN' || userLang == 'en' || userLang == 'EN' || userLang == 'En') ? this.$ml.change('english') : (userLang == 'fr-FR' || userLang == 'fr' || userLang == 'FR' || userLang == 'Fr') ? this.$ml.change('french') : (userLang == 'de-DE' || userLang == 'de' || userLang == 'DE' || userLang == 'De') ? this.$ml.change('deutsch') : (userLang == 'ch-CH' || userLang == 'ch' || userLang == 'CH' || userLang == 'Ch') ? this.$ml.change('chinese') : (userLang == 'ar-AR' || userLang == 'ar' || userLang == 'AR' || userLang == 'Ar') ? this.$ml.change('arabic') : this.$ml.change('english')
+            (userLang == 'ru-RU' || userLang == 'ru' || userLang == 'RU' || userLang == 'Ru') ? this.change_lang('russian') : (userLang == 'en-EN' || userLang == 'en' || userLang == 'EN' || userLang == 'En') ? this.change_lang('english') : (userLang == 'fr-FR' || userLang == 'fr' || userLang == 'FR' || userLang == 'Fr') ? this.change_lang('french') : (userLang == 'de-DE' || userLang == 'de' || userLang == 'DE' || userLang == 'De') ? this.change_lang('deutsch') : (userLang == 'ch-CH' || userLang == 'ch' || userLang == 'CH' || userLang == 'Ch') ? this.change_lang('chinese') : (userLang == 'ar-AR' || userLang == 'ar' || userLang == 'AR' || userLang == 'Ar') ? this.change_lang('arabic') : this.change_lang('english')
         },
         data() {
             return {
                 block_date: false,
                 block_date: new Date().toISOString().substr(0, 10),
+                dateError: '',
                 mainImages: [
                     {src: './img/main/main1.jpg'},
                     {src: './img/main/main2.jpg'},

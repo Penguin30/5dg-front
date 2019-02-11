@@ -8,9 +8,9 @@
 							<v-sheet
 								v-for="(percent, i) in tracked[date]"
 								:key="i"
-								:title="category[percent[1]]"
-								:color="colors[percent[1]]"
-								:width="`${percent[0]}%`"
+								:title="category[percent[i]]"
+								:color="colors[percent[i]]"
+								:width="`${percent[i]}%`"
 								height="100%"
 								tile
 							></v-sheet>
@@ -39,11 +39,11 @@
 
 <script>
     // https://next.vuetifyjs.com/en-US/components/sheets
-	import axios from 'axios';
+import axios from 'axios';
 import { MLBuilder } from 'vue-multilanguage';
 	export default {
 		data: () => ({
-            calRenderKey: 0,
+            calRenderKey: 1,
 			today: '2019-01-10',
 			tracked: {
 				'2019-01-09': [[23, 2], [45, 1], [10,3]],
