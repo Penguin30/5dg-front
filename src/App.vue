@@ -171,16 +171,22 @@
             },
             change_lang: function(lang){ 
                 axios.get('https://www.5degeneve.ch/api/cruises?lg='+lang)
-                .then(response => (
-                    this.$ml.change(lang),
-                    this.$store.state.info = response.data
-                ))
-                .catch(error => console.log(error));                
+                .then(response => {
+                    this.$ml.change(lang);
+                    let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_AED' : 'CHF';
+                    this.$store.state.info = response.data;
+                    this.$store.state.curr_code = code;
+                    if(code != 'CHF')
+                        axios.get('https://www.5degeneve.ch/currTest.php?code='+code)
+                        .then(res => (this.$store.state.rate = res.data))
+                        .catch(error => (console.log(error)))
+                })
+                .catch(error => console.log(error));         
+                console.log(this.$store.state.rate);       
             },
         },
         created(){
             var userLang = navigator.language || navigator.userLanguage; 
-            console.log(userLang);
             (userLang == 'ru-RU' || userLang == 'ru' || userLang == 'RU' || userLang == 'Ru') ? this.change_lang('russian') : (userLang == 'en-EN' || userLang == 'en' || userLang == 'EN' || userLang == 'En') ? this.change_lang('english') : (userLang == 'fr-FR' || userLang == 'fr' || userLang == 'FR' || userLang == 'Fr') ? this.change_lang('french') : (userLang == 'de-DE' || userLang == 'de' || userLang == 'DE' || userLang == 'De') ? this.change_lang('deutsch') : (userLang == 'ch-CH' || userLang == 'ch' || userLang == 'CH' || userLang == 'Ch') ? this.change_lang('chinese') : (userLang == 'ar-AR' || userLang == 'ar' || userLang == 'AR' || userLang == 'Ar') ? this.change_lang('arabic') : this.change_lang('english')
         },
         data() {

@@ -203,7 +203,7 @@
       confirm (event) {
         let data = {
           order_id : event.target.getAttribute('data-id'),
-          status : 'Confirmed',
+          status : 'approved',
           lang : this.$ml.current
         }
         axios.post('https://www.5degeneve.ch/api/order_update',{data})
@@ -217,7 +217,7 @@
       decline (event) {
         let data = {
           order_id : event.target.getAttribute('data-id'),
-          status : 'Declined',
+          status : 'declined',
           lang : this.$ml.current
         }
         axios.post('https://www.5degeneve.ch/api/order_update',{data})
