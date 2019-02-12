@@ -32,8 +32,6 @@
                     <v-layout column align-center justify-center class="white--text"></v-layout>
                 </v-carousel-item>
             </v-carousel>
-{{ $store.state.rate }}
-{{ $store.state.curr_code }}
             <Products :lang="$ml.current"/>
 
             <v-layout justify-space-around row style="padding-top:30px;position: relative;">
@@ -191,9 +189,7 @@
                     })
                     .catch(error => (console.log(error)))
                 else
-                    this.$store.state.rate = 1;
-
-                console.log(this.$store.state.rate);              
+                    this.$store.state.rate = 1;           
             },
         },
         created(){
