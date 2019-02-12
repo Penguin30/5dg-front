@@ -10,7 +10,7 @@
             <v-btn 
                 v-for="lang in $ml.list"
                 :key="lang"
-                @click="change_lang(lang,$ml)"
+                @click="change_lang(lang)"
                 flat 
                 icon 
             >
@@ -33,7 +33,7 @@
                     :title='cruise.title'
                     :description='cruise.desc'
                     :priceTxt='order.price'
-                    :price='order.price'
+                    :price='order.price*$cookies.get("rate")'
                     :timeStart='order.time_start'
                     :timeEnd='order.time_end'
                     :type='order.type'
@@ -142,13 +142,27 @@
                 this.$cookies.remove('role');
                 location.reload();
             },
-            change_lang: function(lang,$ml){ 
-                $ml.change(lang);               
-            }
+            change_lang: function(lang){ 
+                axios.get('https://www.5degeneve.ch/api/cruises?lg='+lang)
+                .then(response => {
+                    this.$ml.change(lang);
+                    let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_AED' : 'CHF';
+                    this.$store.state.info = response.data;
+                    this.$store.state.curr_code = code.replace('CHF_','');
+                    if(code != 'CHF')
+                        axios.get('https://www.5degeneve.ch/currTest.php?code='+code)
+
+                        .then(res => (this.$cookies.set('rate',Math.round(res.data,2))))
+                        .catch(error => (console.log(error)))
+                    else
+                        this.$cookies.set('rate',1);
+                })
+                .catch(error => console.log(error));              
+            },
         },
         created(){
             var userLang = navigator.language || navigator.userLanguage; 
-            (userLang == 'ru-RU') ? this.$ml.change('russian') : (userLang == 'en-EN') ? this.$ml.change('english') : (userLang == 'fr-FR') ? this.$ml.change('french') : (userLang == 'de-DE') ? this.$ml.change('deutsch') : (userLang == 'ch-CH') ? this.$ml.change('chinese') : (userLang == 'ar-AR') ? this.$ml.change('arabic') : this.$ml.change('english');
+            (userLang == 'ru-RU' || userLang == 'ru' || userLang == 'RU' || userLang == 'Ru') ? this.change_lang('russian') : (userLang == 'en-EN' || userLang == 'en' || userLang == 'EN' || userLang == 'En') ? this.change_lang('english') : (userLang == 'fr-FR' || userLang == 'fr' || userLang == 'FR' || userLang == 'Fr') ? this.change_lang('french') : (userLang == 'de-DE' || userLang == 'de' || userLang == 'DE' || userLang == 'De') ? this.change_lang('deutsch') : (userLang == 'ch-CH' || userLang == 'ch' || userLang == 'CH' || userLang == 'Ch') ? this.change_lang('chinese') : (userLang == 'ar-AR' || userLang == 'ar' || userLang == 'AR' || userLang == 'Ar') ? this.change_lang('arabic') : this.change_lang('english')
 
             var q = this.$route.query;
             this.$data.order.orderID = q && q.orderID ? q.orderID : 0;

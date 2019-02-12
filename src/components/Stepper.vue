@@ -18,7 +18,7 @@
 				<v-card>
 					<v-layout row wrap  style="padding: 10px 0 0">
                         <v-flex xs12 style="padding-bottom:20px">
-                            <b><big>{{ formatPrice(this.$store.state.reservation.price) }} CHF<p v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'">{{formatPrice(this.$store.state.reservation.disPrice)}} CHF [{{ $ml.get('y_disc_p') }}]</p></big></b>
+                            <b><big>{{ formatPrice(this.$store.state.reservation.price) }} {{ $store.state.curr_code }}<p v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'">{{formatPrice(this.$store.state.reservation.disPrice)}} {{ $store.state.curr_code }} [{{ $ml.get('y_disc_p') }}]</p></big></b>
                         </v-flex>
                         <v-flex v-if="type == 'custom'" xs6 style="padding-right:10px; padding-bottom:20px">
 							<label>{{ $ml.get('s_time') }}</label>
@@ -487,8 +487,8 @@
 
             'extended': function() {
                 this.$store.state.reservation.timeEnd = this.extended;
-                if (this.extended=='20:30:00')  this.$store.state.reservation.price = 960;
-                else                            this.$store.state.reservation.price = 1280;
+                if (this.extended=='20:30:00')  this.$store.state.reservation.price = 960*this.$store.state.rate;
+                else                            this.$store.state.reservation.price = 1280*this.$store.state.rate;
 
                 if ($cookies.get('role')=='3') {
                     this.$store.state.reservation.disPrice = this.$store.state.reservation.price - Math.round(this.$store.state.reservation.price * this.$store.state.reservation.disPerct) / 100;

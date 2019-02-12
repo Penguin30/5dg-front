@@ -7,8 +7,8 @@
       :images="info[key].img"
       :title='info[key].title'
       :description='info[key].desc'
-      :priceTxt='products[0].priceTxt'
-      :price='info[key].price'
+      :priceTxt='$store.state.curr_code'
+      :price='info[key].price*$store.state.rate'
       :timeStart='info[key].time_start'
       :timeEnd='info[key].time_end'
       :type='info[key].type'

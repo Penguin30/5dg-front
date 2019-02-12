@@ -32,7 +32,8 @@
                     <v-layout column align-center justify-center class="white--text"></v-layout>
                 </v-carousel-item>
             </v-carousel>
-
+{{ $store.state.rate }}
+{{ $store.state.curr_code }}
             <Products :lang="$ml.current"/>
 
             <v-layout justify-space-around row style="padding-top:30px;position: relative;">
@@ -170,19 +171,29 @@
                 location.reload();
             },
             change_lang: function(lang){ 
-                axios.get('https://www.5degeneve.ch/api/cruises?lg='+lang)
-                .then(response => {
-                    this.$ml.change(lang);
-                    let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_AED' : 'CHF';
-                    this.$store.state.info = response.data;
-                    this.$store.state.curr_code = code;
-                    if(code != 'CHF')
-                        axios.get('https://www.5degeneve.ch/currTest.php?code='+code)
-                        .then(res => (this.$store.state.rate = res.data))
-                        .catch(error => (console.log(error)))
-                })
-                .catch(error => console.log(error));         
-                console.log(this.$store.state.rate);       
+                let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_AED' : 'CHF';                                    
+                if(code != 'CHF')
+                    axios.get('https://www.5degeneve.ch/currTest.php?code='+code)
+                    .then(res => {
+                        if(Math.round(res.data,2) == 0){
+                            this.$store.state.rate = 1;
+                            this.$store.state.curr_code = 'CHF';
+                        }else{
+                            this.$store.state.rate = Math.round(res.data,2);
+                            this.$store.state.curr_code = code.replace('CHF_','');
+                        }
+                        axios.get('https://www.5degeneve.ch/api/cruises?lg='+lang)
+                        .then(response => {
+                            this.$store.state.info = response.data;
+                            this.$ml.change(lang);                    
+                        })
+                        .catch(error => console.log(error)); 
+                    })
+                    .catch(error => (console.log(error)))
+                else
+                    this.$store.state.rate = 1;
+
+                console.log(this.$store.state.rate);              
             },
         },
         created(){
