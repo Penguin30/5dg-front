@@ -22,11 +22,11 @@
                         </v-flex>
                         <v-flex v-if="type == 'custom'" xs6 style="padding-right:10px; padding-bottom:20px">
 							<label>{{ $ml.get('s_time') }}</label>
-							<datetime v-model="startDate" class="input-date" type="time" :minute-step=15 />
+							<datetime :rules="startDateRules" v-model="startDate" class="input-date" type="time" :minute-step=15 />
 						</v-flex>
 						<v-flex v-if="type == 'custom'" xs6 style="padding-left:10px; padding-bottom:20px">
 							<label>{{ $ml.get('e_time') }}</label>
-							<datetime v-model="endDate" class="input-date" type="time" :minute-step=15 />
+							<datetime :rules="endDateRules" v-model="endDate" class="input-date" type="time" :minute-step=15 />
 						</v-flex>
                         <v-flex v-if="type == 'evening'" xs12>
                              <v-radio-group v-model="extended">
@@ -156,6 +156,8 @@
 				gender: null,
 				genderRule: [v => !!v || 'Please select your Gender!'],
                 genderItems: ['Mr.', 'Mrs.'],
+                startDateRules: [v => !!v || 'Field is required'],
+                endDateRules: [v => !!v || 'Field is required'], 
                 phoneRules: [v => !!v || 'Field is required', v => (v && v.length <= 255) || 'Name must be less than 255 characters'], 
 				checkbox: false,
 				attendees: 1,
@@ -509,42 +511,46 @@
 			},
 
 			check_date(){
-				let event = this.date;
-				let today = new Date();
-				let dd = today.getDate();
-				let mm = today.getMonth()+1;
-				let yyyy = today.getFullYear();
-				if(dd<10) {
-				  dd = '0'+dd
-				} 
+                if(this.startDate != '' && this.endDate != ''){
+    				let event = this.date;
+    				let today = new Date();
+    				let dd = today.getDate();
+    				let mm = today.getMonth()+1;
+    				let yyyy = today.getFullYear();
+    				if(dd<10) {
+    				  dd = '0'+dd
+    				} 
 
-				if(mm<10) {
-				  mm = '0'+mm
-				}
-				today = yyyy + '-' + mm + '-' + dd;
-				if(event > today){
-					this.$store.state.cruise = this.cruise_id;
-					let data = {
-						date: event,
-						cruise: this.cruise_id,
-						time_start: new Date(this.startDate).getHours()+':'+new Date(this.startDate).getMinutes(),
-						time_end: new Date(this.endDate).getHours()+':'+new Date(this.endDate).getMinutes()
-					};
-					if(Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 < 3 || Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 > 15) {
-						this.dateError = this.$ml.get('short_time_or_long') 
-					}else{
-                        axios.post('https://www.5degeneve.ch/api/check_time',{data})
-                            .then(response => ((response.data == 'ok') ? (
-                                this.e1 = 2,
-                                this.$store.state.step = 2,
-                                this.$store.state.date = event,
-                                this.$store.state.time_s = new Date(this.startDate).getHours()+':'+new Date(this.startDate).getMinutes(),
-                                this.$store.state.time_e = new Date(this.endDate).getHours()+':'+new Date(this.endDate).getMinutes()
-                            ) : this.dateError = this.$ml.get('not_correct_time')))
-					}
-				}else{
-					this.dateError = this.$ml.get('date_less_today');
-				}
+    				if(mm<10) {
+    				  mm = '0'+mm
+    				}
+    				today = yyyy + '-' + mm + '-' + dd;
+    				if(event > today){
+    					this.$store.state.cruise = this.cruise_id;
+    					let data = {
+    						date: event,
+    						cruise: this.cruise_id,
+    						time_start: new Date(this.startDate).getHours()+':'+new Date(this.startDate).getMinutes(),
+    						time_end: new Date(this.endDate).getHours()+':'+new Date(this.endDate).getMinutes()
+    					};
+    					if(Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 < 3 || Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 > 15) {
+    						this.dateError = this.$ml.get('short_time_or_long') 
+    					}else{
+                            axios.post('https://www.5degeneve.ch/api/check_time',{data})
+                                .then(response => ((response.data == 'ok') ? (
+                                    this.e1 = 2,
+                                    this.$store.state.step = 2,
+                                    this.$store.state.date = event,
+                                    this.$store.state.time_s = new Date(this.startDate).getHours()+':'+new Date(this.startDate).getMinutes(),
+                                    this.$store.state.time_e = new Date(this.endDate).getHours()+':'+new Date(this.endDate).getMinutes()
+                                ) : this.dateError = this.$ml.get('not_correct_time')))
+    					}
+    				}else{
+    					this.dateError = this.$ml.get('date_less_today');
+    				}
+                }else{
+                    this.dateError = 'Select time start and time end';
+                }
 			},
 			submit(event) {
 				if (this.$refs.form.validate()) {

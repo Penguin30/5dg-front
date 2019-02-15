@@ -38,6 +38,9 @@
                    <v-text>Passengers {{ editedItem.num }}</v-text>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
+                   <v-text>Ages: {{ editedItem.ages }}</v-text>
+                </v-flex>
+                <v-flex xs12 sm12 md12>
                    <v-text>First Name {{ editedItem.first_name }}</v-text>
                 </v-flex>
                 <v-flex xs12 sm12 md12>
