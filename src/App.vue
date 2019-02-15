@@ -172,7 +172,7 @@
                 console.log(lang);
                 let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_AED' : 'CHF';                                    
                 if(code != 'CHF')
-                    axios.get('https://www.5degeneve.ch/currTest.php?code='+code)
+                    axios.get('https://www.5degeneve.ch/api/get_rate?code='+code)
                     .then(res => {
                         if(Math.round(res.data,2) == 0){
                             this.$store.state.rate = 1;
