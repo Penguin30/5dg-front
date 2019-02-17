@@ -16,7 +16,7 @@
 					<v-flex xs8>
 						<v-layout column>
 							<v-card-actions class="pl-3">
-								<span v-if="productID!=1" style="padding-right: 10px;">{{ $ml.get('s_from') }}</span> <b><big> {{ formatPrice(price) }} {{ $store.state.curr_code }}</big></b>
+								<span v-if="productID!=1" style="padding-right: 10px;">{{ $ml.get('s_from') }}</span> <big> <b>{{ formatPrice(price) }} CHF</b> ~ ({{ formatPrice(price*rate) }} {{ $store.state.curr_code }})</big>
 								<v-spacer></v-spacer>
 								<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.reservation.cruiseID==0">{{ $ml.get('btn') }}</v-btn>
 								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.reservation.cruiseID!=0">Back</v-btn>
@@ -83,7 +83,7 @@
 		components: {
      		Stepper
     	},
-		props: ['productID', 'images', 'title', 'description', 'timeStart', 'timeEnd', 'price', 'caption', 'type'],
+		props: ['productID', 'images', 'title', 'description', 'timeStart', 'timeEnd', 'price', 'caption', 'type', 'rate'],
 		data: () => ({
 			count: 0,
 			isExpanded: false,

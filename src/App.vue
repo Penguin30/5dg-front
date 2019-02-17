@@ -169,8 +169,7 @@
                 location.reload();
             },
             change_lang: function(lang){ 
-                console.log(lang);
-                let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_AED' : 'CHF';                                    
+                let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_USD' : 'CHF';                                    
                 if(code != 'CHF')
                     axios.get('https://www.5degeneve.ch/api/get_rate?code='+code)
                     .then(res => {
@@ -194,6 +193,9 @@
             },
         },
         created(){
+            axios.get('https://www.5degeneve.ch/api/me')
+            .then()
+            .catch(error => console.log(error)); 
             var userLang = navigator.language || navigator.userLanguage; 
             (userLang == 'ru-RU' || userLang == 'ru' || userLang == 'RU' || userLang == 'Ru') ? this.change_lang('russian') : (userLang == 'en-EN' || userLang == 'en' || userLang == 'EN' || userLang == 'En') ? this.change_lang('english') : (userLang == 'fr-FR' || userLang == 'fr' || userLang == 'FR' || userLang == 'Fr') ? this.change_lang('french') : (userLang == 'de-DE' || userLang == 'de' || userLang == 'DE' || userLang == 'De') ? this.change_lang('deutsch') : (userLang == 'ch-CH' || userLang == 'ch' || userLang == 'CH' || userLang == 'Ch') ? this.change_lang('chinese') : (userLang == 'ar-AR' || userLang == 'ar' || userLang == 'AR' || userLang == 'Ar') ? this.change_lang('arabic') : this.change_lang('english')
         },
