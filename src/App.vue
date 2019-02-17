@@ -193,8 +193,16 @@
             },
         },
         created(){
-            axios.get('https://www.5degeneve.ch/api/me')
-            .then()
+            let form_params = {
+                grant_type: 'password',
+                client_id: 7,
+                client_secret: 'oaCcloLW41PRlkm21T2MM55mfn9sE87wczZ52oEh',
+                username: 'admin',
+                password: 'password',
+                scope: '*'
+            }
+            axios.post('https://www.5degeneve.ch/oauth/token',{form_params})
+            .then(res => console.log(res))
             .catch(error => console.log(error)); 
             var userLang = navigator.language || navigator.userLanguage; 
             (userLang == 'ru-RU' || userLang == 'ru' || userLang == 'RU' || userLang == 'Ru') ? this.change_lang('russian') : (userLang == 'en-EN' || userLang == 'en' || userLang == 'EN' || userLang == 'En') ? this.change_lang('english') : (userLang == 'fr-FR' || userLang == 'fr' || userLang == 'FR' || userLang == 'Fr') ? this.change_lang('french') : (userLang == 'de-DE' || userLang == 'de' || userLang == 'DE' || userLang == 'De') ? this.change_lang('deutsch') : (userLang == 'ch-CH' || userLang == 'ch' || userLang == 'CH' || userLang == 'Ch') ? this.change_lang('chinese') : (userLang == 'ar-AR' || userLang == 'ar' || userLang == 'AR' || userLang == 'Ar') ? this.change_lang('arabic') : this.change_lang('english')
