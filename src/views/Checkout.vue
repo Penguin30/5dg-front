@@ -33,10 +33,12 @@
                     :title='cruise.title'
                     :description='cruise.desc'
                     :priceTxt='order.price'
-                    :price='order.price*$store.state.rate'
+                    :price='order.price'
+                    :rate='$store.state.rate'
                     :timeStart='order.time_start'
                     :timeEnd='order.time_end'
                     :type='order.type'
+                    mode='pay'
                     :caption='order.caption'>
                 </Product>
                 </v-flex>
@@ -143,9 +145,9 @@
                 location.reload();
             },
             change_lang: function(lang){ 
-                let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_AED' : 'CHF';                                    
+                let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_USD' : 'CHF';                                    
                 if(code != 'CHF')
-                    axios.get('https://www.5degeneve.ch/currTest.php?code='+code)
+                    axios.get('https://www.5degeneve.ch/api/get_rate?code='+code)
                     .then(res => {
                         if(Math.round(res.data,2) == 0){
                             this.$store.state.rate = 1;
@@ -163,10 +165,26 @@
                     })
                     .catch(error => (console.log(error)))
                 else
-                    this.$store.state.rate = 1;            
+                    this.$store.state.rate = 1;           
             },
         },
         created(){
+            axios.defaults.headers.common['Authorization'] = this.$cookies.get('token');
+            axios.get('https://www.5degeneve.ch/api/me')
+            .then(res => {
+                this.$cookies.set("email",res.data.email);
+                this.$cookies.set("role",res.data.role_id);
+            })
+            .catch(error => {
+                if (err.response.status === 401) {
+                    this.$cookies.remove('token');
+                    this.$cookies.remove('role');
+                    this.$cookies.remove('email');
+                    this.$cookies.remove('expires_in');
+                    this.$cookies.remove('refresh_token');
+                    location.reload();
+                }
+            });
             var userLang = navigator.language || navigator.userLanguage; 
             (userLang == 'ru-RU' || userLang == 'ru' || userLang == 'RU' || userLang == 'Ru') ? this.change_lang('russian') : (userLang == 'en-EN' || userLang == 'en' || userLang == 'EN' || userLang == 'En') ? this.change_lang('english') : (userLang == 'fr-FR' || userLang == 'fr' || userLang == 'FR' || userLang == 'Fr') ? this.change_lang('french') : (userLang == 'de-DE' || userLang == 'de' || userLang == 'DE' || userLang == 'De') ? this.change_lang('deutsch') : (userLang == 'ch-CH' || userLang == 'ch' || userLang == 'CH' || userLang == 'Ch') ? this.change_lang('chinese') : (userLang == 'ar-AR' || userLang == 'ar' || userLang == 'AR' || userLang == 'Ar') ? this.change_lang('arabic') : this.change_lang('english')
 
@@ -177,9 +195,9 @@
                     this.order = response.data[0];
                     if(this.order.discounted_price == 0){
                         this.prices.full      = this.order.price;
-                        this.prices.fullLabel = this.prices.full + " CHF .   [the full amount - no further payment required]";
+                        this.prices.fullLabel = this.prices.full + " CHF ~ ("+this.prices.full*this.$store.state.rate+" "+this.$store.state.curr_code+")   [the full amount - no further payment required]";
                         this.prices.down      = Math.round(this.order.price * 3 / 10);
-                        this.prices.downLabel = this.prices.down + " CHF .   [the 30% down-payment]";
+                        this.prices.downLabel = this.prices.down + " CHF ~ ("+this.prices.down*this.$store.state.rate+" "+this.$store.state.curr_code+")   [the 30% down-payment]";
                     }else{
                         this.prices.full      = this.order.discounted_price;
                         this.prices.fullLabel = this.prices.full + " CHF .   [the full amount - no further payment required]";

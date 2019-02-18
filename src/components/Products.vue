@@ -13,6 +13,7 @@
       :timeStart='info[key].time_start'
       :timeEnd='info[key].time_end'
       :type='info[key].type'
+      mode=''
       :caption='products[0].caption'
       v-if='$store.state.reservation.cruiseID==0||$store.state.reservation.cruiseID==info[key].id'/>
   </v-layout>
