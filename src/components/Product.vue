@@ -25,7 +25,7 @@
 							<v-card-text justify-space-around class="discount" v-if="$cookies.get('role')=='3'">
 								<table border='0' width='100%'>
 									<tr><td>{{ $ml.get('y_disc') }}</td>			<td align='right'><b>{{ discountPercent() }}%</b></td></tr>
-									<tr><td>{{ $ml.get('y_pr') }}</td>				<td align='right'><b>{{ formatPrice(discountProp.disPrice) }} {{ $store.state.curr_code }}</b></td></tr>
+									<tr><td>{{ $ml.get('y_pr') }}</td>				<td align='right'><b>{{ formatPrice(discountProp.disPrice) }} CHF ~ ({{ formatPrice(discountProp.disPrice*rate) }} {{ $store.state.curr_code }})</b></td></tr>
 									<tr><td>{{ $ml.get('next_disc') }}</td>	<td align='right'><b>{{ discountProp.next }}%</b></td></tr>
 								</table>
 							</v-card-text>	
@@ -44,7 +44,7 @@
 		
 		<!-- Start stepper -->
 		<v-flex lg4 ml-5 v-if="$store.state.reservation.cruiseID!=0">
-			<Stepper :price="price" :dprice="discountProp.disPrice" :cruise_id="productID" :type='type'/>
+			<Stepper :rate="rate" :price="price" :dprice="discountProp.disPrice" :cruise_id="productID" :type='type'/>
 		</v-flex>
 		<!-- End stepper -->
 	</v-layout>

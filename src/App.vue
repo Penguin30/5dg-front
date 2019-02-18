@@ -16,7 +16,6 @@
             >
                 <img :src="require(`@/assets/${lang}.png`)" :alt="lang" height=35 />
             </v-btn>
-
             <RegisterAgency v-if="$cookies.isKey('token') === false"/>
             <v-btn v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
                 <span class="mr-2">{{ $ml.get('logout') }}</span>
@@ -193,17 +192,22 @@
             },
         },
         created(){
-            let form_params = {
-                grant_type: 'password',
-                client_id: 7,
-                client_secret: 'oaCcloLW41PRlkm21T2MM55mfn9sE87wczZ52oEh',
-                username: 'admin',
-                password: 'password',
-                scope: '*'
-            }
-            axios.post('https://www.5degeneve.ch/oauth/token',{form_params})
-            .then(res => console.log(res))
-            .catch(error => console.log(error)); 
+            axios.defaults.headers.common['Authorization'] = this.$cookies.get('token');
+            axios.get('https://www.5degeneve.ch/api/me')
+            .then(res => {
+                this.$cookies.set("email",res.data.email);
+                this.$cookies.set("role",res.data.role_id);
+            })
+            .catch(error => {
+                if (err.response.status === 401) {
+                    this.$cookies.remove('token');
+                    this.$cookies.remove('role');
+                    this.$cookies.remove('email');
+                    this.$cookies.remove('expires_in');
+                    this.$cookies.remove('refresh_token');
+                    location.reload();
+                }
+            });
             var userLang = navigator.language || navigator.userLanguage; 
             (userLang == 'ru-RU' || userLang == 'ru' || userLang == 'RU' || userLang == 'Ru') ? this.change_lang('russian') : (userLang == 'en-EN' || userLang == 'en' || userLang == 'EN' || userLang == 'En') ? this.change_lang('english') : (userLang == 'fr-FR' || userLang == 'fr' || userLang == 'FR' || userLang == 'Fr') ? this.change_lang('french') : (userLang == 'de-DE' || userLang == 'de' || userLang == 'DE' || userLang == 'De') ? this.change_lang('deutsch') : (userLang == 'ch-CH' || userLang == 'ch' || userLang == 'CH' || userLang == 'Ch') ? this.change_lang('chinese') : (userLang == 'ar-AR' || userLang == 'ar' || userLang == 'AR' || userLang == 'Ar') ? this.change_lang('arabic') : this.change_lang('english')
         },

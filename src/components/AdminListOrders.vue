@@ -184,6 +184,7 @@
       },
 
       reload() {
+        axios.defaults.headers.common['Authorization'] = this.$cookies.get('token');
         axios.get('https://www.5degeneve.ch/api/orders?status=all')
           .then((response) => {
             this.allOrders = response.data;

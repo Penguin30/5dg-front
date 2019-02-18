@@ -15,10 +15,10 @@
     
 		<v-stepper-items>
 			<v-stepper-content step="1">
-				<v-card>
+				<v-card>                    
 					<v-layout row wrap  style="padding: 10px 0 0">
                         <v-flex xs12 style="padding-bottom:20px">
-                            <b><big>{{ formatPrice(this.$store.state.reservation.price) }} {{ $store.state.curr_code }}<p v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'">{{formatPrice(this.$store.state.reservation.disPrice)}} {{ $store.state.curr_code }} [{{ $ml.get('y_disc_p') }}]</p></big></b>
+                            <b><big>{{ formatPrice(this.$store.state.reservation.price) }} CHF ~ ({{ formatPrice(this.$store.state.reservation.price*rate) }}){{ $store.state.curr_code }}<p v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'"><b>{{ formatPrice(this.$store.state.reservation.disPrice) }} CHF</b> ~ ({{ formatPrice(this.$store.state.reservation.disPrice*rate) }} {{ $store.state.curr_code }}) [{{ $ml.get('y_disc_p') }}]</p></big></b>
                         </v-flex>
                         <v-flex v-if="type == 'custom'" xs6 style="padding-right:10px; padding-bottom:20px">
 							<label>{{ $ml.get('s_time') }}</label>
@@ -136,7 +136,7 @@
 			UserForm,
 			Datetime
 		},
-		props: ['type','cruise_id','price','dprice'],
+		props: ['type','rate','cruise_id','price','dprice'],
 		data() {
 			return {
                 extended: '20:30:00',
@@ -511,7 +511,7 @@
 			},
 
 			check_date(){
-                if(this.startDate != '' && this.endDate != ''){
+                if(this.startDate == '' && this.endDate == '' && this.cruise_id != 3){
     				let event = this.date;
     				let today = new Date();
     				let dd = today.getDate();

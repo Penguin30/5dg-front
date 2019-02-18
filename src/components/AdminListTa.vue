@@ -82,6 +82,7 @@
       },
 
       reload() {
+        axios.defaults.headers.common['Authorization'] = this.$cookies.get('token');
         axios.get('https://www.5degeneve.ch/api/travel_agencies?status=all')
           .then((response) => {
             this.allAgencies = response.data;
