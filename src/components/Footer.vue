@@ -11,6 +11,7 @@
                 {{ $ml.get('contact_us') }}
             </v-btn>
             <v-flex grey darken-3 py-3 text-xs-center white--text xs12>&copy; 2019 - <strong>by www.5dg.ch</strong></v-flex>
+            <Snack v-if="$cookies.isKey('use') === false && $cookies.get('use') !== '1'"/>
         </v-layout>
     </v-footer>
 </template>
@@ -18,10 +19,12 @@
 <script>
     import GTU from '../components/GTU';
     import { MLBuilder } from 'vue-multilanguage';
+    import Snack from '../components/SnackBar';
     
     export default {
         components: {
-            GTU
+            GTU,
+            Snack
         },
             data: () => ({
       icons: [
