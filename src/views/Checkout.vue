@@ -24,42 +24,45 @@
         </v-toolbar>
 
         <v-content style="padding-bottom:100px;">
-            <v-layout justify-center justify-space-around style="flex-basis: 0; flex-grow: 1;">
-                <v-flex xs6>
-                <Product
-                    :key='order.order_id'
-                    :productID='order.cruise_id'
-                    :images='cruise.img'
-                    :title='cruise.title'
-                    :description='cruise.desc'
-                    :priceTxt='order.price'
-                    :price='order.price'
-                    :rate='$store.state.rate'
-                    :timeStart='order.time_start'
-                    :timeEnd='order.time_end'
-                    :type='order.type'
-                    mode='pay'
-                    :caption='order.caption'>
-                </Product>
+            <v-layout justify-space-around style="padding-top:30px; position: relative;">
+                <v-flex xs7>
+                    <Product
+                        :key='order.order_id'
+                        :productID='order.cruise_id'
+                        :images='cruise.img'
+                        :title='cruise.title'
+                        :description='cruise.desc'
+                        :priceTxt='order.price'
+                        :price='order.price'
+                        :rate='$store.state.rate'
+                        :timeStart='order.time_start'
+                        :timeEnd='order.time_end'
+                        :type='order.type'
+                        mode='pay'
+                        :caption='order.caption'>
+                    </Product>
                 </v-flex>
 
-                <v-flex xs6>
-                    The Total Price of your Cruise is {{ order.price }} CHF. A minimum down-payment of 30% is expected to be payed within 10 days after reservation. But you may choose to pay the full amount right away. Please note that if you choose the 30% option, you will have to pay the remaining 70% latest 30 days before departure or your Cruise will be canceled.
-                    <v-radio-group v-model="radioGroup">
-                        <v-radio :value="prices.full" :label="prices.fullLabel"></v-radio>
-                        <v-radio :value="prices.down" :label="prices.downLabel"></v-radio>
-                    </v-radio-group>                
-                    <PayPal v-if="radioGroup != ''"
-                        :amount="radioGroup"
-                        currency="CHF"
-                        v-on:payment-completed="completed"
-                        v-on:payment-cancelled="cancelled"
-                        :client="credentials"
-                        env="sandbox">
-                    </PayPal>
+                <v-flex xs4>
+                    <v-card class="rounded-card" style="padding:30px;">
+                        The Total Price of your Cruise is {{ order.price }} CHF. A minimum down-payment of 30% is expected to be payed within 10 days after reservation. But you may choose to pay the full amount right away. Please note that if you choose the 30% option, you will have to pay the remaining 70% latest 30 days before departure or your Cruise will be canceled.
+                        <v-radio-group v-model="radioGroup">
+                            <v-radio :value="prices.full" :label="prices.fullLabel"></v-radio>
+                            <v-radio :value="prices.down" :label="prices.downLabel"></v-radio>
+                        </v-radio-group>                
+                        <PayPal v-if="radioGroup != ''"
+                            :amount="radioGroup"
+                            currency="CHF"
+                            v-on:payment-completed="completed"
+                            v-on:payment-cancelled="cancelled"
+                            :client="credentials"
+                            env="sandbox">
+                        </PayPal>
+                    </v-card>
                 </v-flex>
             </v-layout>
         </v-content>
+
     <v-dialog v-model="pay_thnx" width="500">
                             <v-card class="rounded-card">
                                 <v-card-title
@@ -99,7 +102,13 @@
 </template>
 
 <style>
+	.rounded-top {
+		border-radius:10px 10px 0px 0px;
+	}
 
+	.rounded-card {
+		border-radius:10px;
+	}
 </style>
 
 <script>

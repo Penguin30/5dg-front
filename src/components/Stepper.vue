@@ -18,7 +18,11 @@
 				<v-card>                    
 					<v-layout row wrap  style="padding: 10px 0 0">
                         <v-flex xs12 style="padding-bottom:20px">
-                            <b><big>{{ formatPrice(this.$store.state.reservation.price) }} CHF ~ ({{ formatPrice(this.$store.state.reservation.price*rate) }}){{ $store.state.curr_code }}<p v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'"><b>{{ formatPrice(this.$store.state.reservation.disPrice) }} CHF</b> ~ ({{ formatPrice(this.$store.state.reservation.disPrice*rate) }} {{ $store.state.curr_code }}) [{{ $ml.get('y_disc_p') }}]</p></big></b>
+                            <big>
+                                <b>{{ formatPrice(this.$store.state.reservation.price) }} CHF</b> (~ {{ formatPrice(Math.round(this.$store.state.reservation.price*rate)) }} {{ $store.state.curr_code }})
+                                <p v-if="$store.state.reservation.cruiseID!=0&&$cookies.get('role')=='3'"><b>{{ formatPrice(this.$store.state.reservation.disPrice) }} CHF</b> 
+                                (~ {{ formatPrice(Math.round(this.$store.state.reservation.disPrice*rate)) }} {{ $store.state.curr_code }}) [{{ $ml.get('y_disc_p') }}]</p>
+                            </big>
                         </v-flex>
                         <v-flex v-if="type == 'custom'" xs6 style="padding-right:10px; padding-bottom:20px">
 							<label>{{ $ml.get('s_time') }}</label>
@@ -537,7 +541,8 @@
     						this.dateError = this.$ml.get('short_time_or_long') 
     					}else{
                             axios.post('https://www.5degeneve.ch/api/check_time',{data})
-                                .then(response => ((response.data == 'ok') ? (
+                                .then(
+                                    response => ((response.data == 'ok') ? (
                                     this.e1 = 2,
                                     this.$store.state.step = 2,
                                     this.$store.state.date = event,

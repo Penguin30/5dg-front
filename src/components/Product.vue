@@ -16,7 +16,7 @@
 					<v-flex xs8>
 						<v-layout column>
 							<v-card-actions class="pl-3">
-								<span v-if="productID!=1" style="padding-right: 10px;">{{ $ml.get('s_from') }}</span> <big> <b>{{ formatPrice(price) }} CHF</b> ~ ({{ formatPrice(price*rate) }} {{ $store.state.curr_code }})</big>
+								<span v-if="productID!=1" style="vertical-align: top; padding-right: 10px;">{{ $ml.get('s_from') }}</span> <span><big><b>{{ formatPrice(price) }} CHF</b></big><br>(~ {{ formatPrice(Math.round(price*rate)) }} {{ $store.state.curr_code }})</span>
 								<v-spacer></v-spacer>
 								<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.reservation.cruiseID==0 && mode != 'pay'">{{ $ml.get('btn') }}</v-btn>
 								<v-btn round color="orange" right v-on:click="showAllCruises" v-if="$store.state.reservation.cruiseID!=0">Back</v-btn>
@@ -25,7 +25,7 @@
 							<v-card-text justify-space-around class="discount" v-if="$cookies.get('role')=='3'">
 								<table border='0' width='100%'>
 									<tr><td>{{ $ml.get('y_disc') }}</td>			<td align='right'><b>{{ discountPercent() }}%</b></td></tr>
-									<tr><td>{{ $ml.get('y_pr') }}</td>				<td align='right'><b>{{ formatPrice(discountProp.disPrice) }} CHF ~ ({{ formatPrice(discountProp.disPrice*rate) }} {{ $store.state.curr_code }})</b></td></tr>
+									<tr><td>{{ $ml.get('y_pr') }}</td>				<td align='right'><b>{{ formatPrice(discountProp.disPrice) }} CHF</b> (~ {{ formatPrice(Math.round(discountProp.disPrice*rate)) }} {{ $store.state.curr_code }})</td></tr>
 									<tr><td>{{ $ml.get('next_disc') }}</td>	<td align='right'><b>{{ discountProp.next }}%</b></td></tr>
 								</table>
 							</v-card-text>	

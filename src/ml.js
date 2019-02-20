@@ -63,6 +63,7 @@ export default new MLCreate({
       choose_date: 'Choose date',
       register: 'Register',
       conf:'Confirmation',
+      soft_drinks:'Soft Drinks',
     }),
  
     new MLanguage('french').create({
@@ -121,6 +122,7 @@ export default new MLCreate({
       choose_date: 'Choose date',
       register: 'Register',
       conf:'Confirmation',
+      soft_drinks:'Soft Drinks',
     }),
 
     new MLanguage('deutsch').create({
@@ -137,7 +139,7 @@ export default new MLCreate({
       status_approved:'Akzeptiert',
       status_declined: 'Abgelehnt',
       contact_us: 'Kontakt',
-      s_from: 'Start um',
+      s_from: 'ab',
       y_disc: 'Ihr Discount',
       y_disc_p: 'Ihr discountierter Preis',
       y_pr: 'Ihr Preis',
@@ -179,6 +181,7 @@ export default new MLCreate({
       choose_date: 'Choose date',
       register: 'Register',
       conf:'Bestätigung',
+      soft_drinks:'Soft Drinks',
     }),
 
     new MLanguage('russian').create({
@@ -237,6 +240,7 @@ export default new MLCreate({
       choose_date: 'Choose date',
       register: 'Register',
       conf:'Confirmation',
+      soft_drinks:'Soft Drinks',
     }),
 
     new MLanguage('chinese').create({
@@ -295,6 +299,7 @@ export default new MLCreate({
       choose_date: 'Choose date',
       register: 'Register',
       conf:'Confirmation',
+      soft_drinks:'Soft Drinks',
     }),
 
     new MLanguage('arabic').create({
@@ -353,6 +358,7 @@ export default new MLCreate({
       choose_date: 'Choose date',
       register: 'Register',
       conf:'Confirmation',
+      soft_drinks:'Soft Drinks',
     })
   ]
 })

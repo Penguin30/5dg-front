@@ -33,7 +33,7 @@
             </v-carousel>
             <Products :lang="$ml.current"/>
 
-            <v-layout justify-space-around row style="padding-top:30px;position: relative;">
+            <v-layout justify-space-around row style="padding-top:30px; position: relative;">
                 <v-flex style="text-align: center;">
                     <div class="cruiseVideo">
                     <video id="video1" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="none" width="488" height="350" poster="@/assets/Video1.jpg" data-setup="{}">
@@ -172,13 +172,9 @@
                 if(code != 'CHF')
                     axios.get('https://www.5degeneve.ch/api/get_rate?code='+code)
                     .then(res => {
-                        if(Math.round(res.data,2) == 0){
-                            this.$store.state.rate = 1;
-                            this.$store.state.curr_code = 'CHF';
-                        }else{
-                            this.$store.state.rate = Math.round(res.data,2);
-                            this.$store.state.curr_code = code.replace('CHF_','');
-                        }
+                        this.$store.state.rate = Number(res.data);
+                        this.$store.state.curr_code = code.replace('CHF_','');
+
                         axios.get('https://www.5degeneve.ch/api/cruises?lg='+lang)
                         .then(response => {
                             this.$store.state.info = response.data;

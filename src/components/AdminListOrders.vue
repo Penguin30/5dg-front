@@ -19,51 +19,23 @@
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex xs12 sm12 md12>
-                  <v-text>Cruise {{ editedItem.cruise }}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                   <v-text>Date {{ editedItem.date }}</v-text>
-                </v-flex>
-               <v-flex xs12 sm12 md12>
-                   <v-text>Status {{ (editedItem.order_status == '') ? 'To be check' : editedItem.order_status }}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                   <v-text>Start at {{ editedItem.start }}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                   <v-text>End at {{ editedItem.end }}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                   <v-text>Passengers {{ editedItem.num }}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                   <v-text>Ages: {{ editedItem.ages }}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                   <v-text>First Name {{ editedItem.first_name }}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                   <v-text>Last Name {{ editedItem.last_name }}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                   <v-text>Company {{ editedItem.company }}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                   <v-text>Phone {{ editedItem.phone }}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                   <v-text>Email {{ editedItem.email }}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-text>Price {{ editedItem.price}}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                  <v-text>Discount price {{ editedItem.dprice }}</v-text>
-                </v-flex>
-                <v-flex xs12 sm12 md12>
-                   <v-text>Paid {{ editedItem.paide }}</v-text>
-                </v-flex>
+                <table border='0'>
+                  <tr><td>Cruise</td>         <td>{{ editedItem.cruise }}</td></tr>
+                  <tr><td>Date</td>           <td>{{ editedItem.date }}</td></tr>
+                  <tr><td>Status</td>         <td>{{ (editedItem.order_status == '') ? 'To be check' : editedItem.order_status }}</td></tr>
+                  <tr><td>Start at</td>       <td>{{ editedItem.start }}</td></tr>
+                  <tr><td>End at</td>         <td>{{ editedItem.end }}</td></tr>
+                  <tr><td>Passengers</td>     <td>{{ editedItem.num }}</td></tr>
+                  <tr><td>Ages</td>           <td>{{ editedItem.ages }}</td></tr>
+                  <tr><td>First Name</td>     <td>{{ editedItem.first_name }}</td></tr>
+                  <tr><td>Last Name</td>      <td>{{ editedItem.last_name }}</td></tr>
+                  <tr><td>Company</td>        <td>{{ editedItem.company }}</td></tr>
+                  <tr><td>Phone</td>          <td>{{ editedItem.phone }}</td></tr>
+                  <tr><td>Email</td>          <td>{{ editedItem.email }}</td></tr>
+                  <tr><td>Price</td>          <td>{{ editedItem.price}}</td></tr>
+                  <tr><td>Discount price</td> <td>{{ editedItem.dprice }}</td></tr>
+                  <tr><td>Paid</td>           <td>{{ editedItem.paide }}</td></tr>
+                </table>
               </v-layout>
             </v-container>
           </v-card-text>

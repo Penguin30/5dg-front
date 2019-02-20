@@ -23,6 +23,8 @@ export default new Vuex.Store({
       disPrice:   0,
       disPerct:   0
     },
+    rate: 1,
+    curr_code: 'CHF',
   },
   mutations: {
 
