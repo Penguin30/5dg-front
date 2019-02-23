@@ -12,7 +12,6 @@
 
                                 <v-card-text>
                                    Thank you for registering, we will come back to you shortly!
-                                   <v-btn @click="close_forms"><span>ok</span></v-btn>
                                 </v-card-text>
                                 <v-divider></v-divider>
                                 <v-actions>
