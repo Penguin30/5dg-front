@@ -134,7 +134,7 @@
 
     methods: {
       initialize () {
-        axios.get('https://www.5degeneve.ch/api/get_ta_orders?email='+this.$cookies.get('email'))
+        axios.get('https://www.8dg.ch/api/get_ta_orders?email='+this.$cookies.get('email'))
         .then(response => (this.orders = response.data,console.log(response.data)))
         .catch(error => console.log(error));
       },

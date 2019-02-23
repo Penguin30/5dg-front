@@ -8,7 +8,7 @@
 							<v-carousel-item
 								v-for="(item,i) in JSON.parse(images)"
 									:key="i"
-									:src="'https://www.5degeneve.ch/storage/'+item"
+									:src="'https://www.8dg.ch/storage/'+item"
 							>
 							</v-carousel-item>
             			</v-carousel>
@@ -44,7 +44,7 @@
 		
 		<!-- Start stepper -->
 		<v-flex lg4 ml-5 v-if="$store.state.reservation.cruiseID!=0">
-			<Stepper :rate="rate" :price="price" :dprice="discountProp.disPrice" :cruise_id="productID" :type='type'/>
+			<Stepper :terms="terms" :rate="rate" :price="price" :dprice="discountProp.disPrice" :cruise_id="productID" :type='type'/>
 		</v-flex>
 		<!-- End stepper -->
 	</v-layout>
@@ -83,17 +83,17 @@
 		components: {
      		Stepper
     	},
-		props: ['productID', 'images', 'title', 'description', 'timeStart','mode', 'timeEnd', 'price', 'caption', 'type', 'rate'],
+		props: ['productID', 'images', 'title', 'description', 'timeStart','mode', 'timeEnd', 'price', 'caption', 'type', 'rate','terms'],
 		data: () => ({
 			count: 0,
 			isExpanded: false,
 			isVisible: false,
 			imagesSrc: [
-                {src: 'https://www.5degeneve.ch/images/5degeneve-1.jpg'},
-                {src: 'https://www.5degeneve.ch/images/interieur1.jpg'},
-                {src: 'https://www.5degeneve.ch/images/interieur2.jpg'},
-                {src: 'https://www.5degeneve.ch/images/exte1.jpg'},
-                {src: 'https://www.5degeneve.ch/images/exte2.jpg'}
+                {src: 'https://www.8dg.ch/images/5degeneve-1.jpg'},
+                {src: 'https://www.8dg.ch/images/interieur1.jpg'},
+                {src: 'https://www.8dg.ch/images/interieur2.jpg'},
+                {src: 'https://www.8dg.ch/images/exte1.jpg'},
+                {src: 'https://www.8dg.ch/images/exte2.jpg'}
 			],
 			discountProp: {
 				curr: 15,		// current discount in percent
@@ -158,7 +158,7 @@
 			if ($cookies.get('role')=='3') {
 				var self = this;
 				var now = (new Date()).getTime();
-				axios.get('https://www.5degeneve.ch/api/get_count_ta_orders?email='+this.$cookies.get('email')+'&n='+now)
+				axios.get('https://www.8dg.ch/api/get_count_ta_orders?email='+this.$cookies.get('email')+'&n='+now)
 					.then((response) => {
 						this.count = response.data;
 						self.discountPercent();

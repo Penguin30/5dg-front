@@ -83,7 +83,7 @@
 
       reload() {
         axios.defaults.headers.common['Authorization'] = this.$cookies.get('token');
-        axios.get('https://www.5degeneve.ch/api/travel_agencies?status=all')
+        axios.get('https://www.8dg.ch/api/travel_agencies?status=all')
           .then((response) => {
             this.allAgencies = response.data;
             this.agencies    = this.filter('all');
@@ -109,8 +109,8 @@
           status : '1',
           lang : this.$ml.current
         }
-        axios.post('https://www.5degeneve.ch/api/ta_update',{data})
-        .then(response => (axios.get('https://www.5degeneve.ch/api/travel_agencies?status='+this.status)
+        axios.post('https://www.8dg.ch/api/ta_update',{data})
+        .then(response => (axios.get('https://www.8dg.ch/api/travel_agencies?status='+this.status)
         .then(response => (this.agencies = response.data,console.log(response.data)))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))
@@ -123,8 +123,8 @@
           status : '0',
           lang : this.$ml.current
         }
-        axios.post('https://www.5degeneve.ch/api/ta_update',{data})
-        .then(response => (axios.get('https://www.5degeneve.ch/api/travel_agencies?status='+this.status)
+        axios.post('https://www.8dg.ch/api/ta_update',{data})
+        .then(response => (axios.get('https://www.8dg.ch/api/travel_agencies?status='+this.status)
         .then(response => (this.agencies = response.data,console.log(response.data)))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))

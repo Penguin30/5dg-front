@@ -49,7 +49,7 @@
                 tS = encodeURIComponent(tS);
                 tE = encodeURIComponent(tE);
 
-                let url = 'https://www.5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
+                let url = 'https://www.8dg.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
 
                 axios.get(url)
                      .then((res) => {

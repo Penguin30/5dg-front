@@ -2,7 +2,7 @@
     <v-app>
         <v-toolbar app>
             <v-toolbar-title class="headline text-uppercase">
-                <img src="https://www.5degeneve.ch/5deGeneve.png" alt="5 de Geneve" width=230 height=45 />
+                <img src="https://www.8dg.ch/5deGeneve.png" alt="5 de Geneve" width=230 height=45 />
             </v-toolbar-title>
             <v-spacer></v-spacer>
                 <span style="font-style: italic; font-size: 25px;">PRIVATE CRUISE GENEVA LAKE</span>
@@ -31,20 +31,21 @@
                     <v-layout column align-center justify-center class="white--text"></v-layout>
                 </v-carousel-item>
             </v-carousel>
-            <Products :lang="$ml.current"/>
+            
+            <Products :terms="terms" :lang="$ml.current"/>
 
             <v-layout justify-space-around row style="padding-top:30px; position: relative;">
                 <v-flex style="text-align: center;">
                     <div class="cruiseVideo">
                     <video id="video1" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="none" width="488" height="350" poster="@/assets/Video1.jpg" data-setup="{}">
-                        <source src="https://www.5degeneve.ch/storage/Video1.mp4" type='video/mp4'>
+                        <source src="https://www.8dg.ch/storage/Video1.mp4" type='video/mp4'>
                     </video>
                     </div>
                 </v-flex>
                 <v-flex>
                     <div class="cruiseVideo">
                     <video id="video2" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="none" width="488" height="350" poster="@/assets/Video2.jpg" data-setup="{}">
-                        <source src="https://www.5degeneve.ch/storage/Video2.mp4" type='video/mp4'>
+                        <source src="https://www.8dg.ch/storage/Video2.mp4" type='video/mp4'>
                     </video>
                     </div>
                 </v-flex>
@@ -98,7 +99,7 @@
         </v-content>
 
         
-        <Footer/>
+        <Footer :terms="terms"/>
     </v-app>
 </template>
 
@@ -156,7 +157,7 @@
                         time_start: this.block_startDate,
                         time_end: this.block_endDate
                     }
-                    axios.post('https://www.5degeneve.ch/api/block_date',{data})
+                    axios.post('https://www.8dg.ch/api/block_date',{data})
                     .then(response => ((response.data == 1) ? (this.dateError = 'Date blocked') : (response.data == 2) ? this.dateError = "You can't block this date, bacause you have cruise(s) on this day!" : location.reload()))
                     .catch(error => console.log(error));    
                 }
@@ -170,12 +171,12 @@
             change_lang: function(lang){ 
                 let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_USD' : 'CHF';                                    
                 if(code != 'CHF')
-                    axios.get('https://www.5degeneve.ch/api/get_rate?code='+code)
+                    axios.get('https://www.8dg.ch/api/get_rate?code='+code)
                     .then(res => {
                         this.$store.state.rate = Number(res.data);
                         this.$store.state.curr_code = code.replace('CHF_','');
 
-                        axios.get('https://www.5degeneve.ch/api/cruises?lg='+lang)
+                        axios.get('https://www.8dg.ch/api/cruises?lg='+lang)
                         .then(response => {
                             this.$store.state.info = response.data;
                             this.$ml.change(lang);                    
@@ -190,7 +191,7 @@
         created(){
             this.$cookies.config('7d');
             axios.defaults.headers.common['Authorization'] = this.$cookies.get('token');
-            axios.get('https://www.5degeneve.ch/api/me')
+            axios.get('https://www.8dg.ch/api/me')
             .then(res => {
                 this.$cookies.set("email",res.data.email);
                 this.$cookies.set("role",res.data.role_id);
@@ -210,6 +211,7 @@
         },
         data() {
             return {
+                terms: false,
                 block_date: false,
                 block_date: new Date().toISOString().substr(0, 10),
                 dateError: '',

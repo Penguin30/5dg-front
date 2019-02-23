@@ -104,7 +104,7 @@
                         email: this.email,
                         pass: this.password
                     }
-                    axios.post('https://www.5degeneve.ch/oauth/token',form_params)
+                    axios.post('https://www.8dg.ch/oauth/token',form_params)
                     .then(res => {
                         const accessToken = `Bearer ${res.data.access_token}`;
                         const expire = new Date().getTime() + 1000 + res.data.expires_in;
@@ -112,7 +112,7 @@
                         this.$cookies.set('expires_in', expire);
                         this.$cookies.set('refresh_token', res.data.refresh_token);
                         axios.defaults.headers.common['Authorization'] = accessToken;
-                        axios.get('https://www.5degeneve.ch/api/me')
+                        axios.get('https://www.8dg.ch/api/me')
                         .then(res => {
                             this.$cookies.set("email",res.data.email);
                             this.$cookies.set("role",res.data.role_id);

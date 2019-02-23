@@ -73,7 +73,7 @@
                                     email: this.email,
                                     pass: this.pass
                                 }
-                                axios.post('https://www.5degeneve.ch/api/set_pass',{data}).then(res => ((res.data == 200) ? location.reload() : '')).catch(error => (console.log(error)));
+                                axios.post('https://www.8dg.ch/api/set_pass',{data}).then(res => ((res.data == 200) ? location.reload() : '')).catch(error => (console.log(error)));
                             }
                         },
                         check_code(event){
@@ -85,7 +85,7 @@
                         },
                         submit(event) {                         
                                 if (this.$refs.form.validate()) {
-                                        axios.get('https://www.5degeneve.ch/api/get_reset_code?email='+this.email).then(res => (this.$cookies.set("code",res.data),this.e1 = 2))
+                                        axios.get('https://www.8dg.ch/api/get_reset_code?email='+this.email).then(res => (this.$cookies.set("code",res.data),this.e1 = 2))
                                         .catch(error => (console.log(error)));
                                 }
                         },

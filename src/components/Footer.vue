@@ -6,7 +6,7 @@
                         <v-icon size="24px">{{ icon.name }}</v-icon>
                 </v-btn>
             </v-flex>
-            <GTU></GTU>
+            <GTU :terms="terms"></GTU>
             <v-btn  href="/Soft_Drinks.pdf" target="_blank" color="white" text round>{{ $ml.get('soft_drinks') }}</v-btn>
             <v-btn  href="mailto:info@5degeneve.ch" color="white" text round>{{ $ml.get('contact_us') }}</v-btn>
             <v-flex grey darken-3 py-3 text-xs-center white--text xs12>&copy; 2019 - <strong>by www.5dg.ch</strong></v-flex>
@@ -25,6 +25,7 @@
             GTU,
             Snack
         },
+        props: ['terms'],
             data: () => ({
       icons: [
           {name:'fab fa-linkedin', url: 'https://www.linkedin.com/in/frank-f-000370176'},

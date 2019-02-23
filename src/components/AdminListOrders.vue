@@ -38,6 +38,9 @@
                 </table>
               </v-layout>
             </v-container>
+            <v-actions>
+              <v-btn @click="item_dialog = false;">OK</v-btn>
+            </v-actions>
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -145,8 +148,8 @@
           status : 'cancel',
           lang : this.$ml.current
         }
-        axios.post('https://www.5degeneve.ch/api/order_update',{data})
-        .then(response => (axios.get('https://www.5degeneve.ch/api/orders?status='+this.status)
+        axios.post('https://www.8dg.ch/api/order_update',{data})
+        .then(response => (axios.get('https://www.8dg.ch/api/orders?status='+this.status)
         .then(response => (this.orders = response.data))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))
@@ -157,7 +160,7 @@
 
       reload() {
         axios.defaults.headers.common['Authorization'] = this.$cookies.get('token');
-        axios.get('https://www.5degeneve.ch/api/orders?status=all')
+        axios.get('https://www.8dg.ch/api/orders?status=all')
           .then((response) => {
             this.allOrders = response.data;
             this.orders    = this.filter('all');
@@ -182,8 +185,8 @@
           status : 'approved',
           lang : this.$ml.current
         }
-        axios.post('https://www.5degeneve.ch/api/order_update',{data})
-        .then(response => (axios.get('https://www.5degeneve.ch/api/orders?status='+this.status)
+        axios.post('https://www.8dg.ch/api/order_update',{data})
+        .then(response => (axios.get('https://www.8dg.ch/api/orders?status='+this.status)
         .then(response => (this.orders = response.data))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))
@@ -196,8 +199,8 @@
           status : 'declined',
           lang : this.$ml.current
         }
-        axios.post('https://www.5degeneve.ch/api/order_update',{data})
-        .then(response => (axios.get('https://www.5degeneve.ch/api/orders?status='+this.status)
+        axios.post('https://www.8dg.ch/api/order_update',{data})
+        .then(response => (axios.get('https://www.8dg.ch/api/orders?status='+this.status)
         .then(response => (this.orders = response.data))
         .catch(error => console.log(error))))
         .catch(error => (console.log(error)))

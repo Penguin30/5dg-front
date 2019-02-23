@@ -2,7 +2,7 @@
     <v-app>
         <v-toolbar app>
             <v-toolbar-title class="headline text-uppercase">
-                <img src="https://www.5degeneve.ch/5deGeneve.png" alt="5 de Geneve" width=230 height=45 />
+                <img src="https://www.8dg.ch/5deGeneve.png" alt="5 de Geneve" width=230 height=45 />
             </v-toolbar-title>
             <v-spacer></v-spacer>
                 <span style="font-style: italic; font-size: 25px;">PRIVATE CRUISE GENEVA LAKE</span>
@@ -46,9 +46,9 @@
                 <v-flex xs4>
                     <v-card class="rounded-card" style="padding:30px;">
                         The Total Price of your Cruise is {{ order.price }} CHF. A minimum down-payment of 30% is expected to be payed within 10 days after reservation. But you may choose to pay the full amount right away. Please note that if you choose the 30% option, you will have to pay the remaining 70% latest 30 days before departure or your Cruise will be canceled.
-                        <v-radio-group v-model="radioGroup">
+                        <v-radio-group v-if="pay_type != 'none'" v-model="radioGroup">
                             <v-radio :value="prices.full" :label="prices.fullLabel"></v-radio>
-                            <v-radio :value="prices.down" :label="prices.downLabel"></v-radio>
+                            <v-radio v-if="pay_type == 'all'" :value="prices.down" :label="prices.downLabel"></v-radio>
                         </v-radio-group>                
                         <PayPal v-if="radioGroup != ''"
                             :amount="radioGroup"
@@ -145,7 +145,7 @@
                         paide: this.radioGroup,
                         paid_perc: paid_perc
                     }
-                    axios.post('https://www.5degeneve.ch/api/approve_order',{data}).then(res => (this.pay_thnx = true)).catch(error => (console.log(error)));   
+                    axios.post('https://www.8dg.ch/api/approve_order',{data}).then(res => (this.pay_thnx = true)).catch(error => (console.log(error)));   
                 }
             },
             logout(){
@@ -156,7 +156,7 @@
             change_lang: function(lang){ 
                 let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_USD' : 'CHF';                                    
                 if(code != 'CHF')
-                    axios.get('https://www.5degeneve.ch/api/get_rate?code='+code)
+                    axios.get('https://www.8dg.ch/api/get_rate?code='+code)
                     .then(res => {
                         if(Math.round(res.data,2) == 0){
                             this.$store.state.rate = 1;
@@ -165,7 +165,7 @@
                             this.$store.state.rate = Math.round(res.data,2);
                             this.$store.state.curr_code = code.replace('CHF_','');
                         }
-                        axios.get('https://www.5degeneve.ch/api/cruises?lg='+lang)
+                        axios.get('https://www.8dg.ch/api/cruises?lg='+lang)
                         .then(response => {
                             this.$store.state.info = response.data;
                             this.$ml.change(lang);                    
@@ -179,7 +179,7 @@
         },
         created(){
             axios.defaults.headers.common['Authorization'] = this.$cookies.get('token');
-            axios.get('https://www.5degeneve.ch/api/me')
+            axios.get('https://www.8dg.ch/api/me')
             .then(res => {
                 this.$cookies.set("email",res.data.email);
                 this.$cookies.set("role",res.data.role_id);
@@ -199,9 +199,19 @@
 
             var q = this.$route.query;
             this.$data.order.orderID = q && q.orderID ? q.orderID : 0;
-            axios.get('https://www.5degeneve.ch/api/order?id='+this.$data.order.orderID)
-                .then((response) => {                   
+            axios.get('https://www.8dg.ch/api/order?id='+this.$data.order.orderID)
+                .then((response) => {                        
                     this.order = response.data[0];
+                    var now = new Date();
+                    var c_date = new Date(this.order.date);
+                    if(c_date >= now){
+                        now.setDate(now.getDate()+10);
+                        if(c_date <= now){
+                            this.pay_type = 'full';
+                        }
+                    }else{
+                        this.pay_type = 'none';
+                    }
                     if(this.order.discounted_price == 0){
                         this.prices.full      = this.order.price;
                         this.prices.fullLabel = this.prices.full + " CHF ~ ("+this.prices.full*this.$store.state.rate+" "+this.$store.state.curr_code+")   [the full amount - no further payment required]";
@@ -216,7 +226,7 @@
                 })
                 .catch(error => console.log(error));
 
-            axios.get('https://www.5degeneve.ch/api/cruise?id='+this.$data.order.orderID+'&lg='+this.$ml.current)
+            axios.get('https://www.8dg.ch/api/cruise?id='+this.$data.order.orderID+'&lg='+this.$ml.current)
 			    .then((response) => {
                     this.cruise = response.data[0];
                 })
@@ -233,6 +243,7 @@
                     production: ''
                 },
                 pay_price: 0,
+                pay_type: 'all',
                 cruise: {},
                 order: {
                     orderID: 0,

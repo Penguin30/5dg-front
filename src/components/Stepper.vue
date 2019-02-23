@@ -1,5 +1,6 @@
 <template>
 	<v-stepper v-model="e1">
+
 		<v-stepper-header>
 			<v-stepper-step :complete="e1 > 1" step="1">{{ $ml.get('choose_date') }}</v-stepper-step>
 
@@ -90,7 +91,12 @@
 										<v-select v-model="agePerson5" label="Age (5)" :items="ageRanges" style="padding-left:20px" v-if="attendees>4"></v-select>
 									</v-layout>
 
-                                    <v-checkbox v-model="agree" :rules="[v => !!v || 'You must agree to continue!']" label="Do you agree to our Terms and Conditions?" required></v-checkbox>
+                                    <v-checkbox v-model="agree" :rules="[v => !!v || 'You must agree to continue!']" required>
+                                        <div slot="label">
+                                            Do you agree with the 
+                                            <a slot="activator" @click="gtu">terms and conditions ?</a>
+                                          </div>
+                                    </v-checkbox>
 							</v-layout>
 							<v-btn :disabled="!valid" @click="submit">submit</v-btn>
 							<v-btn @click="clear">clear</v-btn>
@@ -132,15 +138,17 @@
 	import { MLBuilder } from 'vue-multilanguage';
 	import UserForm from './UserForm';
 	import axios from 'axios';
-	import { Datetime } from 'vue-datetime'
+	import { Datetime } from 'vue-datetime';
+    import GTU from './GTU';
 	import 'vue-datetime/dist/vue-datetime.css';
 
 	export default {
 		components: {
+            GTU,
 			UserForm,
 			Datetime
 		},
-		props: ['type','rate','cruise_id','price','dprice'],
+		props: ['type','rate','cruise_id','price','dprice','terms'],
 		data() {
 			return {
                 extended: '20:30:00',
@@ -493,8 +501,14 @@
 
             'extended': function() {
                 this.$store.state.reservation.timeEnd = this.extended;
-                if (this.extended=='20:30:00')  this.$store.state.reservation.price = 960*this.$store.state.rate;
-                else                            this.$store.state.reservation.price = 1280*this.$store.state.rate;
+                if (this.extended=='20:30:00'){
+                    this.$store.state.reservation.price = 960*this.$store.state.rate;
+                    this.checkbox = false;
+                }
+                else{                            
+                    this.$store.state.reservation.price = 1280*this.$store.state.rate;
+                    this.checkbox = true;
+                }
 
                 if ($cookies.get('role')=='3') {
                     this.$store.state.reservation.disPrice = this.$store.state.reservation.price - Math.round(this.$store.state.reservation.price * this.$store.state.reservation.disPerct) / 100;
@@ -504,6 +518,9 @@
             }
         },
 		methods: {
+            gtu(){
+                this.terms = true;
+            },
             //https://stackoverflow.com/questions/50488703/vuetify-js-datepicker-provide-array-of-allowed-dates/50488938#50488938
             allowedDates(val){
                 return this.datesAllowed.indexOf(val) === -1;
@@ -514,8 +531,8 @@
 				return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
 			},
 
-			check_date(){
-                if(this.startDate == '' && this.endDate == '' && this.cruise_id != 3){
+			check_date(){ 
+                if(this.startDate == '' && this.endDate == '' && this.type != 'custom'){
     				let event = this.date;
     				let today = new Date();
     				let dd = today.getDate();
@@ -540,7 +557,7 @@
     					if(Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 < 3 || Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 > 15) {
     						this.dateError = this.$ml.get('short_time_or_long') 
     					}else{
-                            axios.post('https://www.5degeneve.ch/api/check_time',{data})
+                            axios.post('https://www.8dg.ch/api/check_time',{data})
                                 .then(
                                     response => ((response.data == 'ok') ? (
                                     this.e1 = 2,
@@ -553,8 +570,46 @@
     				}else{
     					this.dateError = this.$ml.get('date_less_today');
     				}
-                }else{
+                }else if(this.startDate == '' && this.endDate == '' && this.type == 'custom'){
                     this.dateError = 'Select time start and time end';
+                }else{
+                    let event = this.date;
+                    let today = new Date();
+                    let dd = today.getDate();
+                    let mm = today.getMonth()+1;
+                    let yyyy = today.getFullYear();
+                    if(dd<10) {
+                      dd = '0'+dd
+                    } 
+
+                    if(mm<10) {
+                      mm = '0'+mm
+                    }
+                    today = yyyy + '-' + mm + '-' + dd;
+                    if(event > today){
+                        this.$store.state.cruise = this.cruise_id;
+                        let data = {
+                            date: event,
+                            cruise: this.cruise_id,
+                            time_start: new Date(this.startDate).getHours()+':'+new Date(this.startDate).getMinutes(),
+                            time_end: new Date(this.endDate).getHours()+':'+new Date(this.endDate).getMinutes()
+                        };
+                        if(Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 < 3 || Math.abs(new Date(this.endDate).getTime() - new Date(this.startDate).getTime()) / 3600000 > 15) {
+                            this.dateError = this.$ml.get('short_time_or_long') 
+                        }else{
+                            axios.post('https://www.8dg.ch/api/check_time',{data})
+                                .then(
+                                    response => ((response.data == 'ok') ? (
+                                    this.e1 = 2,
+                                    this.$store.state.step = 2,
+                                    this.$store.state.date = event,
+                                    this.$store.state.time_s = new Date(this.startDate).getHours()+':'+new Date(this.startDate).getMinutes(),
+                                    this.$store.state.time_e = new Date(this.endDate).getHours()+':'+new Date(this.endDate).getMinutes()
+                                ) : this.dateError = this.$ml.get('not_correct_time')))
+                        }
+                    }else{
+                        this.dateError = this.$ml.get('date_less_today');
+                    }
                 }
 			},
 			submit(event) {
@@ -589,7 +644,7 @@
                         price:      this.$store.state.reservation.price,
                         dprice:     this.$store.state.reservation.disPrice
 					}
-					axios.post('https://www.5degeneve.ch/api/orders', {data})
+					axios.post('https://www.8dg.ch/api/orders', {data})
 						.then( res => (
                             console.log(res),
 							this.e1 = 3)
@@ -615,7 +670,7 @@
                 tS = encodeURIComponent(tS);
                 tE = encodeURIComponent(tE);
 
-                let url = 'https://www.5degeneve.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
+                let url = 'https://www.8dg.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
 
                 axios.get(url)
                      .then((res) => {

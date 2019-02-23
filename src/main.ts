@@ -7,6 +7,7 @@ import store from './store';
 import './registerServiceWorker';
 import './ml.js';
 
+
 import 'vuetify/dist/vuetify.min.css';
 
 Vue.config.productionTip = false;

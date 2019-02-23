@@ -38,12 +38,14 @@ For judiciaire : Gen&egrave;ve<br/>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
+		{{ terms }}
 	</div>
 </template>
 
 <script>
 	import { MLBuilder } from 'vue-multilanguage';
 	export default {
+	    props: ['terms'],
 		data () {
 			return {
 				dialog: false

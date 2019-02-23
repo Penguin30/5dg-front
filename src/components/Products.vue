@@ -14,6 +14,7 @@
       :timeEnd='info[key].time_end'
       :type='info[key].type'
       mode=''
+      :terms="terms"
       :caption='products[0].caption'
       v-if='$store.state.reservation.cruiseID==0||$store.state.reservation.cruiseID==info[key].id'/>
   </v-layout>
@@ -37,7 +38,7 @@
     components: {
      	Product,
     },
-    props: ['lang'],
+    props: ['lang','terms'],
     watch: {
       lang: function () {
         if(this.lang != 'english'){
@@ -79,7 +80,7 @@
         }
     },
 	created() { 
-		axios.get('https://www.5degeneve.ch/api/cruises?lg='+this.lang)
+		axios.get('https://www.8dg.ch/api/cruises?lg='+this.lang)
 			.then(response => (this.info = response.data))
 			.catch(error => console.log(error));
 	}  

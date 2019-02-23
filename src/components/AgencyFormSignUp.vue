@@ -15,6 +15,9 @@
                                    <v-btn @click="close_forms"><span>ok</span></v-btn>
                                 </v-card-text>
                                 <v-divider></v-divider>
+                                <v-actions>
+                                  <v-btn @click="item_dialog = false;">OK</v-btn>
+                                </v-actions>
                             </v-card>
                         </v-dialog> 
 			<v-layout justify-space-between column>
@@ -331,7 +334,7 @@
                         lang: this.$ml.current
 					}
 
-					axios.post('https://www.5degeneve.ch/api/sign_up_agency',{data})
+					axios.post('https://www.8dg.ch/api/sign_up_agency',{data})
 					.then(res => ((res.data != '') ? this.reg_thnx = true : (res.data == 'email') ? alert('We are sorry but you cannot register with this EMail-Address, as it is already is use.') : console.log(res)))
                                         .catch(error => (console.log(error)))
 				}
