@@ -502,7 +502,25 @@ For judiciaire : Gen&egrave;ve<br/>
 
                 this.loadBlockedDates();
             },
-
+            'checkbox': function(){
+                if(this.checkbox == true){
+                    this.$store.state.reservation.timeEnd = '22:30:00';
+                }else{
+                    this.$store.state.reservation.timeEnd = '20:30:00';
+                }
+                let data = {
+                    date: this.$store.state.date,
+                    cruise: this.$store.state.cruise,
+                    time_start: this.$store.state.reservation.timeStart,
+                    time_end: this.$store.state.reservation.timeEnd
+                };
+                axios.post('https://www.8dg.ch/api/check_time',{data})
+                    .then(response => ((response.data != 'ok') ?  (
+                        this.e1 = 1,
+                        this.$store.state.step = 1,
+                        this.loadBlockedDates()
+                    ) : ('')))
+            },
             'endDate': function() {
                 let dE = new Date(this.endDate);
                 var hE = dE.getHours();
@@ -536,8 +554,7 @@ For judiciaire : Gen&egrave;ve<br/>
                 }
 
                 this.loadBlockedDates();
-            },
-
+            },            
             'extended': function() {
                 this.$store.state.reservation.timeEnd = this.extended;
                 if (this.extended=='20:30:00'){
@@ -556,7 +573,7 @@ For judiciaire : Gen&egrave;ve<br/>
                 this.loadBlockedDates();
             }
         },
-		methods: {
+		methods: {            
             gtu(){
                 this.terms_dialog = true;
             },

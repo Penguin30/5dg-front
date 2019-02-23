@@ -26,7 +26,7 @@
                   <tr><td>Start at</td>       <td>{{ editedItem.start }}</td></tr>
                   <tr><td>End at</td>         <td>{{ editedItem.end }}</td></tr>
                   <tr><td>Passengers</td>     <td>{{ editedItem.num }}</td></tr>
-                  <tr><td>Ages</td>           <td>{{ editedItem.ages }}</td></tr>
+                  <tr><td>Ages</td>           <td>{{ editedItem.ages  }}</td></tr>
                   <tr><td>First Name</td>     <td>{{ editedItem.first_name }}</td></tr>
                   <tr><td>Last Name</td>      <td>{{ editedItem.last_name }}</td></tr>
                   <tr><td>Company</td>        <td>{{ editedItem.company }}</td></tr>
