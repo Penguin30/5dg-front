@@ -38,7 +38,7 @@ For judiciaire : Gen&egrave;ve<br/>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
-		{{ terms }}
+
 	</div>
 </template>
 
