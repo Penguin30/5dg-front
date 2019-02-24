@@ -15,7 +15,7 @@
                                 </v-card-text>
                                 <v-divider></v-divider>
                                 <v-actions>
-                                  <v-btn @click="item_dialog = false;">OK</v-btn>
+                                  <v-btn @click="close_forms()">OK</v-btn>
                                 </v-actions>
                             </v-card>
                         </v-dialog> 
