@@ -6,12 +6,14 @@
             </v-btn>
 
             <v-card class="rounded-card">
-                <v-card-text>
-                    <v-form ref="form" v-model="valid" lazy-validation class="rounded-card">
+                <v-card-text>                    
+                    <v-form ref="form" v-model="valid" lazy-validation class="rounded-card">                        
+                        <span style="color:red">{{ error_login }}</span>
                         <v-layout justify-space-between column>
                             <v-text-field :rules="emailRules" v-model="email" :label="$ml.get('email')" required></v-text-field>
                             <v-text-field :rules="passwordRules" v-model="password" :label="$ml.get('pass')" required></v-text-field>
                         </v-layout>
+
                         <v-btn :disabled="!valid" @click="submit">{{ $ml.get('submit') }}</v-btn>
                         <v-btn @click="clear">{{ $ml.get('clear') }}</v-btn>
                         <v-btn round color="error" flat @click="lost_pass_modal = true" >
@@ -22,7 +24,7 @@
                             <v-btn color="error" flat slot="activator">
                                 <span class="mr-2">{{ $ml.get('reg_act') }}</span>
                             </v-btn>
-                            <v-card class="rounded-card">
+                            <v-card class="rounded-card">   
                                 <v-card-title
                                         class="headline grey lighten-2"
                                         style="color: #fff; background: #ff5252 !important;justify-content: center;"
@@ -30,7 +32,7 @@
                                     {{ $ml.get('ta_sign_up_title') }}
                                 </v-card-title>
 
-                                <v-card-text>
+                                <v-card-text>                       
                                     <AgencySignUpForm/>
                                 </v-card-text>
                                 <v-divider></v-divider>
@@ -78,6 +80,7 @@
         },
         data() {
             return {
+                error_login: '',
                 reg_thnx: false,
                 reg_text: '',
                 dialog: false,
@@ -120,7 +123,7 @@
                         })
                         .catch(error => console.log(error));
                     })
-                    .catch(error => console.log(error));
+                    .catch(error => (this.error_login = 'Incorrect data'));
                 }
             }
         }

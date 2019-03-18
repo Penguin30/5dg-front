@@ -154,7 +154,7 @@
                 location.reload();
             },
             change_lang: function(lang){ 
-                let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_USD' : 'CHF';                                    
+                let code = (lang == 'english') ? 'CHF_USD' : (lang == 'french') ? 'CHF_EUR' : (lang == 'deutsch') ? 'CHF_EUR' : (lang == 'russian') ? 'CHF_RUB' : (lang == 'chinese') ? 'CHF_CYN' : (lang == 'arabic') ? 'CHF_USD' : 'CHF';                                
                 if(code != 'CHF')
                     axios.get('https://www.8dg.ch/api/get_rate?code='+code)
                     .then(res => {

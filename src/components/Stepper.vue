@@ -133,7 +133,7 @@ For judiciaire : Gen&egrave;ve<br/>
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" text @click="dialog = false">
+                    <v-btn color="primary" text @click="terms_dialog = false">
                         OK
                     </v-btn>
                 </v-card-actions>
@@ -147,6 +147,7 @@ For judiciaire : Gen&egrave;ve<br/>
 			 <v-stepper-content step="3">
 				<v-card>
 					<p>Thank you for your Order. We will contact you shortly by email and confirm your Booking.</p>
+                    <v-btn round color="orange" дуае v-on:click="showAllCruises">Back to Home-Page</v-btn>
 				</v-card>
 			</v-stepper-content>
 
@@ -573,7 +574,17 @@ For judiciaire : Gen&egrave;ve<br/>
                 this.loadBlockedDates();
             }
         },
-		methods: {            
+		methods: {    
+            showAllCruises(event) {
+                this.$store.state.reservation.cruiseID  = 0;
+                this.$store.state.reservation.timeStart = null;
+                this.$store.state.reservation.timeEnd   = null;
+                this.$store.state.reservation.price     = 0;
+                let lg4 =document.querySelector('.layout.justify-center > .flex.xs8');
+                setTimeout(function(){
+                    lg4.classList.remove('lg4');
+                },1);
+            },        
             gtu(){
                 this.terms_dialog = true;
             },
