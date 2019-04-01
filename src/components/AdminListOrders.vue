@@ -151,8 +151,8 @@
         axios.post('https://www.8dg.ch/api/order_update',{data})
         .then(response => (axios.get('https://www.8dg.ch/api/orders?status='+this.status)
         .then(response => (this.orders = response.data))
-        .catch(error => console.log(error))))
-        .catch(error => (console.log(error)))
+        .catch(error => console.log(error.response))))
+        .catch(error => (console.log(error.response)))
       },
       change_status (event){
         this.orders = this.filter(this.status);
@@ -165,7 +165,7 @@
             this.allOrders = response.data;
             this.orders    = this.filter('all');
           })
-          .catch(error => console.log(error));
+          .catch(error => console.log(error.response));
       },
 
       filter(type) {
@@ -188,8 +188,8 @@
         axios.post('https://www.8dg.ch/api/order_update',{data})
         .then(response => (axios.get('https://www.8dg.ch/api/orders?status='+this.status)
         .then(response => (this.orders = response.data))
-        .catch(error => console.log(error))))
-        .catch(error => (console.log(error)))
+        .catch(error => console.log(error.response))))
+        .catch(error => (console.log(error.response)))
       },
 
       // TODO: only submit the ID
@@ -202,8 +202,8 @@
         axios.post('https://www.8dg.ch/api/order_update',{data})
         .then(response => (axios.get('https://www.8dg.ch/api/orders?status='+this.status)
         .then(response => (this.orders = response.data))
-        .catch(error => console.log(error))))
-        .catch(error => (console.log(error)))
+        .catch(error => console.log(error.response))))
+        .catch(error => (console.log(error.response)))
       },
     }
   }

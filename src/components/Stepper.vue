@@ -202,6 +202,7 @@ For judiciaire : Gen&egrave;ve<br/>
 				valid: true,
 				firstName: '',
 				laststName: '',
+				zip:'',
 				nameRules: [v => !!v || 'Name is required', v => (v && v.length <= 100) || 'Name must be less than 10 characters'],
 				email: '',
 				emailRules: [v => !!v || 'E-mail is required', v => /.+@.+/.test(v) || 'E-mail must be valid'],
@@ -710,13 +711,14 @@ For judiciaire : Gen&egrave;ve<br/>
                         agency_email: (this.$cookies.get("email") != '') ? this.$cookies.get("email") : '',
                         price:      this.$store.state.reservation.price,
                         dprice:     this.$store.state.reservation.disPrice
-					}
+					};
+					console.log(data);
 					axios.post('https://www.8dg.ch/api/orders', {data})
 						.then( res => (
                             console.log(res),
 							this.e1 = 3)
 						)
-						.catch(error => (console.log(error)));
+						.catch(error => (console.log(error.response)));
 				}
             },
             

@@ -74,7 +74,7 @@
 
                                 <v-card-text>
                                    Thank you for payment, we will come back to you shortly!
-                                   <v-btn @click="close_forms"><span>ok</span></v-btn>
+                                   <v-btn @click="close_forms"><span>Back to home page</span></v-btn>
                                 </v-card-text>
                                 <v-divider></v-divider>
                             </v-card>
@@ -91,7 +91,7 @@
 
                                 <v-card-text>
                                     We are sorry, but your payment wasn't success!
-                                   <v-btn @click="close_form_error"><span>ok</span></v-btn>
+                                   <v-btn @click="close_form_error"><span>Back to home page</span></v-btn>
                                 </v-card-text>
                                 <v-divider></v-divider>
                             </v-card>
@@ -133,6 +133,7 @@
             },
             close_form_error(){
                 this.eror_pay = false;
+                location.href='/';
             },
             cancelled(){
                 this.eror_pay = true;
