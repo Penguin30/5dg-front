@@ -11,7 +11,7 @@
                         <span style="color:red">{{ error_login }}</span>
                         <v-layout justify-space-between column>
                             <v-text-field :rules="emailRules" v-model="email" :label="$ml.get('email')" required></v-text-field>
-                            <v-text-field :rules="passwordRules" v-model="password" :label="$ml.get('pass')" required></v-text-field>
+                            <v-text-field :rules="passwordRules" v-model="password" :label="$ml.get('pass')" :type="'password'" required></v-text-field>
                         </v-layout>
 
                         <v-btn :disabled="!valid" @click="submit">{{ $ml.get('submit') }}</v-btn>
