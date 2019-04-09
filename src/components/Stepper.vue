@@ -581,10 +581,14 @@ For judiciaire : Gen&egrave;ve<br/>
                 this.$store.state.reservation.timeStart = null;
                 this.$store.state.reservation.timeEnd   = null;
                 this.$store.state.reservation.price     = 0;
+                /*
                 let lg4 =document.querySelector('.layout.justify-center > .flex.xs8');
                 setTimeout(function(){
                     lg4.classList.remove('lg4');
                 },1);
+
+                 */
+                location.reload();
             },        
             gtu(){
                 this.terms_dialog = true;
