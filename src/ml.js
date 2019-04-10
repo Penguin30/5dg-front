@@ -64,6 +64,19 @@ export default new MLCreate({
       register: 'Register',
       conf:'Confirmation',
       soft_drinks:'Soft Drinks',
+      term_p1:'The 5 de Genève is a motor boat registered in SWITZERLAND in the Pocket-Yacht category.',
+      term_p2:'Recreational leisure activities are offered on Lake Geneva.',
+      term_p3:'The Geneva 5 is not intended for the transport of passengers from one point to another. The outings on the lake are circular and for lake recreation. Its guests are brought back to their starting point.',
+      term_p4:'The contractual relationship is exercised within the framework of a leisure service and not a transport service, through a service provider who mandates us for this service.',
+      term_p5:'The order of this service is made through a dedicated website (www.5degeneve.ch) and the confirmation of the customer\'s email is considered as a contract.',
+      term_p6:'The contract may be cancelled at any time in the event of force 4 or higher weather conditions. The boat\'s navigator remains the sole decision-maker for all operations necessary to ensure the safety of all guests.',
+      term_p7:'The contract is in full effect (not cancellable) one week before the start of the service.',
+      term_p8:'Adress : 10 rue Blavignac',
+      term_p9:'1227 Genève',
+      term_p10:'Suisse',
+      term_p11:'Phone number : + 41 79 944 68 77',
+      term_p12:'e-mail :info@5degeneve.ch',
+      term_p13:'For judiciaire : Genève'
     }),
  
     new MLanguage('french').create({
@@ -123,6 +136,19 @@ export default new MLCreate({
       register: 'Register',
       conf:'Confirmation',
       soft_drinks:'Soft Drinks',
+      term_p1:'The 5 de Genève is a motor boat registered in SWITZERLAND in the Pocket-Yacht category.',
+      term_p2:'Recreational leisure activities are offered on Lake Geneva.',
+      term_p3:'The Geneva 5 is not intended for the transport of passengers from one point to another. The outings on the lake are circular and for lake recreation. Its guests are brought back to their starting point.',
+      term_p4:'The contractual relationship is exercised within the framework of a leisure service and not a transport service, through a service provider who mandates us for this service.',
+      term_p5:'The order of this service is made through a dedicated website (www.5degeneve.ch) and the confirmation of the customer\'s email is considered as a contract.',
+      term_p6:'The contract may be cancelled at any time in the event of force 4 or higher weather conditions. The boat\'s navigator remains the sole decision-maker for all operations necessary to ensure the safety of all guests.',
+      term_p7:'The contract is in full effect (not cancellable) one week before the start of the service.',
+      term_p8:'Adress : 10 rue Blavignac',
+      term_p9:'1227 Genève',
+      term_p10:'Suisse',
+      term_p11:'Phone number : + 41 79 944 68 77',
+      term_p12:'e-mail :info@5degeneve.ch',
+      term_p13:'For judiciaire : Genève'
     }),
 
     new MLanguage('deutsch').create({
@@ -182,6 +208,19 @@ export default new MLCreate({
       register: 'Register',
       conf:'Bestätigung',
       soft_drinks:'Soft Drinks',
+      term_p1:'The 5 de Genève is a motor boat registered in SWITZERLAND in the Pocket-Yacht category.',
+      term_p2:'Recreational leisure activities are offered on Lake Geneva.',
+      term_p3:'The Geneva 5 is not intended for the transport of passengers from one point to another. The outings on the lake are circular and for lake recreation. Its guests are brought back to their starting point.',
+      term_p4:'The contractual relationship is exercised within the framework of a leisure service and not a transport service, through a service provider who mandates us for this service.',
+      term_p5:'The order of this service is made through a dedicated website (www.5degeneve.ch) and the confirmation of the customer\'s email is considered as a contract.',
+      term_p6:'The contract may be cancelled at any time in the event of force 4 or higher weather conditions. The boat\'s navigator remains the sole decision-maker for all operations necessary to ensure the safety of all guests.',
+      term_p7:'The contract is in full effect (not cancellable) one week before the start of the service.',
+      term_p8:'Adress : 10 rue Blavignac',
+      term_p9:'1227 Genève',
+      term_p10:'Suisse',
+      term_p11:'Phone number : + 41 79 944 68 77',
+      term_p12:'e-mail :info@5degeneve.ch',
+      term_p13:'For judiciaire : Genève'
     }),
 
     new MLanguage('russian').create({
@@ -241,6 +280,19 @@ export default new MLCreate({
       register: 'Регистрация',
       conf:'Подтверждение',
       soft_drinks:'Безалкогольные напитки',
+      term_p1:'The 5 de Genève is a motor boat registered in SWITZERLAND in the Pocket-Yacht category.',
+      term_p2:'Recreational leisure activities are offered on Lake Geneva.',
+      term_p3:'The Geneva 5 is not intended for the transport of passengers from one point to another. The outings on the lake are circular and for lake recreation. Its guests are brought back to their starting point.',
+      term_p4:'The contractual relationship is exercised within the framework of a leisure service and not a transport service, through a service provider who mandates us for this service.',
+      term_p5:'The order of this service is made through a dedicated website (www.5degeneve.ch) and the confirmation of the customer\'s email is considered as a contract.',
+      term_p6:'The contract may be cancelled at any time in the event of force 4 or higher weather conditions. The boat\'s navigator remains the sole decision-maker for all operations necessary to ensure the safety of all guests.',
+      term_p7:'The contract is in full effect (not cancellable) one week before the start of the service.',
+      term_p8:'Adress : 10 rue Blavignac',
+      term_p9:'1227 Genève',
+      term_p10:'Suisse',
+      term_p11:'Phone number : + 41 79 944 68 77',
+      term_p12:'e-mail :info@5degeneve.ch',
+      term_p13:'For judiciaire : Genève'
     }),
 
     new MLanguage('chinese').create({
@@ -300,6 +352,19 @@ export default new MLCreate({
       register: 'Register',
       conf:'Confirmation',
       soft_drinks:'Soft Drinks',
+      term_p1:'The 5 de Genève is a motor boat registered in SWITZERLAND in the Pocket-Yacht category.',
+      term_p2:'Recreational leisure activities are offered on Lake Geneva.',
+      term_p3:'The Geneva 5 is not intended for the transport of passengers from one point to another. The outings on the lake are circular and for lake recreation. Its guests are brought back to their starting point.',
+      term_p4:'The contractual relationship is exercised within the framework of a leisure service and not a transport service, through a service provider who mandates us for this service.',
+      term_p5:'The order of this service is made through a dedicated website (www.5degeneve.ch) and the confirmation of the customer\'s email is considered as a contract.',
+      term_p6:'The contract may be cancelled at any time in the event of force 4 or higher weather conditions. The boat\'s navigator remains the sole decision-maker for all operations necessary to ensure the safety of all guests.',
+      term_p7:'The contract is in full effect (not cancellable) one week before the start of the service.',
+      term_p8:'Adress : 10 rue Blavignac',
+      term_p9:'1227 Genève',
+      term_p10:'Suisse',
+      term_p11:'Phone number : + 41 79 944 68 77',
+      term_p12:'e-mail :info@5degeneve.ch',
+      term_p13:'For judiciaire : Genève'
     }),
 
     new MLanguage('arabic').create({
@@ -359,6 +424,19 @@ export default new MLCreate({
       register: 'Register',
       conf:'Confirmation',
       soft_drinks:'Soft Drinks',
+      term_p1:'The 5 de Genève is a motor boat registered in SWITZERLAND in the Pocket-Yacht category.',
+      term_p2:'Recreational leisure activities are offered on Lake Geneva.',
+      term_p3:'The Geneva 5 is not intended for the transport of passengers from one point to another. The outings on the lake are circular and for lake recreation. Its guests are brought back to their starting point.',
+      term_p4:'The contractual relationship is exercised within the framework of a leisure service and not a transport service, through a service provider who mandates us for this service.',
+      term_p5:'The order of this service is made through a dedicated website (www.5degeneve.ch) and the confirmation of the customer\'s email is considered as a contract.',
+      term_p6:'The contract may be cancelled at any time in the event of force 4 or higher weather conditions. The boat\'s navigator remains the sole decision-maker for all operations necessary to ensure the safety of all guests.',
+      term_p7:'The contract is in full effect (not cancellable) one week before the start of the service.',
+      term_p8:'Adress : 10 rue Blavignac',
+      term_p9:'1227 Genève',
+      term_p10:'Suisse',
+      term_p11:'Phone number : + 41 79 944 68 77',
+      term_p12:'e-mail :info@5degeneve.ch',
+      term_p13:'For judiciaire : Genève'
     })
   ]
 })
