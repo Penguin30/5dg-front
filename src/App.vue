@@ -79,8 +79,10 @@
 						</v-flex>
 						<v-flex xs12>
 							<v-date-picker
-								v-model="block_date"
-                                :min='new Date().toISOString()'
+                v-model="date"
+                :allowed-dates="allowedDates"
+                :min='new Date().toISOString().substr(0, 10)'
+                :key="rerenderKey"
 							  />
 						</v-flex>
 
@@ -152,6 +154,7 @@
         methods: {
             validate(){
                 if (this.$refs.block.validate()) {
+                  console.log(this.block_date);
                     let data = {
                         date: this.block_date,
                         time_start: this.block_startDate,
@@ -159,7 +162,7 @@
                     }
                     axios.post('https://www.8dg.ch/api/block_date',{data})
                     .then(response => ((response.data == 1) ? (this.dateError = 'Date blocked') : (response.data == 2) ? this.dateError = "You can't block this date, bacause you have cruise(s) on this day!" : location.reload()))
-                    .catch(error => console.log(error));    
+                    .catch(error => console.log(error.response));
                 }
             },
             logout(){
@@ -187,6 +190,37 @@
                 else
                     this.$store.state.rate = 1;           
             },
+          allowedDates(val){
+            return this.datesAllowed.indexOf(val) === -1;
+          },
+          loadBlockedDates() {
+            let tS = this.$store.state.reservation.timeStart;
+            let tE = this.$store.state.reservation.timeEnd;
+
+            if (!tS) tS = "00:00:00";
+            if (!tE) tE = "23:59:59";
+
+            var self = this;
+            let now = (new Date()).getTime();
+
+            tS = encodeURIComponent(tS);
+            tE = encodeURIComponent(tE);
+
+            let url = 'https://www.8dg.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
+
+            axios.get(url)
+              .then((res) => {
+                let data = Array.isArray(res.data) ? res.data : [];
+                self.datesAllowed = [];
+
+                for (var i=0; i<data.length; i++) {
+                  self.datesAllowed.push(data[i].date);
+                }
+
+                self.rerenderKey++;
+              })
+              .catch(error => (console.log(error)));
+          }
         },
         created(){
             this.$cookies.config('7d');
@@ -206,11 +240,17 @@
                     location.reload();
                 }
             });
+          this.loadBlockedDates();
             var userLang = navigator.language || navigator.userLanguage; 
             (userLang == 'ru-RU' || userLang == 'ru' || userLang == 'RU' || userLang == 'Ru') ? this.change_lang('russian') : (userLang == 'en-EN' || userLang == 'en' || userLang == 'EN' || userLang == 'En') ? this.change_lang('english') : (userLang == 'fr-FR' || userLang == 'fr' || userLang == 'FR' || userLang == 'Fr') ? this.change_lang('french') : (userLang == 'de-DE' || userLang == 'de' || userLang == 'DE' || userLang == 'De') ? this.change_lang('deutsch') : (userLang == 'ch-CH' || userLang == 'ch' || userLang == 'CH' || userLang == 'Ch') ? this.change_lang('chinese') : (userLang == 'ar-AR' || userLang == 'ar' || userLang == 'AR' || userLang == 'Ar') ? this.change_lang('arabic') : this.change_lang('english')
         },
         data() {
             return {
+                block_startDate : new Date(new Date().setHours(6, 0, 0, 0)).toISOString(),
+                block_endDate : new Date(new Date().setHours(17, 0, 0, 0)).toISOString(),
+                rerenderKey: 0,
+                date: new Date().toISOString().substr(0, 10),
+                datesAllowed: [],
                 terms: false,
                 block_date: false,
                 block_date: new Date().toISOString().substr(0, 10),

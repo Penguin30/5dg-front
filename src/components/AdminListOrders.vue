@@ -187,7 +187,7 @@
         }
         axios.post('https://www.8dg.ch/api/order_update',{data})
         .then(response => (axios.get('https://www.8dg.ch/api/orders?status='+this.status)
-        .then(response => (this.orders = response.data))
+        .then(response => (this.orders = response.data,console.log(response.data)))
         .catch(error => console.log(error.response))))
         .catch(error => (console.log(error.response)))
       },
