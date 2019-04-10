@@ -15,7 +15,7 @@
 					</v-flex>
 					<v-flex xs8>
 						<v-layout column>
-							<v-card-actions mob3 class="pl-3">
+							<v-card-actions  class="pl-3 mob3">
 								<span v-if="productID!=1" style="vertical-align: top; padding-right: 10px;">{{ $ml.get('s_from') }}</span> <span><big><b>{{ formatPrice(price) }} CHF</b></big><br>(~ {{ formatPrice(Math.round(price*rate)) }} {{ $store.state.curr_code }})</span>
 								<v-spacer></v-spacer>
 								<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.reservation.cruiseID==0 && mode != 'pay'">{{ $ml.get('btn') }}</v-btn>

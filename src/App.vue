@@ -130,6 +130,7 @@
         margin: 2px!important;
       }
       .cruiseVideo{
+        float: none!important;
         left: 0!important;
       }
       .video-js {
