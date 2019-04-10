@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-toolbar app >
+        <v-toolbar app absolute :height="'auto'">
             <v-toolbar-title class=" headline text-uppercase ">
                 <img src="https://www.8dg.ch/5deGeneve.png" class="mob-img" alt="5 de Geneve" width=230 height=45 />
             </v-toolbar-title>
@@ -24,7 +24,7 @@
             </v-btn>          
         </v-toolbar>
         <v-content style="padding-bottom:100px;">
-            <v-carousel>
+            <v-carousel class="mob-slider">
                 <v-carousel-item
                     v-for="(item,i) in mainImages"
                         :key="i"
@@ -108,19 +108,40 @@
 </template>
 
 <style>
+  .v-toolbar--fixed{
+    position: inherit;
+  }
     @media(max-width: 768px){
+      .mob-slider{
+        height: 150px!important;
+        margin-top: 220px!important;
+      }
+      .mob-slider .v-image__image.v-image__image--cover{
+        background-size: contain!important;
+        background-position: unset!important;
+      }
       .layout.row {
         -ms-flex-direction: column!important;
         flex-direction: column!important;
       }
       .mob-normal{
         flex-basis: inherit!important;
+        flex-direction: column-reverse!important;
       }
       .flex.xs8.mob2 {
-        -ms-flex-preferred-size: 80.88888888888%!important;
-        flex-basis: 80.88888888888%!important;
-        max-width: 80.88888888888%!important;
+        flex-basis: 100%!important;
+        max-width: 100%!important;
         margin-top: 20px!important;
+        padding: 20px;
+      }
+
+      .mob-normal .ml-5{
+        margin-left: unset!important;
+        padding: 20px;
+      }
+
+      .v-snack__content{
+        height: auto!important;
       }
 
       .mob3{
@@ -140,7 +161,6 @@
       }
       .v-toolbar__content, .v-toolbar__extension {
         flex-direction: column!important;
-        height: auto!important;
       }
 
       .mob-img{
@@ -151,6 +171,14 @@
       }
       .mob-mb-10{
         margin-bottom: 10px;
+      }
+    }
+    @media(max-width: 1200px){
+      .mob3{
+        flex-direction: column!important;
+      }
+      .mob3 .v-card__actions .v-btn, .v-card__actions>* {
+        margin: 2px!important;
       }
     }
     .cruiseVideoI {
