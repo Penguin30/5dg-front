@@ -18,8 +18,8 @@
                 <img :src="require(`@/assets/${lang}.png`)" :alt="lang" height=35 />
               </v-btn>
             </v-layout>
-            <RegisterAgency v-if="$cookies.isKey('token') === false"/>
-            <v-btn v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
+            <RegisterAgency class="mob-mb-10" v-if="$cookies.isKey('token') === false"/>
+            <v-btn class="mob-mb-10" v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
                 <span class="mr-2">{{ $ml.get('logout') }}</span>
             </v-btn>          
         </v-toolbar>
@@ -148,6 +148,9 @@
       }
       .mobmenu-span{
         font-size: 16px!important;
+      }
+      .mob-mb-10{
+        margin-bottom: 10px;
       }
     }
     .cruiseVideoI {
