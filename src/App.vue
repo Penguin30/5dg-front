@@ -7,7 +7,7 @@
             <v-spacer></v-spacer>
                 <span style="font-style: italic; font-size: 25px;" class="mobmenu-span">PRIVATE CRUISE GENEVA LAKE</span>
             <v-spacer></v-spacer>
-            <v-layout>
+            <v-layout class="not-middle">
               <v-btn
                 v-for="lang in $ml.list"
                 :key="lang"
@@ -18,6 +18,7 @@
                 <img :src="require(`@/assets/${lang}.png`)" :alt="lang" height=35 />
               </v-btn>
             </v-layout>
+            <dropdown class="only-middle"></dropdown>
             <RegisterAgency class="mob-mb-10" v-if="$cookies.isKey('token') === false"/>
             <v-btn class="mob-mb-10" v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
                 <span class="mr-2">{{ $ml.get('logout') }}</span>
@@ -111,6 +112,9 @@
   .v-toolbar--fixed{
     position: inherit;
   }
+    .only-middle{
+        display: none!important;
+    }
     @media(max-width: 768px){
       .mob-slider{
         height: 150px!important;
@@ -174,6 +178,14 @@
       }
     }
     @media(max-width: 1200px){
+        .mob-img{
+            margin: 10px;
+            height: 35px!important;
+            width: 150px!important;
+        }
+        .mobmenu-span{
+            font-size: 18px!important;
+        }
       .mob3{
         flex-direction: column!important;
       }
@@ -193,6 +205,14 @@
         left: unset!important;
         margin: 20px;
       }
+    }
+    @media (min-width: 769px) and  (max-width: 1199px) {
+        .not-middle{
+            display: none!important;
+        }
+        .only-middle{
+            display: block!important;
+        }
     }
     .cruiseVideoI {
         text-align: center;
@@ -225,6 +245,7 @@
     import {RotateSquare} from 'vue-loading-spinner';
     import { Datetime } from 'vue-datetime';
     import 'vue-datetime/dist/vue-datetime.css';
+    import Dropdown from './components/Dropdown';
 
     export default {
         name: 'App',
@@ -238,7 +259,8 @@
             AdminListOrders,
             AdminListTa,
             RotateSquare,
-            Datetime
+            Datetime,
+            Dropdown
         },
         methods: {
             validate(){
