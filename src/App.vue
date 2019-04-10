@@ -154,9 +154,8 @@
         methods: {
             validate(){
                 if (this.$refs.block.validate()) {
-                  console.log(this.block_date);
                     let data = {
-                        date: this.block_date,
+                        date: this.date,
                         time_start: this.block_startDate,
                         time_end: this.block_endDate
                     }
@@ -252,7 +251,6 @@
                 date: new Date().toISOString().substr(0, 10),
                 datesAllowed: [],
                 terms: false,
-                block_date: false,
                 block_date: new Date().toISOString().substr(0, 10),
                 dateError: '',
                 mainImages: [
