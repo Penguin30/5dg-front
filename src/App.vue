@@ -180,6 +180,19 @@
       .mob3 .v-card__actions .v-btn, .v-card__actions>* {
         margin: 2px!important;
       }
+      .flex.xs8{
+        flex-basis: 88%!important;
+        -webkit-box-flex: 0;
+        -ms-flex-positive: 0;
+        flex-grow: 0;
+        max-width: 88%!important;
+      }
+
+      .cruiseVideo{
+        float: unset!important;
+        left: unset!important;
+        margin: 20px;
+      }
     }
     .cruiseVideoI {
         text-align: center;
@@ -195,6 +208,7 @@
       position: relative;
       left: 25%;
     }
+
 </style>
 
 <script>
