@@ -139,7 +139,7 @@
       }
       .v-toolbar__content, .v-toolbar__extension {
         flex-direction: column!important;
-        height: auto;
+        height: auto!important;
       }
 
       .mob-img{
