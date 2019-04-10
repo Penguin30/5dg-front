@@ -1,28 +1,30 @@
 <template>
     <v-app>
-        <v-toolbar app>
-            <v-toolbar-title class="headline text-uppercase">
-                <img src="https://www.8dg.ch/5deGeneve.png" alt="5 de Geneve" width=230 height=45 />
+        <v-toolbar app absolute :height="'auto'">
+            <v-toolbar-title class=" headline text-uppercase ">
+                <img src="https://www.8dg.ch/5deGeneve.png" class="mob-img" alt="5 de Geneve" width=230 height=45 />
             </v-toolbar-title>
             <v-spacer></v-spacer>
-                <span style="font-style: italic; font-size: 25px;">PRIVATE CRUISE GENEVA LAKE</span>
+                <span style="font-style: italic; font-size: 25px;" class="mobmenu-span">PRIVATE CRUISE GENEVA LAKE</span>
             <v-spacer></v-spacer>
-            <v-btn 
+            <v-layout>
+              <v-btn
                 v-for="lang in $ml.list"
                 :key="lang"
                 @click="change_lang(lang,$ml)"
-                flat 
-                icon 
-            >
+                flat
+                icon
+              >
                 <img :src="require(`@/assets/${lang}.png`)" :alt="lang" height=35 />
-            </v-btn>
-            <RegisterAgency v-if="$cookies.isKey('token') === false"/>
-            <v-btn v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
+              </v-btn>
+            </v-layout>
+            <RegisterAgency class="mob-mb-10" v-if="$cookies.isKey('token') === false"/>
+            <v-btn class="mob-mb-10" v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
                 <span class="mr-2">{{ $ml.get('logout') }}</span>
             </v-btn>          
         </v-toolbar>
         <v-content style="padding-bottom:100px;">
-            <v-carousel>
+            <v-carousel class="mob-slider">
                 <v-carousel-item
                     v-for="(item,i) in mainImages"
                         :key="i"
@@ -79,8 +81,10 @@
 						</v-flex>
 						<v-flex xs12>
 							<v-date-picker
-								v-model="block_date"
-                                :min='new Date().toISOString()'
+                v-model="date"
+                :allowed-dates="allowedDates"
+                :min='new Date().toISOString().substr(0, 10)'
+                :key="rerenderKey"
 							  />
 						</v-flex>
 
@@ -104,6 +108,92 @@
 </template>
 
 <style>
+  .v-toolbar--fixed{
+    position: inherit;
+  }
+    @media(max-width: 768px){
+      .mob-slider{
+        height: 150px!important;
+        margin-top: 220px!important;
+      }
+      .mob-slider .v-image__image.v-image__image--cover{
+        background-size: contain!important;
+        background-position: unset!important;
+      }
+      .layout.row {
+        -ms-flex-direction: column!important;
+        flex-direction: column!important;
+      }
+      .mob-normal{
+        flex-basis: inherit!important;
+        flex-direction: column-reverse!important;
+      }
+      .flex.xs8.mob2 {
+        flex-basis: 100%!important;
+        max-width: 100%!important;
+        margin-top: 20px!important;
+        padding: 20px;
+      }
+
+      .mob-normal .ml-5{
+        margin-left: unset!important;
+        padding: 20px;
+      }
+
+      .v-snack__content{
+        height: auto!important;
+      }
+
+      .mob3{
+        flex-direction: column!important;
+      }
+      .mob3 .v-card__actions .v-btn, .v-card__actions>* {
+        margin: 2px!important;
+      }
+      .cruiseVideo{
+        float: none!important;
+        left: 0!important;
+      }
+      .video-js {
+        width: 100%;
+        height: 150px;
+        margin-bottom: 20px;
+      }
+      .v-toolbar__content, .v-toolbar__extension {
+        flex-direction: column!important;
+      }
+
+      .mob-img{
+        margin: 10px;
+      }
+      .mobmenu-span{
+        font-size: 16px!important;
+      }
+      .mob-mb-10{
+        margin-bottom: 10px;
+      }
+    }
+    @media(max-width: 1200px){
+      .mob3{
+        flex-direction: column!important;
+      }
+      .mob3 .v-card__actions .v-btn, .v-card__actions>* {
+        margin: 2px!important;
+      }
+      .flex.xs8{
+        flex-basis: 88%!important;
+        -webkit-box-flex: 0;
+        -ms-flex-positive: 0;
+        flex-grow: 0;
+        max-width: 88%!important;
+      }
+
+      .cruiseVideo{
+        float: unset!important;
+        left: unset!important;
+        margin: 20px;
+      }
+    }
     .cruiseVideoI {
         text-align: center;
         width: 588px;
@@ -118,6 +208,7 @@
       position: relative;
       left: 25%;
     }
+
 </style>
 
 <script>
@@ -153,13 +244,13 @@
             validate(){
                 if (this.$refs.block.validate()) {
                     let data = {
-                        date: this.block_date,
+                        date: this.date,
                         time_start: this.block_startDate,
                         time_end: this.block_endDate
                     }
                     axios.post('https://www.8dg.ch/api/block_date',{data})
                     .then(response => ((response.data == 1) ? (this.dateError = 'Date blocked') : (response.data == 2) ? this.dateError = "You can't block this date, bacause you have cruise(s) on this day!" : location.reload()))
-                    .catch(error => console.log(error));    
+                    .catch(error => console.log(error.response));
                 }
             },
             logout(){
@@ -187,6 +278,37 @@
                 else
                     this.$store.state.rate = 1;           
             },
+          allowedDates(val){
+            return this.datesAllowed.indexOf(val) === -1;
+          },
+          loadBlockedDates() {
+            let tS = this.$store.state.reservation.timeStart;
+            let tE = this.$store.state.reservation.timeEnd;
+
+            if (!tS) tS = "00:00:00";
+            if (!tE) tE = "23:59:59";
+
+            var self = this;
+            let now = (new Date()).getTime();
+
+            tS = encodeURIComponent(tS);
+            tE = encodeURIComponent(tE);
+
+            let url = 'https://www.8dg.ch/api/get_blocked_dates?tS='+tS+'&tE='+tE+'&n='+now;
+
+            axios.get(url)
+              .then((res) => {
+                let data = Array.isArray(res.data) ? res.data : [];
+                self.datesAllowed = [];
+
+                for (var i=0; i<data.length; i++) {
+                  self.datesAllowed.push(data[i].date);
+                }
+
+                self.rerenderKey++;
+              })
+              .catch(error => (console.log(error)));
+          }
         },
         created(){
             this.$cookies.config('7d');
@@ -206,13 +328,18 @@
                     location.reload();
                 }
             });
+          this.loadBlockedDates();
             var userLang = navigator.language || navigator.userLanguage; 
             (userLang == 'ru-RU' || userLang == 'ru' || userLang == 'RU' || userLang == 'Ru') ? this.change_lang('russian') : (userLang == 'en-EN' || userLang == 'en' || userLang == 'EN' || userLang == 'En') ? this.change_lang('english') : (userLang == 'fr-FR' || userLang == 'fr' || userLang == 'FR' || userLang == 'Fr') ? this.change_lang('french') : (userLang == 'de-DE' || userLang == 'de' || userLang == 'DE' || userLang == 'De') ? this.change_lang('deutsch') : (userLang == 'ch-CH' || userLang == 'ch' || userLang == 'CH' || userLang == 'Ch') ? this.change_lang('chinese') : (userLang == 'ar-AR' || userLang == 'ar' || userLang == 'AR' || userLang == 'Ar') ? this.change_lang('arabic') : this.change_lang('english')
         },
         data() {
             return {
+                block_startDate : new Date(new Date().setHours(6, 0, 0, 0)).toISOString(),
+                block_endDate : new Date(new Date().setHours(17, 0, 0, 0)).toISOString(),
+                rerenderKey: 0,
+                date: new Date().toISOString().substr(0, 10),
+                datesAllowed: [],
                 terms: false,
-                block_date: false,
                 block_date: new Date().toISOString().substr(0, 10),
                 dateError: '',
                 mainImages: [
