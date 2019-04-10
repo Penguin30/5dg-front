@@ -1,6 +1,6 @@
 <template>
-	<v-layout justify-center justify-space-around style="flex-basis: 0; flex-grow: 1;">
-		<v-flex xs8>
+	<v-layout justify-center justify-space-around mob-normal style="flex-basis: 0; flex-grow: 1;">
+		<v-flex xs8 mob2>
 			<v-card elevation-15 hover class="rounded-card">
 				<v-layout column card>
 					<v-flex col-xs-4>
@@ -15,7 +15,7 @@
 					</v-flex>
 					<v-flex xs8>
 						<v-layout column>
-							<v-card-actions class="pl-3">
+							<v-card-actions mob3 class="pl-3">
 								<span v-if="productID!=1" style="vertical-align: top; padding-right: 10px;">{{ $ml.get('s_from') }}</span> <span><big><b>{{ formatPrice(price) }} CHF</b></big><br>(~ {{ formatPrice(Math.round(price*rate)) }} {{ $store.state.curr_code }})</span>
 								<v-spacer></v-spacer>
 								<v-btn round color="orange" right v-on:click="selectCruise" v-if="$store.state.reservation.cruiseID==0 && mode != 'pay'">{{ $ml.get('btn') }}</v-btn>

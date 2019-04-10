@@ -1,21 +1,23 @@
 <template>
     <v-app>
-        <v-toolbar app>
-            <v-toolbar-title class="headline text-uppercase">
-                <img src="https://www.8dg.ch/5deGeneve.png" alt="5 de Geneve" width=230 height=45 />
+        <v-toolbar app >
+            <v-toolbar-title class=" headline text-uppercase ">
+                <img src="https://www.8dg.ch/5deGeneve.png" class="mob-img" alt="5 de Geneve" width=230 height=45 />
             </v-toolbar-title>
             <v-spacer></v-spacer>
-                <span style="font-style: italic; font-size: 25px;">PRIVATE CRUISE GENEVA LAKE</span>
+                <span style="font-style: italic; font-size: 25px;" class="mobmenu-span">PRIVATE CRUISE GENEVA LAKE</span>
             <v-spacer></v-spacer>
-            <v-btn 
+            <v-layout>
+              <v-btn
                 v-for="lang in $ml.list"
                 :key="lang"
                 @click="change_lang(lang,$ml)"
-                flat 
-                icon 
-            >
+                flat
+                icon
+              >
                 <img :src="require(`@/assets/${lang}.png`)" :alt="lang" height=35 />
-            </v-btn>
+              </v-btn>
+            </v-layout>
             <RegisterAgency v-if="$cookies.isKey('token') === false"/>
             <v-btn v-on:click="logout" round color="error" v-if="$cookies.isKey('token') === true">
                 <span class="mr-2">{{ $ml.get('logout') }}</span>
@@ -106,6 +108,47 @@
 </template>
 
 <style>
+    @media(max-width: 768px){
+      .layout.row {
+        -ms-flex-direction: column!important;
+        flex-direction: column!important;
+      }
+      .mob-normal{
+        flex-basis: inherit!important;
+      }
+      .flex.xs8.mob2 {
+        -ms-flex-preferred-size: 80.88888888888%!important;
+        flex-basis: 80.88888888888%!important;
+        max-width: 80.88888888888%!important;
+        margin-top: 20px!important;
+      }
+
+      .mob3{
+        flex-direction: column!important;
+      }
+      .mob3 .v-card__actions .v-btn, .v-card__actions>* {
+        margin: 2px!important;
+      }
+      .cruiseVideo{
+        left: 0!important;
+      }
+      .video-js {
+        width: 100%;
+        height: 150px;
+        margin-bottom: 20px;
+      }
+      .v-toolbar__content, .v-toolbar__extension {
+        flex-direction: column!important;
+        height: auto;
+      }
+
+      .mob-img{
+        margin: 10px;
+      }
+      .mobmenu-span{
+        font-size: 16px!important;
+      }
+    }
     .cruiseVideoI {
         text-align: center;
         width: 588px;
