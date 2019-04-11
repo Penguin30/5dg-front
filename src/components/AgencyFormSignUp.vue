@@ -368,7 +368,7 @@
 				if (this.$refs.form.validate()) {
 					let data = {
 						firstName: this.firstName,
-						email: this.email,
+						email: this.email.toLowerCase(),
 						gender: this.gender,
 						laststName: this.laststName,
 						street: this.street,

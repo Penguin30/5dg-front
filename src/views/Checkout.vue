@@ -58,6 +58,8 @@
                             :client="credentials"
                             env="sandbox">
                         </PayPal>
+                        <br>
+                      <v-btn @click="close_forms"><span>Back to home page</span></v-btn>
                     </v-card>
                 </v-flex>
             </v-layout>
